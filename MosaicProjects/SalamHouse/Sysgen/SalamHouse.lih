@@ -1072,378 +1072,6 @@ END_FUNCTION_BLOCK
 
 
 
-{LIBFILE="LOCALLIB\MODELLIB_V19_20161101.MLB"}
-(* Knihovna vývojového systému Mosaic *)
-(* Jméno souboru : D:\TecoUserLibs\ModelLib_V19_20161101.mlb *)
-(* Knihovna : ModelLib 1.9 *)
-(* Autor : Teco a.s. *)
-(* Autorská práva : (c)2004-2012 *)
-(* Verze IEC pøekladaèe : 3.11.10.0 *)
-(* Verze assembleru : 4.3.00 *)
-
-//{Knihovna : ModelLib 1.9  }
-(* Historie: *)
-(*
-v1.0 18.09.2004 Byd První verze knihovny
-v1.1 02.09.2010 Byd Doplnìny závislosti na knihovnách a pøidány komentáøe.
-v1.2 04.05.2012 Byd Vylepšená inicializace fbSimplePID
-v1.3 21.09.2012 Byd Vylepšený fbSimplePID, pøidaný fbStepControl
-v1.4 08.11.2012 Byd fbStepControl vylepšené hlídání minimální doby pulzu
-v1.5 14.11.2012 Byd fbSimplePID opraveno chování v saturaci
-v1.6 27.11.2013 Byd fbStepControl pøi saturaci je nastaven výstup Open/Close trvale 
-(døíve byl resetován pokud sepnutí trvalo déle jak t0100) 
-v1.7 21.11.2014 Byd fbSimplePID pøi inicializaci potlaèen zásah od derivaèní složky
-v1.8 09.06.2016 Byd Algoritmus èasování ošetøen proti stavu, kdy se funkèní blok nevolá v každém 
-cyklu PLC
-v1.9 01.11.2016 Byd Ošetøení bloku fbSimplePID proti vstupùm typu NaN
-*)
-
-(*----------------------------------------------------------------------------*)
-// {LIBRARY="LOCALLIB\REXLIB_V17_20101208.MLB"}
-
-__DECL FUNCTION fcModelLibInvalidReal {HIDDEN} : bool
-  VAR_INPUT
-    r                : real;
-  END_VAR
-END_FUNCTION
-
-TYPE  GenericArrayForDelay : ARRAY [0..1023] OF real;  (*Obecný typ pro VAR_IN_OUT*)
-END_TYPE
-
-__DECL FUNCTION fcHiddenModelLibDoStep {HIDDEN} : bool
-(*Auxiliary function for controlling periodic execution*)
-  VAR_INPUT
-    T                : real;
-  END_VAR
-  VAR_IN_OUT
-    LastT            : time;
-  END_VAR
-END_FUNCTION
-
-__DECL FUNCTION_BLOCK fbLimIntegrator
-(*Simulace integrace vstupu s omezením.
-  Poèítáno stupòovitou náhradou zleva
-
-            1    /t
-  Out(t) = --- * |  In(t) dt + Preset
-            Ti   /0
-
-  Aproximace:
-
-  Out(k) = Out(k-1) + (T/Ti) * In(k) + Preset*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    MinO             : real;  (*Omezení*)
-    MaxO             : real;  (*Omezení*)
-    T                : real :=  0.100;  (*Perioda vzorkování v sekundách*)
-    Preset           : real;  (*Poèáteèní hodnota*)
-    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Integrál vstupního signálu*)
-  END_VAR
-  VAR
-    Init             : bool;  (*Initialization flag (true means initialized)*)
-    LastT            : time;  (*Last time of block execution*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbIntegrator
-(*Simulace integrace vstupu.
-  Poèítáno stupòovitou náhradou zleva.
-  
-           /t
-  Out(t) = |  In(t) dt + Preset
-           /0
-
-  Aproximace:
-
-  Out(k) = Out(k-1) + T * In(k) + Preset*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-    Preset           : real;  (*Poèáteèní hodnota*)
-    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Integrál vstupního signálu*)
-  END_VAR
-  VAR
-    Init             : bool;  (*Initialization flag (true means initialized)*)
-    LastT            : time;  (*Last time of block execution*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbDerivator
-(*Simulace derivace vstupu
-  Poèítáno lichobìžníkovou náhradou.
-
-                  d
-  Out(t) = In(t) ---
-                  dt
-
-  Aproximace:
-
-  Out(k) = (In(k) - In(k-1)) / T*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Derivace vstupního signálu*)
-  END_VAR
-  VAR
-    Init             : bool;  (*Initialization flag (true means initialized)*)
-    LastT            : time;  (*Last time of block execution*)
-    Last_In          : real;  (*Last input value (In(k-1))*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbDelay
-(*Simulace dopravního zpoždìní
-
-  Out(t) = In(t - Tau)
-  Tau = T*K
-
-  Aproximace:
-
-  Out(k) = In(k-K)*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    K                : int;  (*Dopravní zpoždìní vyjádøené poètem period. Maximum je dáno velikostí zásobníku Buffer (max 1024)*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Zpoždìný vstupní signál*)
-  END_VAR
-  VAR_IN_OUT
-    Buffer           : GenericArrayForDelay;  (*Zásobník minulých vzorkù. Mùže odkazovat na libovolné pole typù REAL do velikosti 1024 prvkù*)
-  END_VAR
-  VAR
-    LastT            : time;  (*Last time of block execution*)
-    Point            : int;  (*Pointer to buffer*)
-    Init             : bool;  (*Initialization flag (true means initialized)*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbFirstOrder
-(*Simulace lineárního diferenciálního systému prvního øádu
-       se statickým zesílením G a èasovou konstantou T1 dle vzorce
-
-       d Out(t)
-  T1 * -------- + Out(t) = G * In
-          dt
-
-  nebo po Laplaceho transformaci
-
-  OUT(s) * [T1 * s + 1] = G * IN(s)*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    G                : real :=  1.0;  (*Statické zesílení*)
-    T1               : real :=  1.0;  (*Èasová konstanta v sekundách*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-    Preset           : real;  (*Poèáteèní hodnota*)
-    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Výstupní signál*)
-  END_VAR
-  VAR
-    Init             : bool;  (*Initialization flag (true means initialized)*)
-    LastT            : time;  (*Last time of block execution*)
-    Exp1             : real;  (*Constant evaluated by time constant*)
-    OldT1            : real;  (*Old time constant - for change tracking*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbSecondOrder
-(*Simulace lineárního diferenciálního systému druhého øádu
-  se statickým zesílením G a èasovou konstantou T1 a T2 dle vzorce
-  
-          d^2 Out(t)             d Out(t)
-  T1 * T2 ---------- + (T1 + T2) -------- + Out(t) = G * In(t)
-             dt^2                   dt
-
-  nebo po Laplaceho transformaci
-
-  OUT(s) * [T1 * T2 * s^2 + (T1 + T2) * s + 1] = G * IN(s)*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    G                : real :=  1.0;  (*Statické zesílení*)
-    T1               : real :=  1.0;  (*Èasová konstanta v sekundách*)
-    T2               : real :=  1.0;  (*Èasová konstanta v sekundách*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-    Preset           : real;  (*Poèáteèní hodnota*)
-    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Výstupní signál*)
-  END_VAR
-  VAR
-    Init             : bool;  (*Initialization flag (true means initialized)*)
-    LastT            : time;  (*Last time of block execution*)
-    a                : real;  (*Auxiliary constants*)
-    b                : real;  (*Auxiliary constants*)
-    c                : real;  (*Auxiliary constants*)
-    d                : real;  (*Auxiliary constants*)
-    OldT1            : real;  (*Old time constant - for change tracking*)
-    OldT2            : real;  (*Old time constant - for change tracking*)
-    LastIn           : real;  (*Last input*)
-    LastOut          : real;  (*Output to step older*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbSecondOrderOsc
-(*Funkèní blok slouží pro simulaci kmitajícího lineárního diferenciálního systému druhého øádu
-  se statickým zesílením G a èasovou konstantou T1 dle vzorce
-  
-              d^2 Out(t)                 d Out(t)
-  (1 / Omg^2) ---------- + 2 * Alp / Omg -------- + Out(t) = G * In(t)
-                 dt^2                       dt
-
-  nebo po Laplaceho transformaci
-
-  OUT(s) * [(1 / Omg^2) * s^2  + 2 * Alp / Omg * s + 1] = G * IN(s)*)
-  VAR_INPUT
-    In               : real;  (*Vstupní signál*)
-    G                : real :=  1.0;  (*Statické zesílení*)
-    Alp              : real :=  0.25;  (*Koeficient tlumení*)
-    Omg              : real :=  4.0;  (*Vlastní úhlová frekvence [1/(rad * s)]*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-    Preset           : real;  (*Poèáteèní hodnota*)
-    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Výstupní signál*)
-  END_VAR
-  VAR
-    i1               : fbIntegrator;
-    i2               : fbIntegrator;
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbSimplePID
-(*Algoritmus PID s filtrovanou derivaèní složkou a omezením integraèní složky pøi saturaci výstupu
-  popsán Laplaceho rovnící
-
-                /          1              Td * s        \
-  U(s) = Gain * | E(s) + ------ E(s) - ----------- Y(s) |
-                \        Ti * s         Tf * s + 1      /*)
-  VAR_INPUT
-    y                : real;  (*Mìøená velièina*)
-    w                : real;  (*Žádaná hodnota*)
-    u_man            : real;  (*Hodnota výstupu v ruèním režimu*)
-    min_u            : real :=  0.0;  (*Minimální hodnota výstupu*)
-    max_u            : real :=  100.0;  (*Maximální hodnota výstupu*)
-    Gain             : real :=  1.0;  (*Zesílení*)
-    Ti               : real :=  10.0;  (*Integraèní konstanta v sekundách*)
-    Td               : real :=  1.0;  (*Derivaèní èasová konstanta v sekundách*)
-    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
-    Tf               : real :=  0.25;  (*Èasová konstanta filtru derivaèní složky v sekundách*)
-    dz               : real;  (*Symetrické pásmo necitlivosti*)
-    manual           : bool;  (*Nastavení ruèního režimu (0 – automatický režim, 1 – ruèní režim)*)
-    IH               : bool;  (*Pozastavení integrace (0 = integrace je povolena, 1 = integrace je pozastavena)*)
-  END_VAR
-  VAR_OUTPUT
-    u                : real;  (*Výstup regulátoru*)
-    uvel             : real;  (*Rychlost výstup regulátoru*)
-    partP            : real;  (*Hodnota proporcionální složky*)
-    partI            : real;  (*Hodnota integraèní složky*)
-    partD            : real;  (*Hodnota derivaèní složky*)
-    e                : real;  (*Regulaèní odchylka*)
-    auto             : bool;  (*Režim regulátoru (0 – ruèní režim, 1 – automatický režim)*)
-    satmax           : bool;  (*Výstup saturován na maximální hodnotì*)
-    satmin           : bool;  (*Výstup saturován na minimální hodnotì*)
-  END_VAR
-  VAR
-    wasman           : bool;  (*flag for change from manual mode*)
-    Init             : bool;  (*initialization flag (true means initialized)*)
-    e_1              : real;  (*last deviation*)
-    y_p              : real;  (*filtered input*)
-    y_1              : real;  (*last output*)
-    LastT            : time;  (*last execution time*)
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK _STEP_CONTROL_POS_SIM_
-(*Pomocný blok
-nepoužívat samostatnì*)
-  VAR_INPUT
-    o                : bool;
-    c                : bool;
-    fo               : bool;
-    fc               : bool;
-    t0100            : real;
-  END_VAR
-  VAR
-    LT               : time;
-    timdif           : real;
-    virPos           : real;
-    INIT             : bool;
-  END_VAR
-  VAR_OUTPUT
-    so               : bool;
-    sc               : bool;
-    pos              : real;
-  END_VAR
-END_FUNCTION_BLOCK
-
-__DECL FUNCTION_BLOCK fbStepControl
-(*Tøístavové ovládaní servopohonu pro fbSimplePID*)
-  VAR_INPUT
-    Pos              : real;  (*Žádaná poloha servopohonu*)
-    PosVel           : real;  (*Rychlost zmìny žádané polohy servopohonu*)
-    HiSw             : bool;  (*Koncový spínaè plnì otevøené polohy*)
-    LoSw             : bool;  (*Koncový spínaè plnì zavøené polohy*)
-    t0100            : real :=  30.0;  (*Doba pøechodu z plnì zavøené do plnì otevøené polohy v sekundách*)
-    tmin             : real :=  0.5;  (*Minimální délka pulzu a doba mezi pulzy v sekundách*)
-    t01min           : real :=  2.0;  (*Minimální doba mezi pulzy opaèné polarity v sekundách*)
-  END_VAR
-  VAR_OUTPUT
-    Open             : bool;  (*Požadavek otvírat*)
-    Close            : bool;  (*Požadavek zavírat*)
-    Run              : bool;  (*Pohon v pohybu (logický souèet požadavku otvírat a zavírat)*)
-    VirPos           : real;  (*Vypoètená virtuální poloha pohonu*)
-  END_VAR
-  VAR
-    wasOpen          : bool;
-    wasClose         : bool;
-    Idle             : bool;
-    t0               : TON;  (*_TIM_REAL_;*)
-    t1               : TON;  (*_TIM_REAL_;*)
-    ps               : _STEP_CONTROL_POS_SIM_;
-  END_VAR
-END_FUNCTION_BLOCK
-
-TYPE TGeneratorSignalType : 
-  (gst_Sin,
-   gst_Square,
-   gst_Saw,
-   gst_DblSaw 
-  );
-END_TYPE
-
-__DECL FUNCTION_BLOCK fbGenerator
-(*Generátor signálu*)
-  VAR_INPUT
-    Zero             : real;  (*Posun nuly generovaného signálu*)
-    Amp              : real :=  1.0;  (*Amplituda výstupního signálu*)
-    Per              : real :=  1.0;  (*Perioda výstupního signálu*)
-    SType            : TGeneratorSignalType;  (*Typ výstupního signálu*)
-    Reset            : bool R_EDGE;  (*Reset generátoru*)
-  END_VAR
-  VAR_OUTPUT
-    Out              : real;  (*Výstup generátoru*)
-  END_VAR
-  VAR
-    Init             : bool;
-    Start            : time;
-    Phase            : real;
-  END_VAR
-END_FUNCTION_BLOCK
-
-
-
 {LIBFILE="LOCALLIB\COMLIB_V24_20161019.MLB"}
 (* Knihovna vývojového systému Mosaic *)
 (* Jméno souboru : C:\TecoLib\ComLib_V24_20161019.mlb *)
@@ -7027,6 +6655,382 @@ __DECL FUNCTION CP1255_TO_UTF8 : udint
     utf8             : string [255];
   END_VAR
 END_FUNCTION
+
+
+
+{LIBFILE="LOCALLIB\MODELLIB_V22_20171205.MLB"}
+(* Knihovna vývojového systému Mosaic *)
+(* Jméno souboru : D:\TecoUserLibs\ModelLib_V22_20171205.mlb *)
+(* Knihovna : ModelLib 2.2 *)
+(* Autor : Teco a.s. *)
+(* Autorská práva : (c)2004-2017 *)
+(* Verze IEC pøekladaèe : 3.12.15.1 *)
+(* Verze assembleru : 4.3.00 *)
+
+//{Knihovna : ModelLib 2.2  }
+(* Historie: *)
+(*
+v1.0 18.09.2004 Byd První verze knihovny
+v1.1 02.09.2010 Byd Doplnìny závislosti na knihovnách a pøidány komentáøe.
+v1.2 04.05.2012 Byd Vylepšená inicializace fbSimplePID
+v1.3 21.09.2012 Byd Vylepšený fbSimplePID, pøidaný fbStepControl
+v1.4 08.11.2012 Byd fbStepControl vylepšené hlídání minimální doby pulzu
+v1.5 14.11.2012 Byd fbSimplePID opraveno chování v saturaci
+v1.6 27.11.2013 Byd fbStepControl pøi saturaci je nastaven výstup Open/Close trvale 
+(døíve byl resetován pokud sepnutí trvalo déle jak t0100) 
+v1.7 21.11.2014 Byd fbSimplePID pøi inicializaci potlaèen zásah od derivaèní složky
+v1.8 09.06.2016 Byd Algoritmus èasování ošetøen proti stavu, kdy se funkèní blok nevolá v každém 
+cyklu PLC
+v1.9 01.11.2016 Byd Ošetøení bloku fbSimplePID proti vstupùm typu NaN
+v2.0 30.06.2017 Byd Ošetøení blokù fbLimIntegrator, fbIntegrator, fbDerivator, fbFirstOrder, fbSecondOrder a fbSecondOrderOsc proti vstupùm typu NaN.
+v2.1 16.11.2017 Byd Úpraven bloku fbSimplePID, tak aby po prvním spuštìní zaèal akèní zásah na hodnotì u_man.
+v2.2 05.12.2017 Byd Ošetøen pøechod fbSimplePID z manualního do automatického režimu v pásmu necitlivosti. 
+		    Beznárazový pøechod je nadále poèítán až pøi vystoupení z pásma necitlivosti, ale pro výpoèet je použita skuteèná hodnota výstupu 'u', nikoli aktuální 'u_man'.
+*)
+
+(*----------------------------------------------------------------------------*)
+// {LIBRARY="LOCALLIB\REXLIB_V17_20101208.MLB"}
+
+__DECL FUNCTION fcModelLibInvalidReal {HIDDEN} : bool
+  VAR_INPUT
+    r                : real;
+  END_VAR
+END_FUNCTION
+
+TYPE  GenericArrayForDelay : ARRAY [0..1023] OF real;  (*Obecný typ pro VAR_IN_OUT*)
+END_TYPE
+
+__DECL FUNCTION fcHiddenModelLibDoStep {HIDDEN} : bool
+(*Auxiliary function for controlling periodic execution*)
+  VAR_INPUT
+    T                : real;
+  END_VAR
+  VAR_IN_OUT
+    LastT            : time;
+  END_VAR
+END_FUNCTION
+
+__DECL FUNCTION_BLOCK fbLimIntegrator
+(*Simulace integrace vstupu s omezením.
+  Poèítáno stupòovitou náhradou zleva
+
+            1    /t
+  Out(t) = --- * |  In(t) dt + Preset
+            Ti   /0
+
+  Aproximace:
+
+  Out(k) = Out(k-1) + (T/Ti) * In(k) + Preset*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    MinO             : real;  (*Omezení*)
+    MaxO             : real;  (*Omezení*)
+    T                : real :=  0.100;  (*Perioda vzorkování v sekundách*)
+    Preset           : real;  (*Poèáteèní hodnota*)
+    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Integrál vstupního signálu*)
+  END_VAR
+  VAR
+    Init             : bool;  (*Initialization flag (true means initialized)*)
+    LastT            : time;  (*Last time of block execution*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbIntegrator
+(*Simulace integrace vstupu.
+  Poèítáno stupòovitou náhradou zleva.
+  
+           /t
+  Out(t) = |  In(t) dt + Preset
+           /0
+
+  Aproximace:
+
+  Out(k) = Out(k-1) + T * In(k) + Preset*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+    Preset           : real;  (*Poèáteèní hodnota*)
+    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Integrál vstupního signálu*)
+  END_VAR
+  VAR
+    Init             : bool;  (*Initialization flag (true means initialized)*)
+    LastT            : time;  (*Last time of block execution*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbDerivator
+(*Simulace derivace vstupu
+  Poèítáno lichobìžníkovou náhradou.
+
+                  d
+  Out(t) = In(t) ---
+                  dt
+
+  Aproximace:
+
+  Out(k) = (In(k) - In(k-1)) / T*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Derivace vstupního signálu*)
+  END_VAR
+  VAR
+    Init             : bool;  (*Initialization flag (true means initialized)*)
+    LastT            : time;  (*Last time of block execution*)
+    Last_In          : real;  (*Last input value (In(k-1))*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbDelay
+(*Simulace dopravního zpoždìní
+
+  Out(t) = In(t - Tau)
+  Tau = T*K
+
+  Aproximace:
+
+  Out(k) = In(k-K)*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    K                : int;  (*Dopravní zpoždìní vyjádøené poètem period. Maximum je dáno velikostí zásobníku Buffer (max 1024)*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Zpoždìný vstupní signál*)
+  END_VAR
+  VAR_IN_OUT
+    Buffer           : GenericArrayForDelay;  (*Zásobník minulých vzorkù. Mùže odkazovat na libovolné pole typù REAL do velikosti 1024 prvkù*)
+  END_VAR
+  VAR
+    LastT            : time;  (*Last time of block execution*)
+    Point            : int;  (*Pointer to buffer*)
+    Init             : bool;  (*Initialization flag (true means initialized)*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbFirstOrder
+(*Simulace lineárního diferenciálního systému prvního øádu
+       se statickým zesílením G a èasovou konstantou T1 dle vzorce
+
+       d Out(t)
+  T1 * -------- + Out(t) = G * In
+          dt
+
+  nebo po Laplaceho transformaci
+
+  OUT(s) * [T1 * s + 1] = G * IN(s)*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    G                : real :=  1.0;  (*Statické zesílení*)
+    T1               : real :=  1.0;  (*Èasová konstanta v sekundách*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+    Preset           : real;  (*Poèáteèní hodnota*)
+    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Výstupní signál*)
+  END_VAR
+  VAR
+    Init             : bool;  (*Initialization flag (true means initialized)*)
+    LastT            : time;  (*Last time of block execution*)
+    Exp1             : real;  (*Constant evaluated by time constant*)
+    OldT1            : real;  (*Old time constant - for change tracking*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbSecondOrder
+(*Simulace lineárního diferenciálního systému druhého øádu
+  se statickým zesílením G a èasovou konstantou T1 a T2 dle vzorce
+  
+          d^2 Out(t)             d Out(t)
+  T1 * T2 ---------- + (T1 + T2) -------- + Out(t) = G * In(t)
+             dt^2                   dt
+
+  nebo po Laplaceho transformaci
+
+  OUT(s) * [T1 * T2 * s^2 + (T1 + T2) * s + 1] = G * IN(s)*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    G                : real :=  1.0;  (*Statické zesílení*)
+    T1               : real :=  1.0;  (*Èasová konstanta v sekundách*)
+    T2               : real :=  1.0;  (*Èasová konstanta v sekundách*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+    Preset           : real;  (*Poèáteèní hodnota*)
+    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Výstupní signál*)
+  END_VAR
+  VAR
+    Init             : bool;  (*Initialization flag (true means initialized)*)
+    LastT            : time;  (*Last time of block execution*)
+    a                : real;  (*Auxiliary constants*)
+    b                : real;  (*Auxiliary constants*)
+    c                : real;  (*Auxiliary constants*)
+    d                : real;  (*Auxiliary constants*)
+    OldT1            : real;  (*Old time constant - for change tracking*)
+    OldT2            : real;  (*Old time constant - for change tracking*)
+    LastIn           : real;  (*Last input*)
+    LastOut          : real;  (*Output to step older*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbSecondOrderOsc
+(*Funkèní blok slouží pro simulaci kmitajícího lineárního diferenciálního systému druhého øádu
+  se statickým zesílením G a èasovou konstantou T1 dle vzorce
+  
+              d^2 Out(t)                 d Out(t)
+  (1 / Omg^2) ---------- + 2 * Alp / Omg -------- + Out(t) = G * In(t)
+                 dt^2                       dt
+
+  nebo po Laplaceho transformaci
+
+  OUT(s) * [(1 / Omg^2) * s^2  + 2 * Alp / Omg * s + 1] = G * IN(s)*)
+  VAR_INPUT
+    In               : real;  (*Vstupní signál*)
+    G                : real :=  1.0;  (*Statické zesílení*)
+    Alp              : real :=  0.25;  (*Koeficient tlumení*)
+    Omg              : real :=  4.0;  (*Vlastní úhlová frekvence [1/(rad * s)]*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+    Preset           : real;  (*Poèáteèní hodnota*)
+    Reset            : bool R_EDGE;  (*Reset výstupu na poèáteèní hodnotu*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Výstupní signál*)
+  END_VAR
+  VAR
+    i1               : fbIntegrator;
+    i2               : fbIntegrator;
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbSimplePID
+(*Algoritmus PID s filtrovanou derivaèní složkou a omezením integraèní složky pøi saturaci výstupu
+  popsán Laplaceho rovnící
+
+                /          1              Td * s        \
+  U(s) = Gain * | E(s) + ------ E(s) - ----------- Y(s) |
+                \        Ti * s         Tf * s + 1      /*)
+  VAR_INPUT
+    y                : real;  (*Mìøená velièina*)
+    w                : real;  (*Žádaná hodnota*)
+    u_man            : real;  (*Hodnota výstupu v ruèním režimu*)
+    min_u            : real :=  0.0;  (*Minimální hodnota výstupu*)
+    max_u            : real :=  100.0;  (*Maximální hodnota výstupu*)
+    Gain             : real :=  1.0;  (*Zesílení*)
+    Ti               : real :=  10.0;  (*Integraèní konstanta v sekundách*)
+    Td               : real :=  1.0;  (*Derivaèní èasová konstanta v sekundách*)
+    T                : real :=  0.1;  (*Perioda vzorkování v sekundách*)
+    Tf               : real :=  0.25;  (*Èasová konstanta filtru derivaèní složky v sekundách*)
+    dz               : real;  (*Symetrické pásmo necitlivosti*)
+    manual           : bool;  (*Nastavení ruèního režimu (0 – automatický režim, 1 – ruèní režim)*)
+    IH               : bool;  (*Pozastavení integrace (0 = integrace je povolena, 1 = integrace je pozastavena)*)
+  END_VAR
+  VAR_OUTPUT
+    u                : real;  (*Výstup regulátoru*)
+    uvel             : real;  (*Rychlost výstup regulátoru*)
+    partP            : real;  (*Hodnota proporcionální složky*)
+    partI            : real;  (*Hodnota integraèní složky*)
+    partD            : real;  (*Hodnota derivaèní složky*)
+    e                : real;  (*Regulaèní odchylka*)
+    auto             : bool;  (*Režim regulátoru (0 – ruèní režim, 1 – automatický režim)*)
+    satmax           : bool;  (*Výstup saturován na maximální hodnotì*)
+    satmin           : bool;  (*Výstup saturován na minimální hodnotì*)
+  END_VAR
+  VAR
+    wasman           : bool;  (*flag for change from manual mode*)
+    Init             : bool;  (*initialization flag (true means initialized)*)
+    e_1              : real;  (*last deviation*)
+    y_p              : real;  (*filtered input*)
+    y_1              : real;  (*last output*)
+    LastT            : time;  (*last execution time*)
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK _STEP_CONTROL_POS_SIM_
+(*Pomocný blok
+nepoužívat samostatnì*)
+  VAR_INPUT
+    o                : bool;
+    c                : bool;
+    fo               : bool;
+    fc               : bool;
+    t0100            : real;
+  END_VAR
+  VAR
+    LT               : time;
+    timdif           : real;
+    virPos           : real;
+    INIT             : bool;
+  END_VAR
+  VAR_OUTPUT
+    so               : bool;
+    sc               : bool;
+    pos              : real;
+  END_VAR
+END_FUNCTION_BLOCK
+
+__DECL FUNCTION_BLOCK fbStepControl
+(*Tøístavové ovládaní servopohonu pro fbSimplePID*)
+  VAR_INPUT
+    Pos              : real;  (*Žádaná poloha servopohonu*)
+    PosVel           : real;  (*Rychlost zmìny žádané polohy servopohonu*)
+    HiSw             : bool;  (*Koncový spínaè plnì otevøené polohy*)
+    LoSw             : bool;  (*Koncový spínaè plnì zavøené polohy*)
+    t0100            : real :=  30.0;  (*Doba pøechodu z plnì zavøené do plnì otevøené polohy v sekundách*)
+    tmin             : real :=  0.5;  (*Minimální délka pulzu a doba mezi pulzy v sekundách*)
+    t01min           : real :=  2.0;  (*Minimální doba mezi pulzy opaèné polarity v sekundách*)
+  END_VAR
+  VAR_OUTPUT
+    Open             : bool;  (*Požadavek otvírat*)
+    Close            : bool;  (*Požadavek zavírat*)
+    Run              : bool;  (*Pohon v pohybu (logický souèet požadavku otvírat a zavírat)*)
+    VirPos           : real;  (*Vypoètená virtuální poloha pohonu*)
+  END_VAR
+  VAR
+    wasOpen          : bool;
+    wasClose         : bool;
+    Idle             : bool;
+    t0               : TON;  (*_TIM_REAL_;*)
+    t1               : TON;  (*_TIM_REAL_;*)
+    ps               : _STEP_CONTROL_POS_SIM_;
+  END_VAR
+END_FUNCTION_BLOCK
+
+TYPE TGeneratorSignalType : 
+  (gst_Sin,
+   gst_Square,
+   gst_Saw,
+   gst_DblSaw 
+  );
+END_TYPE
+
+__DECL FUNCTION_BLOCK fbGenerator
+(*Generátor signálu*)
+  VAR_INPUT
+    Zero             : real;  (*Posun nuly generovaného signálu*)
+    Amp              : real :=  1.0;  (*Amplituda výstupního signálu*)
+    Per              : real :=  1.0;  (*Perioda výstupního signálu*)
+    SType            : TGeneratorSignalType;  (*Typ výstupního signálu*)
+    Reset            : bool R_EDGE;  (*Reset generátoru*)
+  END_VAR
+  VAR_OUTPUT
+    Out              : real;  (*Výstup generátoru*)
+  END_VAR
+  VAR
+    Init             : bool;
+    Start            : time;
+    Phase            : real;
+  END_VAR
+END_FUNCTION_BLOCK
 
 
 

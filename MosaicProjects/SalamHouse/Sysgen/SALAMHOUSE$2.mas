@@ -664,197 +664,6 @@
   time RunTime
 
 
-#defpou __LATENT_INSTANCE fcModelLibInvalidReal
-  bool __fc__fcModelLibInvalidReal,
-  real r
-
-
-; Global types
-#def  GenericArrayForDelay real[1024]  ;Obecný typ pro VAR_IN_OUT
-
-#defpou __LATENT_INSTANCE fcHiddenModelLibDoStep
-  bool __fc__fcHiddenModelLibDoStep,
-  real T,
-  pointer LastT
-
-
-#defpou fbLimIntegrator
-  real In,  ;Vstupní signál
-  real MinO,  ;Omezení
-  real MaxO,  ;Omezení
-  real T,  ;Perioda vzorkování v sekundách
-  real Preset,  ;Poèáteèní hodnota
-  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
-  real Out,  ;Integrál vstupního signálu
-  bool Init,  ;Initialization flag (true means initialized)
-  time LastT,  ;Last time of block execution
-  bool __EDGE_R__Reset
-
-
-#defpou fbIntegrator
-  real In,  ;Vstupní signál
-  real T,  ;Perioda vzorkování v sekundách
-  real Preset,  ;Poèáteèní hodnota
-  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
-  real Out,  ;Integrál vstupního signálu
-  bool Init,  ;Initialization flag (true means initialized)
-  time LastT,  ;Last time of block execution
-  bool __EDGE_R__Reset
-
-
-#defpou fbDerivator
-  real In,  ;Vstupní signál
-  real T,  ;Perioda vzorkování v sekundách
-  real Out,  ;Derivace vstupního signálu
-  bool Init,  ;Initialization flag (true means initialized)
-  time LastT,  ;Last time of block execution
-  real Last_In  ;Last input value (In(k-1))
-
-
-#defpou fbDelay
-  real In,  ;Vstupní signál
-  int K,  ;Dopravní zpoždìní vyjádøené poètem period. Maximum je dáno velikostí zásobníku Buffer (max 1024)
-  real T,  ;Perioda vzorkování v sekundách
-  real Out,  ;Zpoždìný vstupní signál
-  pointer Buffer,  ;Zásobník minulých vzorkù. Mùže odkazovat na libovolné pole typù REAL do velikosti 1024 prvkù
-  time LastT,  ;Last time of block execution
-  int Point,  ;Pointer to buffer
-  bool Init  ;Initialization flag (true means initialized)
-
-
-#defpou fbFirstOrder
-  real In,  ;Vstupní signál
-  real G,  ;Statické zesílení
-  real T1,  ;Èasová konstanta v sekundách
-  real T,  ;Perioda vzorkování v sekundách
-  real Preset,  ;Poèáteèní hodnota
-  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
-  real Out,  ;Výstupní signál
-  bool Init,  ;Initialization flag (true means initialized)
-  time LastT,  ;Last time of block execution
-  real Exp1,  ;Constant evaluated by time constant
-  real OldT1,  ;Old time constant - for change tracking
-  bool __EDGE_R__Reset
-
-
-#defpou fbSecondOrder
-  real In,  ;Vstupní signál
-  real G,  ;Statické zesílení
-  real T1,  ;Èasová konstanta v sekundách
-  real T2,  ;Èasová konstanta v sekundách
-  real T,  ;Perioda vzorkování v sekundách
-  real Preset,  ;Poèáteèní hodnota
-  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
-  real Out,  ;Výstupní signál
-  bool Init,  ;Initialization flag (true means initialized)
-  time LastT,  ;Last time of block execution
-  real a,  ;Auxiliary constants
-  real b,  ;Auxiliary constants
-  real c,  ;Auxiliary constants
-  real d,  ;Auxiliary constants
-  real OldT1,  ;Old time constant - for change tracking
-  real OldT2,  ;Old time constant - for change tracking
-  real LastIn,  ;Last input
-  real LastOut,  ;Output to step older
-  bool __EDGE_R__Reset
-
-
-#defpou fbSecondOrderOsc
-  real In,  ;Vstupní signál
-  real G,  ;Statické zesílení
-  real Alp,  ;Koeficient tlumení
-  real Omg,  ;Vlastní úhlová frekvence [1/(rad * s)]
-  real T,  ;Perioda vzorkování v sekundách
-  real Preset,  ;Poèáteèní hodnota
-  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
-  real Out,  ;Výstupní signál
-  fbIntegrator i1,
-  fbIntegrator i2,
-  bool __EDGE_R__Reset
-
-
-#defpou fbSimplePID
-  real y,  ;Mìøená velièina
-  real w,  ;Žádaná hodnota
-  real u_man,  ;Hodnota výstupu v ruèním režimu
-  real min_u,  ;Minimální hodnota výstupu
-  real max_u,  ;Maximální hodnota výstupu
-  real Gain,  ;Zesílení
-  real Ti,  ;Integraèní konstanta v sekundách
-  real Td,  ;Derivaèní èasová konstanta v sekundách
-  real T,  ;Perioda vzorkování v sekundách
-  real Tf,  ;Èasová konstanta filtru derivaèní složky v sekundách
-  real dz,  ;Symetrické pásmo necitlivosti
-  bool manual,  ;Nastavení ruèního režimu (0 – automatický režim, 1 – ruèní režim)
-  bool IH,  ;Pozastavení integrace (0 = integrace je povolena, 1 = integrace je pozastavena)
-  real u,  ;Výstup regulátoru
-  real uvel,  ;Rychlost výstup regulátoru
-  real partP,  ;Hodnota proporcionální složky
-  real partI,  ;Hodnota integraèní složky
-  real partD,  ;Hodnota derivaèní složky
-  real e,  ;Regulaèní odchylka
-  bool auto,  ;Režim regulátoru (0 – ruèní režim, 1 – automatický režim)
-  bool satmax,  ;Výstup saturován na maximální hodnotì
-  bool satmin,  ;Výstup saturován na minimální hodnotì
-  bool wasman,  ;flag for change from manual mode
-  bool Init,  ;initialization flag (true means initialized)
-  real e_1,  ;last deviation
-  real y_p,  ;filtered input
-  real y_1,  ;last output
-  time LastT  ;last execution time
-
-
-#defpou _STEP_CONTROL_POS_SIM_
-  bool o,
-  bool c,
-  bool fo,
-  bool fc,
-  real t0100,
-  time LT,
-  real timdif,
-  real virPos,
-  bool INIT,
-  bool so,
-  bool sc,
-  real pos
-
-
-#defpou fbStepControl
-  real Pos,  ;Žádaná poloha servopohonu
-  real PosVel,  ;Rychlost zmìny žádané polohy servopohonu
-  bool HiSw,  ;Koncový spínaè plnì otevøené polohy
-  bool LoSw,  ;Koncový spínaè plnì zavøené polohy
-  real t0100,  ;Doba pøechodu z plnì zavøené do plnì otevøené polohy v sekundách
-  real tmin,  ;Minimální délka pulzu a doba mezi pulzy v sekundách
-  real t01min,  ;Minimální doba mezi pulzy opaèné polarity v sekundách
-  bool Open,  ;Požadavek otvírat
-  bool Close,  ;Požadavek zavírat
-  bool Run,  ;Pohon v pohybu (logický souèet požadavku otvírat a zavírat)
-  real VirPos,  ;Vypoètená virtuální poloha pohonu
-  bool wasOpen,
-  bool wasClose,
-  bool Idle,
-  TON t0,  ;_TIM_REAL_;
-  TON t1,  ;_TIM_REAL_;
-  _STEP_CONTROL_POS_SIM_ ps
-
-
-; Global types
-#def  TGeneratorSignalType usint   ; ENUM Type 
-
-#defpou fbGenerator
-  real Zero,  ;Posun nuly generovaného signálu
-  real Amp,  ;Amplituda výstupního signálu
-  real Per,  ;Perioda výstupního signálu
-  usint SType,  ;Typ výstupního signálu
-  bool Reset,  ;Reset generátoru
-  real Out,  ;Výstup generátoru
-  bool Init,
-  time Start,
-  real Phase,
-  bool __EDGE_R__Reset
-
-
 ; Global types
 #struct  TUniDesc
   byte modeChan,  ;režim kanálu
@@ -4762,6 +4571,197 @@
   dword[128] TO_UTF8_128_255,
   pointer cp1255,
   pointer utf8
+
+
+#defpou __LATENT_INSTANCE fcModelLibInvalidReal
+  bool __fc__fcModelLibInvalidReal,
+  real r
+
+
+; Global types
+#def  GenericArrayForDelay real[1024]  ;Obecný typ pro VAR_IN_OUT
+
+#defpou __LATENT_INSTANCE fcHiddenModelLibDoStep
+  bool __fc__fcHiddenModelLibDoStep,
+  real T,
+  pointer LastT
+
+
+#defpou fbLimIntegrator
+  real In,  ;Vstupní signál
+  real MinO,  ;Omezení
+  real MaxO,  ;Omezení
+  real T,  ;Perioda vzorkování v sekundách
+  real Preset,  ;Poèáteèní hodnota
+  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
+  real Out,  ;Integrál vstupního signálu
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  bool __EDGE_R__Reset
+
+
+#defpou fbIntegrator
+  real In,  ;Vstupní signál
+  real T,  ;Perioda vzorkování v sekundách
+  real Preset,  ;Poèáteèní hodnota
+  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
+  real Out,  ;Integrál vstupního signálu
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  bool __EDGE_R__Reset
+
+
+#defpou fbDerivator
+  real In,  ;Vstupní signál
+  real T,  ;Perioda vzorkování v sekundách
+  real Out,  ;Derivace vstupního signálu
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  real Last_In  ;Last input value (In(k-1))
+
+
+#defpou fbDelay
+  real In,  ;Vstupní signál
+  int K,  ;Dopravní zpoždìní vyjádøené poètem period. Maximum je dáno velikostí zásobníku Buffer (max 1024)
+  real T,  ;Perioda vzorkování v sekundách
+  real Out,  ;Zpoždìný vstupní signál
+  pointer Buffer,  ;Zásobník minulých vzorkù. Mùže odkazovat na libovolné pole typù REAL do velikosti 1024 prvkù
+  time LastT,  ;Last time of block execution
+  int Point,  ;Pointer to buffer
+  bool Init  ;Initialization flag (true means initialized)
+
+
+#defpou fbFirstOrder
+  real In,  ;Vstupní signál
+  real G,  ;Statické zesílení
+  real T1,  ;Èasová konstanta v sekundách
+  real T,  ;Perioda vzorkování v sekundách
+  real Preset,  ;Poèáteèní hodnota
+  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
+  real Out,  ;Výstupní signál
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  real Exp1,  ;Constant evaluated by time constant
+  real OldT1,  ;Old time constant - for change tracking
+  bool __EDGE_R__Reset
+
+
+#defpou fbSecondOrder
+  real In,  ;Vstupní signál
+  real G,  ;Statické zesílení
+  real T1,  ;Èasová konstanta v sekundách
+  real T2,  ;Èasová konstanta v sekundách
+  real T,  ;Perioda vzorkování v sekundách
+  real Preset,  ;Poèáteèní hodnota
+  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
+  real Out,  ;Výstupní signál
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  real a,  ;Auxiliary constants
+  real b,  ;Auxiliary constants
+  real c,  ;Auxiliary constants
+  real d,  ;Auxiliary constants
+  real OldT1,  ;Old time constant - for change tracking
+  real OldT2,  ;Old time constant - for change tracking
+  real LastIn,  ;Last input
+  real LastOut,  ;Output to step older
+  bool __EDGE_R__Reset
+
+
+#defpou fbSecondOrderOsc
+  real In,  ;Vstupní signál
+  real G,  ;Statické zesílení
+  real Alp,  ;Koeficient tlumení
+  real Omg,  ;Vlastní úhlová frekvence [1/(rad * s)]
+  real T,  ;Perioda vzorkování v sekundách
+  real Preset,  ;Poèáteèní hodnota
+  bool Reset,  ;Reset výstupu na poèáteèní hodnotu
+  real Out,  ;Výstupní signál
+  fbIntegrator i1,
+  fbIntegrator i2,
+  bool __EDGE_R__Reset
+
+
+#defpou fbSimplePID
+  real y,  ;Mìøená velièina
+  real w,  ;Žádaná hodnota
+  real u_man,  ;Hodnota výstupu v ruèním režimu
+  real min_u,  ;Minimální hodnota výstupu
+  real max_u,  ;Maximální hodnota výstupu
+  real Gain,  ;Zesílení
+  real Ti,  ;Integraèní konstanta v sekundách
+  real Td,  ;Derivaèní èasová konstanta v sekundách
+  real T,  ;Perioda vzorkování v sekundách
+  real Tf,  ;Èasová konstanta filtru derivaèní složky v sekundách
+  real dz,  ;Symetrické pásmo necitlivosti
+  bool manual,  ;Nastavení ruèního režimu (0 – automatický režim, 1 – ruèní režim)
+  bool IH,  ;Pozastavení integrace (0 = integrace je povolena, 1 = integrace je pozastavena)
+  real u,  ;Výstup regulátoru
+  real uvel,  ;Rychlost výstup regulátoru
+  real partP,  ;Hodnota proporcionální složky
+  real partI,  ;Hodnota integraèní složky
+  real partD,  ;Hodnota derivaèní složky
+  real e,  ;Regulaèní odchylka
+  bool auto,  ;Režim regulátoru (0 – ruèní režim, 1 – automatický režim)
+  bool satmax,  ;Výstup saturován na maximální hodnotì
+  bool satmin,  ;Výstup saturován na minimální hodnotì
+  bool wasman,  ;flag for change from manual mode
+  bool Init,  ;initialization flag (true means initialized)
+  real e_1,  ;last deviation
+  real y_p,  ;filtered input
+  real y_1,  ;last output
+  time LastT  ;last execution time
+
+
+#defpou _STEP_CONTROL_POS_SIM_
+  bool o,
+  bool c,
+  bool fo,
+  bool fc,
+  real t0100,
+  time LT,
+  real timdif,
+  real virPos,
+  bool INIT,
+  bool so,
+  bool sc,
+  real pos
+
+
+#defpou fbStepControl
+  real Pos,  ;Žádaná poloha servopohonu
+  real PosVel,  ;Rychlost zmìny žádané polohy servopohonu
+  bool HiSw,  ;Koncový spínaè plnì otevøené polohy
+  bool LoSw,  ;Koncový spínaè plnì zavøené polohy
+  real t0100,  ;Doba pøechodu z plnì zavøené do plnì otevøené polohy v sekundách
+  real tmin,  ;Minimální délka pulzu a doba mezi pulzy v sekundách
+  real t01min,  ;Minimální doba mezi pulzy opaèné polarity v sekundách
+  bool Open,  ;Požadavek otvírat
+  bool Close,  ;Požadavek zavírat
+  bool Run,  ;Pohon v pohybu (logický souèet požadavku otvírat a zavírat)
+  real VirPos,  ;Vypoètená virtuální poloha pohonu
+  bool wasOpen,
+  bool wasClose,
+  bool Idle,
+  TON t0,  ;_TIM_REAL_;
+  TON t1,  ;_TIM_REAL_;
+  _STEP_CONTROL_POS_SIM_ ps
+
+
+; Global types
+#def  TGeneratorSignalType usint   ; ENUM Type 
+
+#defpou fbGenerator
+  real Zero,  ;Posun nuly generovaného signálu
+  real Amp,  ;Amplituda výstupního signálu
+  real Per,  ;Perioda výstupního signálu
+  usint SType,  ;Typ výstupního signálu
+  bool Reset,  ;Reset generátoru
+  real Out,  ;Výstup generátoru
+  bool Init,
+  time Start,
+  real Phase,
+  bool __EDGE_R__Reset
 
 
 ; Global variables

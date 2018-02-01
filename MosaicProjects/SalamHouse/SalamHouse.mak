@@ -21,7 +21,6 @@
 
 #uselib "LocalLib\StdLib_V21_20140514.mlb"
 #uselib "LocalLib\SysLib_V37_20160627.mlb"
-#uselib "LocalLib\ModelLib_V19_20161101.mlb"
 #uselib "LocalLib\ComLib_V24_20161019.mlb"
 #uselib "LocalLib\FileLib_V22_20160316.mlb"
 #uselib "LocalLib\ToStringLib_V13_20110203.mlb"
@@ -32,6 +31,7 @@
 #uselib "LocalLib\CrcLib_V13_20170224.mlb"
 #uselib "LocalLib\CanvasLib_V21_20170112.mlb"
 #uselib "LocalLib\ConvertLib_V21_20170222.mlb"
+#uselib "LocalLib\ModelLib_V22_20171205.mlb"
 #uselib "LocalLib\iControlLib_V20_20170209.mlb"
 #endlibs
 
