@@ -1,0 +1,22 @@
+#srcfile 'W:\DROPBOX\DEV\SRC\SALAMHOUSE\MOSAICPROJECTS\SALAMHOUSE\SALAMHOUSE.MCF'
+ 
+#srcfile 'W:\DROPBOX\DEV\SRC\SALAMHOUSE\MOSAICPROJECTS\SALAMHOUSE\SALAMHOUSE.MCF'
+
+; ***** RESOURCE - CPM
+#reg prgMain Main2
+#srcline 4 ;    PROGRAM Main2 WITH FreeWheeling : prgMain ();
+P     0
+ LEA  Main2
+ CAL  prgMain_L0
+E     0
+
+; Initialize - program
+P     58
+ LEA  Main2
+ CAL  prgMain__InstanceInit__
+E     58
+
+
+ 
+
+#srcfile ''

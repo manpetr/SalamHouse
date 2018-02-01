@@ -1,0 +1,23 @@
+#srcfile 'W:\DROPBOX\DEV\SRC\SALAMHOUSE\MOSAICPROJECTS\SALAMHOUSE\FBOBYVAKKUCHYNE.CFC'
+
+#defpou fbObyvakKuchyne
+  byte dummy
+
+ 
+#srcfile 'W:\DROPBOX\DEV\SRC\SALAMHOUSE\MOSAICPROJECTS\SALAMHOUSE\FBOBYVAKKUCHYNE.CFC'
+#pou fbObyvakKuchyne
+#srcline 1 ;FUNCTION_BLOCK fbObyvakKuchyne
+P     61
+fbObyvakKuchyne_L0:
+ LINK 0
+#srcline 16 ;END_FUNCTION_BLOCK
+ ULNK
+RET
+E     61
+#endpou 
+
+
+
+ 
+
+#srcfile ''
