@@ -1,3 +1,4 @@
+*.bak
 /doc_teco/*
 /MosaicProjects/SalamHouse/SALAMHOUSE.PLC
 /MosaicProjects/SalamHouse/WebMaker/SalamHouse.xml
