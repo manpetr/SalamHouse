@@ -1,0 +1,54 @@
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\PRGMAIN.CFC'
+
+#defpou prgMain
+  fbPracovna pracovna,
+  fbJalousie jalouse
+
+ 
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\PRGMAIN.CFC'
+#pou prgMain
+#srcline 1 ;PROGRAM prgMain
+P     61
+prgMain_L0:
+ LINK 0
+#srcline 66 ;(*  29	*)	CAL	jalouse()
+ LEAX jalouse
+ CAL  fbJalousie_L0
+#srcline 67 ;(*  29	*)	LD 	jalouse.UP
+ LDX  jalouse~UP
+#debug bool jalouse.UP
+#srcline 68 ;(*  11	*)	ST 	PRA_ZAL_M15_1_UP
+ WR   bool PRA_ZAL_M15_1_UP
+#debug_left bool PRA_ZAL_M15_1_UP
+#srcline 69 ;(*  29	*)	LD 	jalouse.DOWN
+ LDX  jalouse~DOWN
+#debug bool jalouse.DOWN
+#srcline 70 ;(*  20	*)	ST 	PRA_ZAL_M15_1_DOWN
+ WR   bool PRA_ZAL_M15_1_DOWN
+#debug_left bool PRA_ZAL_M15_1_DOWN
+#srcline 71 ;//N001
+#srcline 72 ;(*   8	*)	CAL	pracovna()
+ LEAX pracovna
+ CAL  fbPracovna_L0
+#srcline 74 ;END_PROGRAM
+ ULNK
+RET
+E     61
+
+; Initialize - variables
+P     61
+prgMain__InstanceInit__:
+ LINK 0
+ LEAX jalouse
+ CAL  fbJalousie__InstanceInit__
+ ULNK
+RET
+E     61
+; End initialize - variables
+#endpou 
+
+
+
+ 
+
+#srcfile ''

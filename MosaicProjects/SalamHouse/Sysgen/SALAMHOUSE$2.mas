@@ -1,0 +1,5963 @@
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\Sysgen\SALAMHOUSE.mlh'
+
+#defpou R_TRIG
+  bool CLK,
+  bool Q,
+  bool M
+
+
+#defpou F_TRIG
+  bool CLK,
+  bool Q,
+  bool M
+
+
+#defpou SR
+  bool S1,
+  bool R,
+  bool Q1
+
+
+#defpou RS
+  bool S,
+  bool R1,
+  bool Q1
+
+
+#defpou CTU
+  bool CU,  ;vstup pro ËÌt·nÌ nahoru
+  bool R,  ;reset ËÌtaËe
+  int PV,  ;p¯edvolba ËÌtaËe
+  bool Q,  ;v˝stup ËÌtaËe
+  int CV,  ;hodnota ËÌtaËe
+  bool __EDGE_R__CU
+
+
+#defpou CTD
+  bool CD,  ;vstup pro ËÌt·nÌ dol˘
+  bool LD,  ;vstup pro nastavenÌ p¯edvolby
+  int PV,  ;p¯edvolba ËÌtaËe
+  bool Q,  ;v˝stup ËÌtaËe
+  int CV,  ;hodnota ËÌtaËe
+  bool __EDGE_R__CD
+
+
+#defpou CTUD
+  bool CU,  ;vstup pro ËÌt·nÌ nahoru
+  bool CD,  ;vstup pro ËÌt·nÌ dol˘
+  bool R,  ;reset ËÌtaËe
+  bool LD,  ;vstup pro nastavenÌ p¯edvolby
+  int PV,  ;p¯edvolba ËÌtaËe
+  bool QU,  ;v˝stup ËÌtaËe nahoru
+  bool QD,  ;v˝stup ËÌtaËe dol˘
+  int CV,  ;hodnota ËÌtaËe
+  bool __EDGE_R__CU,
+  bool __EDGE_R__CD
+
+
+#defpou TON
+  bool IN,  ;vstup ËasovaËe
+  time PT,  ;p¯edvolba ËasovaËe
+  bool Q,  ;v˝stup ËasovaËe
+  time ET,  ;aktu·lnÌ hodnota ËasovaËe
+  R_TRIG IN_r_edge,
+  time LT  ;last tick value ( 1ms resolution)
+
+
+#defpou TOF
+  bool IN,  ;vstup ËasovaËe
+  time PT,  ;p¯edvolba ËasovaËe
+  bool Q,  ;v˝stup ËasovaËe
+  time ET,  ;aktu·lnÌ hodnota ËasovaËe
+  F_TRIG IN_f_edge,
+  time LT  ;last tick value ( 1ms resolution)
+
+
+#defpou TP
+  bool IN,  ;vstup ËasovaËe
+  time PT,  ;p¯edvolba ËasovaËe
+  bool Q,  ;v˝stup ËasovaËe
+  time ET,  ;aktu·lnÌ hodnota ËasovaËe
+  R_TRIG IN_r_edge,
+  time LT  ;last tick value ( 1ms resolution)
+
+
+#defpou __LATENT_INSTANCE ADD_TIME
+  time __fc__ADD_TIME,
+  time IN1,
+  time IN2
+
+
+#defpou __LATENT_INSTANCE SUB_TIME
+  time __fc__SUB_TIME,
+  time IN1,
+  time IN2
+
+
+#defpou __LATENT_INSTANCE ADD_TOD_TIME
+  time_of_day __fc__ADD_TOD_TIME,
+  time_of_day IN1,
+  time IN2
+
+
+#defpou __LATENT_INSTANCE ADD_DT_TIME
+  date_and_time __fc__ADD_DT_TIME,
+  date_and_time IN1,
+  time IN2
+
+
+#defpou __LATENT_INSTANCE SUB_DATE_DATE
+  time __fc__SUB_DATE_DATE,
+  date IN1,
+  date IN2
+
+
+#defpou __LATENT_INSTANCE SUB_TOD_TIME
+  time_of_day __fc__SUB_TOD_TIME,
+  time_of_day IN1,
+  time IN2
+
+
+#defpou __LATENT_INSTANCE SUB_TOD_TOD
+  time __fc__SUB_TOD_TOD,
+  time_of_day IN1,
+  time_of_day IN2
+
+
+#defpou __LATENT_INSTANCE SUB_DT_TIME
+  date_and_time __fc__SUB_DT_TIME,
+  date_and_time IN1,
+  time IN2
+
+
+#defpou __LATENT_INSTANCE SUB_DT_DT
+  time __fc__SUB_DT_DT,
+  date_and_time IN1,
+  date_and_time IN2
+
+
+#defpou __LATENT_INSTANCE CONCAT_DATE_TOD
+  date_and_time __fc__CONCAT_DATE_TOD,
+  date IN1,
+  time_of_day IN2
+
+
+; Global types
+#struct  T_RGB_COLOR
+  usint red,  ;red color <0..255>
+  usint green,  ;green color <0..255>
+  usint blue,  ;blue color <0..255>
+  usint opacity  ;opacity (0 = opaque, 255 = transparent)
+
+; Global types
+#struct  TSYSTEM_S
+  byte S0,  ;flags of the results of arithmetic operations p¯Ìznaky v˝sledk˘ aritmetick˝ch operacÌ
+  byte S1,  ;flags of the results of logical operations p¯Ìznaky v˝sledk˘ logick˝ch operacÌ
+  bool S2_0,
+  bool S2_1,
+  bool S2_2,  ;PLC je v reûimu RUN
+  bool S2_3,  ;tepl˝ restart PLC
+  bool S2_4,  ;studen˝ restart PLC
+  bool OUTPUTS_ARE_ENABLED,  ;vystupy odblokovany
+  bool S2_6,  ;prechod do run bez restartu PLC
+  bool CYCLE_TIME_WARNING,  ;prekrocena prva mez doby cyklu (varovani)
+  usint LAST_CYCLE_TIME_10MS,  ;Doba minuleho cyklu v 10 ms
+  usint CYCLE_COUNTER,  ;Citac cyklu
+  usint COUNTER_10MS,  ;Citac desitek milisekund
+  usint COUNTER_SECONDS,  ;Citac sekund systemoveho casu
+  usint COUNTER_MINUTES,  ;Citac minut systemoveho casu
+  usint COUNTER_HOURS,  ;Citac hodin systemoveho casu
+  usint COUNTER_DAYS_OF_WEEK,  ;Citac dnu v tydnu
+  usint COUNTER_DAYS_OF_MONTH,  ;Citac dnu v mesici
+  usint COUNTER_MONTHS,  ;Citac mesicu
+  usint COUNTER_YEARS,  ;Citac roku
+  bool PERIOD_PULSE_100MS,  ;pulz s periodou 100 ms
+  bool PERIOD_PULSE_500MS,  ;pulz s periodou 500 ms
+  bool PERIOD_PULSE_1SEC,  ;pulz s periodou 1 s
+  bool PERIOD_PULSE_10SEC,  ;pulz s periodou 10 s
+  bool PERIOD_PULSE_1MIN,  ;pulz s periodou 1 min
+  bool PERIOD_PULSE_10MIN,  ;pulz s periodou 10 min
+  bool PERIOD_PULSE_1HOUR,  ;pulz s periodou 1 hod
+  bool PERIOD_PULSE_1DAY,  ;pulz s periodou 1 den
+  uint COUNTER_100MS,  ;Citac v 100m
+  uint COUNTER_1SEC,  ;Citac v 1s
+  uint COUNTER_10SEC,  ;Citac v 10s
+  bool R_EDGE_100MS,  ;nabezna hrana 1x za 100 ms
+  bool R_EDGE_500MS,  ;nabezna hrana 1x za 500 ms
+  bool R_EDGE_1SEC,  ;nabezna hrana 1x za 1 s
+  bool R_EDGE_10SEC,  ;nabezna hrana 1x za 10 s
+  bool R_EDGE_1MIN,  ;nabezna hrana 1x za 1 min
+  bool R_EDGE_10MIN,  ;nabezna hrana 1x za 10 min
+  bool R_EDGE_1HOUR,  ;nabezna hrana 1x za 1 hod
+  bool R_EDGE_1DAY,  ;nabezna hrana 1x za 1 den
+  bool F_EDGE_100MS,  ;sestupna hrana 1x za 100 ms
+  bool F_EDGE_500MS,  ;sestupna hrana 1x za 500 ms
+  bool F_EDGE_1SEC,  ;sestupna hrana 1x za 1 s
+  bool F_EDGE_10SEC,  ;sestupna hrana 1x za 10 s
+  bool F_EDGE_1MIN,  ;sestupna hrana 1x za 1 min
+  bool F_EDGE_10MIN,  ;sestupna hrana 1x za 10 min
+  bool F_EDGE_1HOUR,  ;sestupna hrana 1x za 1 hod
+  bool F_EDGE_1DAY,  ;sestupna hrana 1x za 1 den
+  uint LAST_CYCLE_TIME_100US,  ;Doba minuleho cyklu v 100 µs
+  byte S24,  ;¯ÌdÌcÌ masky proces˘
+  byte S25,  ;¯ÌdÌcÌ masky proces˘
+  byte S26,  ;¯ÌdÌcÌ masky proces˘
+  byte S27,  ;¯ÌdÌcÌ masky proces˘
+  byte S28,  ;¯ÌdÌcÌ masky proces˘
+  byte S29,  ;¯ÌdÌcÌ masky proces˘
+  byte S30,  ;rezervov·no
+  byte S31,  ;rezervov·no
+  byte S32,  ;rezervov·no
+  byte S33,  ;rezervov·no
+  byte S34,  ;hlavnÌ kÛd chyby PLC
+  bool BAT_ERR,  ;Chyba zalohovaci baterie
+  bool S35_1,  ;rezervov·no
+  bool S35_2,  ;rezervov·no
+  bool S35_3,  ;rezervov·no
+  bool S35_4,  ;rezervov·no
+  bool S35_5,  ;rezervov·no
+  bool IS_SUMMER_TIME,  ;Indikace letniho casu
+  bool SUMMER_TIME_REQUEST,  ;Zadost o automaticky prechod na letni cas
+  usint CPU_TEMPERATURE,  ;Teplota procesoroveho modulu [stupne C]
+  byte S37,
+  byte S38,
+  byte S39,
+  byte S40,
+  byte S41,
+  byte S42,
+  byte S43,
+  byte S44,
+  byte S45,
+  byte S46,
+  byte S47,
+  byte S48,
+  byte S49,
+  byte S50,
+  byte S51,
+  udint COUNTER_1MS,  ;Citac po 1 ms
+  byte S56,
+  byte S57,
+  byte CPU_DI,  ;vstupy obsluhovanÈ centr·lnÌ jednotkou
+  byte CPU_DO,  ;v˝stupy obsluhovanÈ centr·lnÌ jednotkou
+  udint INDEX_OF_RETAIN_ZONE,  ;index prvnÌho remanentnÌho registru
+  udint SIZE_OF_RETAIN_ZONE,  ;velikost remanentnÌ zÛny (poËet byt˘)
+  uint INDEX_SOFT_PLC_STRUCT,  ;rezervov·no pro SoftPLC
+  word CRC_OF_USER_PROGRAM,  ;CRC uûivatelskÈho programu
+  word CRC_OF_HEADER_PROGRAM  ;CRC hlaviËky uûivatelskÈho programu
+
+; Global variables
+#def  System_S TSYSTEM_S %S0
+#def  IS_HOT_RESTART_PLC bool __absolute(System_S~S2_3)  ;tepl˝ restart PLC
+#def  IS_COLD_RESTART_PLC bool __absolute(System_S~S2_4)  ;studen˝ restart PLC
+#def  IS_RESTART_PLC bool __absolute(System_S~S2_6)  ;prechod do run bez restartu PLC
+#def  CRC_OF_APLIC_PROGRAM dword __absolute(System_S~CRC_OF_USER_PROGRAM)  ;CRC aplikaËnÌho programu
+
+; Global types
+#struct  TModuleInfo
+  bool ECOM,  ;1 = chyba komunikace mezi CPU a IO modulem
+  bool DATA,  ;1 = data poskytovan· modulem jsou platn·
+  bool DUMMY1,  ;nepouzito
+  bool DUMMY2,  ;nepouzito
+  bool ERR,  ;1 = chyba IO modulu
+  bool DEC,  ;1 = modul m· platnou deklaraci v programu PLC
+  bool OTH,  ;1 = typ IO modulu neodpovÌd· deklaraci v programu PLC
+  bool POS,  ;1 = modul je p¯Ìtomen v danÈ pozici
+  usint STAT  ;status modulu ñ v˝öe uvedenÈ promÏnnÈ jako 1 byte (ECOM = STAT.0, Ö , POS = STAT.7)
+
+; Global types
+#struct  TIOSystemInfo
+  bool err,  ;0 = IO systÈm PLC je bez chyby, 1 = v IO systÈmu PLC je nÏjak˝ problÈm
+  usint rackNumber,  ;p¯i err = 1 ud·v· ËÌslo r·mu PLC, kde je umÌstÏn modul signalizujÌcÌ nÏjak˝ problÈm
+  usint position  ;p¯i err = 1 ud·v· ËÌslo pozice v r·mu PLC, kde je umÌstÏn modul signalizujÌcÌ nÏjak˝ problÈm
+
+; Global variables
+#def  MODULE_AND_DATA_OK 162
+#def  __Init____MODULE_AND_DATA_OK MODULE_AND_DATA_OK
+
+#defpou __LATENT_INSTANCE ModuleInfo
+  TModuleInfo __fc__ModuleInfo,
+  usint rackNumber,  ;ËÌslo r·mu, kde je umÌstÏn I/O modul
+  usint position  ;ËÌslo pozice v r·mu, kde je umÌstÏn I/O modul
+
+
+#defpou __LATENT_INSTANCE IOSystemInfo
+  TIOSystemInfo __fc__IOSystemInfo
+
+
+#defpou __LATENT_INSTANCE Memcpy
+  uint __fc__Memcpy,
+  uint length,  ;DÈlka kopÌrovanÈho bloku v bytech
+  pointer source,  ;Zdroj odkud kopÌrovat
+  pointer dest  ;CÌl kam kopÌrovat
+
+
+#defpou __LATENT_INSTANCE MemcpyEx
+  uint __fc__MemcpyEx,
+  udint length,  ;DÈlka kopÌrovanÈho bloku v bytech
+  udint offSource,  ;PosunutÌ od zaË·tku zdroje
+  udint offDest,  ;PosunutÌ od zaË·tku cÌle
+  pointer source,  ;Zdroj odkud kopÌrovat
+  pointer dest  ;CÌl kam kopÌrovat
+
+
+#defpou __LATENT_INSTANCE MemcpyPtr
+  udint __fc__MemcpyPtr,
+  pointer source,  ;pointer to source
+  pointer dest,  ;pointer to  destination
+  udint length  ;number of bytes
+
+
+#defpou __LATENT_INSTANCE Memset
+  bool __fc__Memset,
+  udint val,  ;Hodnota, kter· se zapÌöe do bloku pamÏti
+  uint length,  ;DÈlka bloku pamÏti v bytech
+  pointer dest  ;CÌl, kter˝ bude naplnÏn konstantou
+
+
+#defpou __LATENT_INSTANCE MemsetEx
+  bool __fc__MemsetEx,
+  udint val,  ;Hodnota, kter· se zapÌöe do bloku pamÏti
+  udint length,  ;DÈlka bloku pamÏti v bytech
+  udint offDest,  ;PosunutÌ od zaË·tku cÌle
+  pointer dest  ;CÌl, kter˝ bude naplnÏn konstantou
+
+
+#defpou __LATENT_INSTANCE Memcmp
+  bool __fc__Memcmp,
+  uint length,  ;DÈlka porovn·vanÈho bloku v bytech
+  pointer in1,  ;PrvnÌ porovn·van˝ blok
+  pointer in2  ;Druh˝ porovn·van˝ blok
+
+
+#defpou __LATENT_INSTANCE MemcmpEx
+  bool __fc__MemcmpEx,
+  udint length,  ;DÈlka porovn·vanÈho bloku v bytech
+  udint offIn1,  ;PosunutÌ prvnÌho porovn·vanÈho bloku
+  udint offIn2,  ;PosunutÌ druhÈho porovn·vanÈho bloku
+  pointer in1,  ;PrvnÌ porovn·van˝ blok
+  pointer in2  ;Druh˝ porovn·van˝ blok
+
+
+#defpou __LATENT_INSTANCE IncreaseMaxCycleTime
+  bool __fc__IncreaseMaxCycleTime,
+  uint addTime  ;o kolik milisekund se m· zv˝öit hlÌdan· doba cyklu
+
+
+; Global types
+#struct  TTecoDateTime
+  usint year,  ;rok     (poslednÌ dvÏ ËÌslice letopoËtu)
+  usint month,  ;mÏsÌc   (1 .. 12)
+  usint day,  ;den     (1 .. 28/29/30/31)
+  usint hour,  ;hodina  (0 .. 23)
+  usint min,  ;minuta  (0 .. 59)
+  usint sec,  ;sekunda (0 .. 59)
+  usint dayOfWeek,  ;den v t˝dnu (1 = pondÏlÌ, 7 = nedÏle)
+  uint milisec  ;milisekunda
+
+#defpou __LATENT_INSTANCE SetSummerTime
+  bool __fc__SetSummerTime
+
+
+#defpou __LATENT_INSTANCE IsSummerTime
+  bool __fc__IsSummerTime
+
+
+#defpou __LATENT_INSTANCE SetWinterTime
+  bool __fc__SetWinterTime
+
+
+#defpou __LATENT_INSTANCE IsWinterTime
+  bool __fc__IsWinterTime
+
+
+#defpou __LATENT_INSTANCE GetDate
+  date __fc__GetDate,
+  TTecoDateTime tmp
+
+
+#defpou __LATENT_INSTANCE GetTime
+  time __fc__GetTime,
+  uint milisec
+
+
+#defpou __LATENT_INSTANCE GetDateTime
+  date_and_time __fc__GetDateTime,
+  TTecoDateTime tmp
+
+
+#defpou __LATENT_INSTANCE GetRTC
+  date_and_time __fc__GetRTC,
+  TTecoDateTime tmp
+
+
+#defpou __LATENT_INSTANCE SetRTC
+  bool __fc__SetRTC,
+  date_and_time PDT,  ;nov˝ datum a Ëas
+  TTecoDateTime tmp
+
+
+#defpou __LATENT_INSTANCE TecoDT_TO_DT
+  date_and_time __fc__TecoDT_TO_DT,
+  TTecoDateTime Teco_DT  ;datum a Ëas
+
+
+#defpou __LATENT_INSTANCE DT_TO_TecoDT
+  TTecoDateTime __fc__DT_TO_TecoDT,
+  date_and_time IEC_DT  ;datum a Ëas
+
+
+#defpou __LATENT_INSTANCE memory_for_ProgramIsChanged
+  bool __fc__memory_for_ProgramIsChanged,
+  bool saveSL70,
+  udint memSL70,
+  usint memS4
+
+
+#defpou __LATENT_INSTANCE ProgramIsChanged
+  bool __fc__ProgramIsChanged,
+  bool saveSL70,
+  udint memSL70,
+  usint memS4
+
+
+#defpou __LATENT_INSTANCE ReInitPLC_hotRestart
+  bool __fc__ReInitPLC_hotRestart,
+  bool rq  ;1 = provÈst reinicializaci PLC
+
+
+#defpou __LATENT_INSTANCE ReInitPLC_coldRestart
+  bool __fc__ReInitPLC_coldRestart,
+  bool rq  ;1 = provÈst reinicializaci PLC
+
+
+#defpou __LATENT_INSTANCE ReInitPLC_noRestart
+  bool __fc__ReInitPLC_noRestart,
+  bool rq  ;1 = provÈst reinicializaci PLC
+
+
+#defpou __LATENT_INSTANCE GetModuleID
+  string[41] __fc__GetModuleID,
+  usint rackNumber,  ;cÌslo r·mu, kde je umÌsten I/O modul
+  usint position  ;cÌslo pozice v r·mu, kde je umÌsten I/O modul
+
+
+#defpou __LATENT_INSTANCE GetVarValueByName
+  string[256] __fc__GetVarValueByName,
+  string[256] varName  ;˙plnÈ jmÈno promÏnnÈ (jmÈno instance)
+
+
+#defpou __LATENT_INSTANCE GetVarNameByAdr
+  string[256] __fc__GetVarNameByAdr,
+  pointer varAdr,  ;jmÈno promÏnnÈ (jmÈno instance)
+  udint varSize  ;velikost promÏnnÈ (poËet byt˘)
+
+
+#defpou __LATENT_INSTANCE SetVarValueByName
+  bool __fc__SetVarValueByName,
+  string[256] varName,  ;˙plnÈ jmÈno promÏnnÈ (jmÈno instance)
+  string[256] varValue  ;nov· hodnota promÏnnÈ
+
+
+; Global variables
+#def  MI_CIB1 1
+#def  __Init____MI_CIB1 MI_CIB1
+#def  MI_CIB2 2
+#def  __Init____MI_CIB2 MI_CIB2
+#def  MI0_CIB1 3
+#def  __Init____MI0_CIB1 MI0_CIB1
+#def  MI0_CIB2 4
+#def  __Init____MI0_CIB2 MI0_CIB2
+#def  MI2_CIB1 5
+#def  __Init____MI2_CIB1 MI2_CIB1
+#def  MI2_CIB2 6
+#def  __Init____MI2_CIB2 MI2_CIB2
+#def  MI4_CIB1 7
+#def  __Init____MI4_CIB1 MI4_CIB1
+#def  MI4_CIB2 8
+#def  __Init____MI4_CIB2 MI4_CIB2
+#def  MI6_CIB1 9
+#def  __Init____MI6_CIB1 MI6_CIB1
+#def  MI6_CIB2 10
+#def  __Init____MI6_CIB2 MI6_CIB2
+#def  MI_RF 100
+#def  __Init____MI_RF MI_RF
+#def  RF0_RF 101
+#def  __Init____RF0_RF RF0_RF
+#def  RF2_RF 102
+#def  __Init____RF2_RF RF2_RF
+#def  RF4_RF 103
+#def  __Init____RF4_RF RF4_RF
+#def  RF6_RF 104
+#def  __Init____RF6_RF RF6_RF
+
+; Global types
+#struct  TCIBunitState
+  bool INI,  ;CIB jednotka je inicializovan·
+  bool COM,  ;komunikace s CIB jednotkou je bez z·vad
+  bool ADDR,  ;adresa CIB jednotky byla akceptovan·
+  bool DUMMY3,
+  bool REI,  ;p¯Ìznak reinicializace CIB jednotky
+  bool DUMMY5,
+  bool DUMMY6,
+  bool NET  ;CIB jednotka je definovan· v programu a obsluhovan· centr·lnÌ jednotkou
+
+; Global types
+#struct  TCIBunitInfo
+  bool line_defined,  ;CIB linka je definovan· v HW konfiguraci PLC
+  bool unit_defined,  ;CIB jednotka je definovan· v HW konfiguraci PLC
+  TCIBunitState state,  ;stav CIB jednotky (viz Typ TCIBunitState)
+  word address,  ;aktu·lnÏ nastaven· HW adresa CIB jednotky
+  word code,  ;kÛd CIB jednotky
+  string[18] unit_type,  ;typovÈ oznaËenÌ CIB jednotky
+  string[32] description  ;popis CIB jednotky
+
+; Global types
+#struct  TRFunitState
+  bool INI,  ;RF jednotka je inicializovan·
+  bool COM,  ;komunikace s RF jednotkou je bez z·vad
+  bool DUMMY2,
+  bool DUMMY3,
+  bool DUMMY4,
+  bool SLP,  ;RF jednotka muze prechazet do sleep rezimu
+  bool BND,  ;jednotka je sp·rovan·
+  bool NET  ;RF jednotka je definovan· v programu a obsluhovan· centr·lnÌ jednotkou
+
+; Global types
+#struct  TRFunitInfo
+  bool line_defined,  ;RF linka je definovan· v HW konfiguraci PLC
+  bool unit_defined,  ;RF jednotka je definovan· v HW konfiguraci PLC
+  TRFunitState state,  ;stav RF jednotky (viz Typ TRFunitState)
+  word address,  ;aktu·lnÏ nastaven· HW adresa RF jednotky
+  word code,  ;kÛd RF jednotky
+  string[18] unit_type,  ;typovÈ oznaËenÌ RF jednotky
+  string[32] description  ;popis RF jednotky
+
+#defpou __LATENT_INSTANCE CIBunitInfo
+  bool __fc__CIBunitInfo,
+  usint CIB_line,  ;ËÌslo CIB linky (viz konstanty MI_CIB1 aû MI6_CIB2)
+  usint CIB_unitID,  ;ËÌslo pozice CIB jednotky (1,...,32)
+  pointer unitInfo  ;promÏnn·, do kterÈ jsou uloûeny zÌskanÈ informace o CIB jednotce
+
+
+#defpou __LATENT_INSTANCE RFunitInfo
+  bool __fc__RFunitInfo,
+  usint RF_line,  ;ËÌslo RF linky (viz konstanty MI_RF, RF0_RF,...,RF6_RF)
+  usint RF_unitID,  ;ËÌslo pozice RF jednotky (1,...,64)
+  pointer unitInfo  ;promÏnn·, do kterÈ jsou uloûeny zÌskanÈ informace o RF jednotce
+
+
+#defpou __LATENT_INSTANCE SetAddressCIBunit
+  bool __fc__SetAddressCIBunit,
+  usint CIB_line,  ;ËÌslo CIB linky (viz konstanty MI_CIB1 aû MI6_CIB2)
+  usint CIB_unitID,  ;ËÌslo pozice CIB jednotky (1,...,32)
+  word CIB_addr  ;nov· HW adresa CIB jednotky
+
+
+#defpou __LATENT_INSTANCE SetAddressRFunit
+  bool __fc__SetAddressRFunit,
+  usint RF_line,  ;ËÌslo RF linky (viz konstanty MI_RF, RF0_RF,...,RF6_RF)
+  usint RF_unitID,  ;ËÌslo pozice RF jednotky (1,...,64)
+  word RF_addr  ;nov· HW adresa RF jednotky
+
+
+; Global types
+#struct  TBondStat
+  bool disconnect,  ;probiha odbondovani
+  bool connect,  ;probiha bondovani
+  bool bondMap,  ;probiha cteni bondovaci mapy
+  bool dummy3,
+  bool dummy4,
+  bool error,  ;doslo k chybe
+  bool done,  ;hotovo
+  bool busy  ;master zaneprazdnen
+
+; Global types
+#struct  TBondInfo
+  TBondStat bondStat,
+  usint bondID,  ;cislo pozice pribondovane jednotky (je-li bondovani uspesne)
+  word bondType  ;typ pribondovane jednotky (je-li bondovani uspesne)
+
+#defpou fbBondRFunit
+  bool exec,  ;û·dost o sp·rov·nÌ = n·bÏûn· hrana zah·jÌ akci
+  usint RF_line,  ;ËÌslo RF linky (viz konstanty MI_RF, RF0_RF,...,RF6_RF)
+  usint RF_unitID,  ;ËÌslo pozice RF jednotky (1,...,64)
+  bool bondRq,  ;0 = pouze zruöit p·rov·nÌ, 1 = nap·rovat novou jednotku
+  bool useRouter,  ;1 = po nap·rov·nÌ komunikovat s RF jednotkou p¯es router
+  bool done,  ;p·rov·nÌ ˙spÏönÏ ukonËeno
+  bool busy,  ;probÌh· p·rov·nÌ
+  bool err,  ;p·rov·nÌ ukonËeno s chybou
+  udint errID,  ;kÛd chyby
+  string[41] unitType,  ;typ ˙spÏönÏ sp·rovanÈ jednotky
+  TBondInfo result,
+  bool timIN,
+  time timPT,
+  TON tim,  ;odbondovat 2+2 s, pribondovat 12+2 s
+  bool __EDGE_R__exec
+
+
+#defpou __LATENT_INSTANCE ProgramLock
+  bool __fc__ProgramLock
+
+
+#defpou TPR
+  bool IN,  ;vstup ËasovaËe
+  bool R,  ;reset ËasovaËe
+  time PT,  ;p¯edvolba ËasovaËe
+  bool Q,  ;v˝stup ËasovaËe
+  time ET,  ;aktu·lnÌ hodnota ËasovaËe
+  R_TRIG IN_r_edge,
+  time LT  ;last tick value ( 1ms resolution)
+
+
+#defpou fbTPR
+  bool IN,  ;vstup ËasovaËe
+  bool R,  ;reset ËasovaËe
+  time PT,  ;p¯edvolba ËasovaËe
+  bool Q,  ;v˝stup ËasovaËe
+  time ET,  ;aktu·lnÌ hodnota ËasovaËe
+  R_TRIG IN_r_edge,
+  time LT  ;last tick value ( 1ms resolution)
+
+
+#defpou __LATENT_INSTANCE SetWebPSW
+  bool __fc__SetWebPSW,
+  usint user,  ;cislo radku v tabulce uzivatelu (0...9)
+  pointer name,  ;novÈ p¯ihlaöovacÌ jmÈno
+  pointer password  ;novÈ heslo
+
+
+#defpou __LATENT_INSTANCE VerifyWebPSW
+  bool __fc__VerifyWebPSW,
+  usint user,  ;ËÌslo ¯·dku v tabulce uûivatel˘ (0...9)
+  pointer name,  ;p¯ihlaöovacÌ jmÈno
+  pointer password  ;heslo
+
+
+#defpou __LATENT_INSTANCE SetWebMAC
+  bool __fc__SetWebMAC,
+  usint user,  ;ËÌslo ¯·dku v tabulce uûivatel˘ (0...9)
+  pointer MAC  ;nov· MAC adresa ('00:11:22:33:44:55')
+
+
+#defpou __LATENT_INSTANCE VerifyWebMAC
+  bool __fc__VerifyWebMAC,
+  usint user,  ;ËÌslo ¯·dku v tabulce uûivatel˘ (0...9)
+  pointer MAC  ;MAC adresa ('00:11:22:33:44:55')
+
+
+#defpou __LATENT_INSTANCE SystemDisplayBacklightOn
+  bool __fc__SystemDisplayBacklightOn,
+  udint tmp
+
+
+#defpou __LATENT_INSTANCE SystemDisplayBacklightOff
+  bool __fc__SystemDisplayBacklightOff,
+  udint tmp
+
+
+#defpou fbTick
+  bool IN,  ;povolenÌ ËasovaËe
+  time PT,  ;perioda v˝stupnÌch pulz˘
+  bool Q,  ;v˝stup ËasovaËe
+  time ET,  ;pr˘bÏûn˝ Ëas v r·mci periody
+  bool WasRun,
+  time RunTime
+
+
+#defpou __LATENT_INSTANCE fcModelLibInvalidReal
+  bool __fc__fcModelLibInvalidReal,
+  real r
+
+
+; Global types
+#def  GenericArrayForDelay real[1024]  ;Obecn˝ typ pro VAR_IN_OUT
+
+#defpou __LATENT_INSTANCE fcHiddenModelLibDoStep
+  bool __fc__fcHiddenModelLibDoStep,
+  real T,
+  pointer LastT
+
+
+#defpou fbLimIntegrator
+  real In,  ;VstupnÌ sign·l
+  real MinO,  ;OmezenÌ
+  real MaxO,  ;OmezenÌ
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Preset,  ;PoË·teËnÌ hodnota
+  bool Reset,  ;Reset v˝stupu na poË·teËnÌ hodnotu
+  real Out,  ;Integr·l vstupnÌho sign·lu
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  bool __EDGE_R__Reset
+
+
+#defpou fbIntegrator
+  real In,  ;VstupnÌ sign·l
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Preset,  ;PoË·teËnÌ hodnota
+  bool Reset,  ;Reset v˝stupu na poË·teËnÌ hodnotu
+  real Out,  ;Integr·l vstupnÌho sign·lu
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  bool __EDGE_R__Reset
+
+
+#defpou fbDerivator
+  real In,  ;VstupnÌ sign·l
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Out,  ;Derivace vstupnÌho sign·lu
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  real Last_In  ;Last input value (In(k-1))
+
+
+#defpou fbDelay
+  real In,  ;VstupnÌ sign·l
+  int K,  ;DopravnÌ zpoûdÏnÌ vyj·d¯enÈ poËtem period. Maximum je d·no velikostÌ z·sobnÌku Buffer (max 1024)
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Out,  ;ZpoûdÏn˝ vstupnÌ sign·l
+  pointer Buffer,  ;Z·sobnÌk minul˝ch vzork˘. M˘ûe odkazovat na libovolnÈ pole typ˘ REAL do velikosti 1024 prvk˘
+  time LastT,  ;Last time of block execution
+  int Point,  ;Pointer to buffer
+  bool Init  ;Initialization flag (true means initialized)
+
+
+#defpou fbFirstOrder
+  real In,  ;VstupnÌ sign·l
+  real G,  ;StatickÈ zesÌlenÌ
+  real T1,  ;»asov· konstanta v sekund·ch
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Preset,  ;PoË·teËnÌ hodnota
+  bool Reset,  ;Reset v˝stupu na poË·teËnÌ hodnotu
+  real Out,  ;V˝stupnÌ sign·l
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  real Exp1,  ;Constant evaluated by time constant
+  real OldT1,  ;Old time constant - for change tracking
+  bool __EDGE_R__Reset
+
+
+#defpou fbSecondOrder
+  real In,  ;VstupnÌ sign·l
+  real G,  ;StatickÈ zesÌlenÌ
+  real T1,  ;»asov· konstanta v sekund·ch
+  real T2,  ;»asov· konstanta v sekund·ch
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Preset,  ;PoË·teËnÌ hodnota
+  bool Reset,  ;Reset v˝stupu na poË·teËnÌ hodnotu
+  real Out,  ;V˝stupnÌ sign·l
+  bool Init,  ;Initialization flag (true means initialized)
+  time LastT,  ;Last time of block execution
+  real a,  ;Auxiliary constants
+  real b,  ;Auxiliary constants
+  real c,  ;Auxiliary constants
+  real d,  ;Auxiliary constants
+  real OldT1,  ;Old time constant - for change tracking
+  real OldT2,  ;Old time constant - for change tracking
+  real LastIn,  ;Last input
+  real LastOut,  ;Output to step older
+  bool __EDGE_R__Reset
+
+
+#defpou fbSecondOrderOsc
+  real In,  ;VstupnÌ sign·l
+  real G,  ;StatickÈ zesÌlenÌ
+  real Alp,  ;Koeficient tlumenÌ
+  real Omg,  ;VlastnÌ ˙hlov· frekvence [1/(rad * s)]
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Preset,  ;PoË·teËnÌ hodnota
+  bool Reset,  ;Reset v˝stupu na poË·teËnÌ hodnotu
+  real Out,  ;V˝stupnÌ sign·l
+  fbIntegrator i1,
+  fbIntegrator i2,
+  bool __EDGE_R__Reset
+
+
+#defpou fbSimplePID
+  real y,  ;MÏ¯en· veliËina
+  real w,  ;é·dan· hodnota
+  real u_man,  ;Hodnota v˝stupu v ruËnÌm reûimu
+  real min_u,  ;Minim·lnÌ hodnota v˝stupu
+  real max_u,  ;Maxim·lnÌ hodnota v˝stupu
+  real Gain,  ;ZesÌlenÌ
+  real Ti,  ;IntegraËnÌ konstanta v sekund·ch
+  real Td,  ;DerivaËnÌ Ëasov· konstanta v sekund·ch
+  real T,  ;Perioda vzorkov·nÌ v sekund·ch
+  real Tf,  ;»asov· konstanta filtru derivaËnÌ sloûky v sekund·ch
+  real dz,  ;SymetrickÈ p·smo necitlivosti
+  bool manual,  ;NastavenÌ ruËnÌho reûimu (0 ñ automatick˝ reûim, 1 ñ ruËnÌ reûim)
+  bool IH,  ;PozastavenÌ integrace (0 = integrace je povolena, 1 = integrace je pozastavena)
+  real u,  ;V˝stup regul·toru
+  real uvel,  ;Rychlost v˝stup regul·toru
+  real partP,  ;Hodnota proporcion·lnÌ sloûky
+  real partI,  ;Hodnota integraËnÌ sloûky
+  real partD,  ;Hodnota derivaËnÌ sloûky
+  real e,  ;RegulaËnÌ odchylka
+  bool auto,  ;Reûim regul·toru (0 ñ ruËnÌ reûim, 1 ñ automatick˝ reûim)
+  bool satmax,  ;V˝stup saturov·n na maxim·lnÌ hodnotÏ
+  bool satmin,  ;V˝stup saturov·n na minim·lnÌ hodnotÏ
+  bool wasman,  ;flag for change from manual mode
+  bool Init,  ;initialization flag (true means initialized)
+  real e_1,  ;last deviation
+  real y_p,  ;filtered input
+  real y_1,  ;last output
+  time LastT  ;last execution time
+
+
+#defpou _STEP_CONTROL_POS_SIM_
+  bool o,
+  bool c,
+  bool fo,
+  bool fc,
+  real t0100,
+  time LT,
+  real timdif,
+  real virPos,
+  bool INIT,
+  bool so,
+  bool sc,
+  real pos
+
+
+#defpou fbStepControl
+  real Pos,  ;é·dan· poloha servopohonu
+  real PosVel,  ;Rychlost zmÏny û·danÈ polohy servopohonu
+  bool HiSw,  ;Koncov˝ spÌnaË plnÏ otev¯enÈ polohy
+  bool LoSw,  ;Koncov˝ spÌnaË plnÏ zav¯enÈ polohy
+  real t0100,  ;Doba p¯echodu z plnÏ zav¯enÈ do plnÏ otev¯enÈ polohy v sekund·ch
+  real tmin,  ;Minim·lnÌ dÈlka pulzu a doba mezi pulzy v sekund·ch
+  real t01min,  ;Minim·lnÌ doba mezi pulzy opaËnÈ polarity v sekund·ch
+  bool Open,  ;Poûadavek otvÌrat
+  bool Close,  ;Poûadavek zavÌrat
+  bool Run,  ;Pohon v pohybu (logick˝ souËet poûadavku otvÌrat a zavÌrat)
+  real VirPos,  ;VypoËten· virtu·lnÌ poloha pohonu
+  bool wasOpen,
+  bool wasClose,
+  bool Idle,
+  TON t0,  ;_TIM_REAL_;
+  TON t1,  ;_TIM_REAL_;
+  _STEP_CONTROL_POS_SIM_ ps
+
+
+; Global types
+#def  TGeneratorSignalType usint   ; ENUM Type 
+
+#defpou fbGenerator
+  real Zero,  ;Posun nuly generovanÈho sign·lu
+  real Amp,  ;Amplituda v˝stupnÌho sign·lu
+  real Per,  ;Perioda v˝stupnÌho sign·lu
+  usint SType,  ;Typ v˝stupnÌho sign·lu
+  bool Reset,  ;Reset gener·toru
+  real Out,  ;V˝stup gener·toru
+  bool Init,
+  time Start,
+  real Phase,
+  bool __EDGE_R__Reset
+
+
+; Global types
+#struct  TUniDesc
+  byte modeChan,  ;reûim kan·lu
+  byte res,  ;rezerva
+  udint adrUniStat,  ;adresa stavovÈ zÛny
+  uint lenUniStat,  ;dÈlka stavovÈ zÛny
+  udint adrUniCont,  ;adresa ¯ÌdÌcÌ zÛny
+  uint lenUniCont,  ;dÈlka ¯ÌdÌcÌ zÛny
+  udint adrUniIn,  ;adresa p¯ijÌmacÌ zÛny
+  uint lenUniIn,  ;dÈlka p¯ijÌmacÌ zÛny
+  udint adrUniOut,  ;adresa vysÌlacÌ zony
+  uint lenUniOut  ;dÈlka vysÌlacÌ zony
+
+; Global types
+#def  TIPadr usint[4]  ;IP adresa
+
+; Global types
+#struct  TLocalEthAdr
+  TIPadr IP,  ;IP adresa
+  TIPadr IM,  ;maska sÌtÏ
+  TIPadr GW  ;adresa br·ny
+
+; Global types
+#struct  TRemoteEthAdr
+  TIPadr remoteIP,  ;vzd·len· IP adresa
+  uint remotePort,  ;vzd·len˝ port
+  uint localPort  ;lok·lnÌ port
+
+; Global types
+#def  TMacAdr byte[6]  ;MAC adresa
+
+; Global types
+#struct  TChanSettings
+  usint modeChan,  ;reûim kan·lu (uni = 5)
+  usint address,  ;adresa kan·lu
+  usint speed,  ;komunikaËnÌ rychlost
+  usint rxTimeout,  ;timeout p¯Ìjmu
+  usint txTimeout,  ;timeout vysÌl·nÌ
+  usint lineControl,  ;nastavenÌ parity
+  usint modemControl,  ;modemovÈ sign·ly
+  usint rez  ;rezerva
+
+; Global variables
+#def  MODE_OFF 0
+#def  __Init____MODE_OFF MODE_OFF
+#def  MODE_PC 2
+#def  __Init____MODE_PC MODE_PC
+#def  MODE_UNI 5
+#def  __Init____MODE_UNI MODE_UNI
+#def  MODE_MPC 6
+#def  __Init____MODE_MPC MODE_MPC
+#def  MODE_MDB 7
+#def  __Init____MODE_MDB MODE_MDB
+#def  MODE_PFB 8
+#def  __Init____MODE_PFB MODE_PFB
+#def  BAUD_50 1
+#def  __Init____BAUD_50 BAUD_50
+#def  BAUD_100 2
+#def  __Init____BAUD_100 BAUD_100
+#def  BAUD_200 3
+#def  __Init____BAUD_200 BAUD_200
+#def  BAUD_300 4
+#def  __Init____BAUD_300 BAUD_300
+#def  BAUD_600 5
+#def  __Init____BAUD_600 BAUD_600
+#def  BAUD_1200 6
+#def  __Init____BAUD_1200 BAUD_1200
+#def  BAUD_2400 7
+#def  __Init____BAUD_2400 BAUD_2400
+#def  BAUD_4800 8
+#def  __Init____BAUD_4800 BAUD_4800
+#def  BAUD_9600 10
+#def  __Init____BAUD_9600 BAUD_9600
+#def  BAUD_14400 11
+#def  __Init____BAUD_14400 BAUD_14400
+#def  BAUD_19200 12
+#def  __Init____BAUD_19200 BAUD_19200
+#def  BAUD_28800 13
+#def  __Init____BAUD_28800 BAUD_28800
+#def  BAUD_38400 14
+#def  __Init____BAUD_38400 BAUD_38400
+#def  BAUD_57600 16
+#def  __Init____BAUD_57600 BAUD_57600
+#def  BAUD_76800 18
+#def  __Init____BAUD_76800 BAUD_76800
+#def  BAUD_93750 19
+#def  __Init____BAUD_93750 BAUD_93750
+#def  BAUD_115200 20
+#def  __Init____BAUD_115200 BAUD_115200
+#def  NO_PARITY 0
+#def  __Init____NO_PARITY NO_PARITY
+#def  PARITY_ODD 8
+#def  __Init____PARITY_ODD PARITY_ODD
+#def  PARITY_EVEN 24
+#def  __Init____PARITY_EVEN PARITY_EVEN
+#def  PARITY_0 40
+#def  __Init____PARITY_0 PARITY_0
+#def  PARITY_1 56
+#def  __Init____PARITY_1 PARITY_1
+#def  SEVEN_BITS 64
+#def  __Init____SEVEN_BITS SEVEN_BITS
+#def  EIGHT_BITS 0
+#def  __Init____EIGHT_BITS EIGHT_BITS
+#def  ONE_STOP_BIT 0
+#def  __Init____ONE_STOP_BIT ONE_STOP_BIT
+#def  TWO_STOP_BITS 128
+#def  __Init____TWO_STOP_BITS TWO_STOP_BITS
+#def  RTS_0 0
+#def  __Init____RTS_0 RTS_0
+#def  RTS_1 2
+#def  __Init____RTS_1 RTS_1
+#def  RTS_MAN 64
+#def  __Init____RTS_MAN RTS_MAN
+#def  RTS_AUTO 128
+#def  __Init____RTS_AUTO RTS_AUTO
+#def  RTS_CTS_AUTO 192
+#def  __Init____RTS_CTS_AUTO RTS_CTS_AUTO
+#def  HALF_DUPLEX 8
+#def  __Init____HALF_DUPLEX HALF_DUPLEX
+
+; Global types
+#struct  TCHxStatistic
+  usint STAT,
+  usint ERR,
+  udint trueMes,
+  udint falseMes
+
+; Global types
+#struct  TCHxControl
+  uint CONTROL
+
+; Global types
+#struct  TUni_STAT
+  bool DSR,
+  bool CTS,
+  bool dummy1,
+  bool TRO,
+  bool RCF,
+  bool ROV,
+  bool TRF,
+  bool ARC
+
+; Global types
+#struct  TUni_CONT
+  bool dummy0,
+  bool dummy1,
+  bool dummy2,
+  bool dummy3,
+  bool dummy4,
+  bool TRG,
+  bool CLR,
+  bool ACN
+
+; Global types
+#struct  TUni_SIGN
+  bool DTR,
+  bool RTS
+
+; Global types
+#def  TUni_BUFF usint[1401]
+
+; Global types
+#struct  TUni_IN
+  TUni_STAT STAT,  ;stav p¯Ìjmu
+  usint ERR,  ;chybov˝ kÛd
+  uint NUMR,  ;poËet p¯ijat˝ch byt˘
+  TUni_BUFF DATA  ;p¯ijat· data
+
+; Global types
+#struct  TUni_OUT
+  TUni_CONT CONT,  ;¯ÌzenÌ vysÌl·nÌ
+  TUni_SIGN SIGN,  ;¯ÌzenÌ modemov˝ch sign·l˘
+  uint NUMT,  ;poËet vysÌlan˝ch byt˘
+  TUni_BUFF DATA  ;vysÌlan· data
+
+; Global types
+#struct  TEthStat
+  bool chan_present,  ;kan·l p¯Ìtomen
+  bool DHCP_enabled,  ;poûadov·no automatickÈ p¯idelenÌ IP adresy DHCP serverem
+  bool IP_obtained,  ;IP adresa zÌsk·na od DHCP serveru
+  bool IP_expired,  ;platnost automaticky p¯idÏlenÈ IP adresy vypröela
+  bool link,  ;sÌùov˝ kabel p¯ipojen
+  usint reserved,  ;rezerva
+  udint trueMes,  ;celkov˝ poËet dobr˝ch zpr·v
+  udint falseMes  ;celkov˝ poËet öpatn˝ch zpr·v
+
+; Global variables
+#def  ETH1_STAT TEthStat %S356  ;status Ethernet kan·lu ETH1
+#def  ETH2_STAT TEthStat %S368  ;status Ethernet kan·lu ETH2
+#def  ETH3_STAT TEthStat %S380  ;status Ethernet kan·lu ETH3
+#def  ETH4_STAT TEthStat %S392  ;status Ethernet kan·lu ETH4
+
+; Global variables
+#data byte __Init____ANY_IP = 
+    0,  0,  0,  0;
+#def ANY_IP TIPadr __Init____ANY_IP
+#def  ETH1_uni0 2017
+#def  __Init____ETH1_uni0 ETH1_uni0
+#def  ETH1_uni1 6113
+#def  __Init____ETH1_uni1 ETH1_uni1
+#def  ETH1_uni2 10209
+#def  __Init____ETH1_uni2 ETH1_uni2
+#def  ETH1_uni3 14305
+#def  __Init____ETH1_uni3 ETH1_uni3
+#def  ETH1_uni4 18401
+#def  __Init____ETH1_uni4 ETH1_uni4
+#def  ETH1_uni5 22497
+#def  __Init____ETH1_uni5 ETH1_uni5
+#def  ETH1_uni6 26593
+#def  __Init____ETH1_uni6 ETH1_uni6
+#def  ETH1_uni7 30689
+#def  __Init____ETH1_uni7 ETH1_uni7
+#def  ETH2_uni0 2018
+#def  __Init____ETH2_uni0 ETH2_uni0
+#def  ETH2_uni1 6114
+#def  __Init____ETH2_uni1 ETH2_uni1
+#def  ETH2_uni2 10210
+#def  __Init____ETH2_uni2 ETH2_uni2
+#def  ETH2_uni3 14306
+#def  __Init____ETH2_uni3 ETH2_uni3
+#def  ETH2_uni4 18402
+#def  __Init____ETH2_uni4 ETH2_uni4
+#def  ETH2_uni5 22498
+#def  __Init____ETH2_uni5 ETH2_uni5
+#def  ETH2_uni6 26594
+#def  __Init____ETH2_uni6 ETH2_uni6
+#def  ETH2_uni7 30690
+#def  __Init____ETH2_uni7 ETH2_uni7
+#def  ETH3_uni0 2019
+#def  __Init____ETH3_uni0 ETH3_uni0
+#def  ETH3_uni1 6115
+#def  __Init____ETH3_uni1 ETH3_uni1
+#def  ETH3_uni2 10211
+#def  __Init____ETH3_uni2 ETH3_uni2
+#def  ETH3_uni3 14307
+#def  __Init____ETH3_uni3 ETH3_uni3
+#def  ETH3_uni4 18403
+#def  __Init____ETH3_uni4 ETH3_uni4
+#def  ETH3_uni5 22499
+#def  __Init____ETH3_uni5 ETH3_uni5
+#def  ETH3_uni6 26595
+#def  __Init____ETH3_uni6 ETH3_uni6
+#def  ETH3_uni7 30691
+#def  __Init____ETH3_uni7 ETH3_uni7
+#def  ETH4_uni0 2020
+#def  __Init____ETH4_uni0 ETH4_uni0
+#def  ETH4_uni1 6116
+#def  __Init____ETH4_uni1 ETH4_uni1
+#def  ETH4_uni2 10212
+#def  __Init____ETH4_uni2 ETH4_uni2
+#def  ETH4_uni3 14308
+#def  __Init____ETH4_uni3 ETH4_uni3
+#def  ETH4_uni4 18404
+#def  __Init____ETH4_uni4 ETH4_uni4
+#def  ETH4_uni5 22500
+#def  __Init____ETH4_uni5 ETH4_uni5
+#def  ETH4_uni6 26596
+#def  __Init____ETH4_uni6 ETH4_uni6
+#def  ETH4_uni7 30692
+#def  __Init____ETH4_uni7 ETH4_uni7
+#def  CH1_uni 257
+#def  __Init____CH1_uni CH1_uni
+#def  CH2_uni 514
+#def  __Init____CH2_uni CH2_uni
+#def  CH3_uni 259
+#def  __Init____CH3_uni CH3_uni
+#def  CH4_uni 516
+#def  __Init____CH4_uni CH4_uni
+#def  CH5_uni 261
+#def  __Init____CH5_uni CH5_uni
+#def  CH6_uni 518
+#def  __Init____CH6_uni CH6_uni
+#def  CH7_uni 263
+#def  __Init____CH7_uni CH7_uni
+#def  CH8_uni 520
+#def  __Init____CH8_uni CH8_uni
+#def  CH9_uni 265
+#def  __Init____CH9_uni CH9_uni
+#def  CH10_uni 522
+#def  __Init____CH10_uni CH10_uni
+#def  ETH1 225
+#def  __Init____ETH1 ETH1
+#def  ETH2 226
+#def  __Init____ETH2 ETH2
+#def  ETH3 227
+#def  __Init____ETH3 ETH3
+#def  ETH4 228
+#def  __Init____ETH4 ETH4
+#def  SCH1 1
+#def  __Init____SCH1 SCH1
+#def  SCH2 2
+#def  __Init____SCH2 SCH2
+#def  SCH3 3
+#def  __Init____SCH3 SCH3
+#def  SCH4 4
+#def  __Init____SCH4 SCH4
+#def  SCH5 5
+#def  __Init____SCH5 SCH5
+#def  SCH6 6
+#def  __Init____SCH6 SCH6
+#def  SCH7 7
+#def  __Init____SCH7 SCH7
+#def  SCH8 8
+#def  __Init____SCH8 SCH8
+#def  SCH9 9
+#def  __Init____SCH9 SCH9
+#def  SCH10 10
+#def  __Init____SCH10 SCH10
+#def  COM_OK 0
+#def  __Init____COM_OK COM_OK
+#def  COM_ERR1 1
+#def  __Init____COM_ERR1 COM_ERR1
+#def  COM_ERR2 2
+#def  __Init____COM_ERR2 COM_ERR2
+#def  COM_ERR3 3
+#def  __Init____COM_ERR3 COM_ERR3
+#def  COM_ERR4 4
+#def  __Init____COM_ERR4 COM_ERR4
+#def  COM_ERR5 5
+#def  __Init____COM_ERR5 COM_ERR5
+#def  COM_ERR6 6
+#def  __Init____COM_ERR6 COM_ERR6
+#def  COM_ERR7 7
+#def  __Init____COM_ERR7 COM_ERR7
+#def  COM_ERR8 8
+#def  __Init____COM_ERR8 COM_ERR8
+#def  COM_ERR16 16
+#def  __Init____COM_ERR16 COM_ERR16
+#def  COM_ERR17 17
+#def  __Init____COM_ERR17 COM_ERR17
+#def  COM_ERR18 18
+#def  __Init____COM_ERR18 COM_ERR18
+#def  COM_ERR19 19
+#def  __Init____COM_ERR19 COM_ERR19
+#def  COM_ERR20 20
+#def  __Init____COM_ERR20 COM_ERR20
+#def  COM_ERR24 24
+#def  __Init____COM_ERR24 COM_ERR24
+#def  COM_ERR25 25
+#def  __Init____COM_ERR25 COM_ERR25
+#def  COM_ERR49 49
+#def  __Init____COM_ERR49 COM_ERR49
+#def  COM_ERR50 50
+#def  __Init____COM_ERR50 COM_ERR50
+#def  COM_ERR64 64
+#def  __Init____COM_ERR64 COM_ERR64
+#def  COM_ERRc6 198
+#def  __Init____COM_ERRc6 COM_ERRc6
+
+#defpou __LATENT_INSTANCE GetChanDesc
+  TUniDesc __fc__GetChanDesc,
+  uint chanCode  ;channel code (ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH2_uni7)
+
+
+#defpou __LATENT_INSTANCE GetChanIndex
+  int __fc__GetChanIndex,
+  uint chanCode  ;kÛd kan·lu
+
+
+; Global variables
+#data byte __Init____ComErrorString = 
+  'N','o',' ','e','r','r','o','r',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,
+  'C','h','a','n','n','e','l',' ','i','s',' ','n','o','t',' ','i','n',' ','u','n',
+  'i',' ','m','o','d','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  $00,'S','e','n','d','i','n','g',' ','d','a','t','a',' ','a','r','e',' ','t','o',
+  'o',' ','l','o','n','g',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',$00,'R','e','c','e','i','v','e','d',' ','d','a','t','a',' ','a','r','e',' ',
+  't','o','o',' ','l','o','n','g',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',$00,'W','r','o','n','g',' ','c','h','a','n','n','e','l',' ','c','o','d',
+  'e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',$00,'P','r','e','v','i','o','u','s',' ','m','e','s','s','a','g','e',
+  ' ','i','s',' ','n','o','t',' ','s','e','n','t',' ','y','e','t',' ',' ',' ',' ',
+  ' ',' ',' ',' ',$00,'Z','e','r','o',' ','m','e','s','s','a','g','e',' ','l','e',
+  'n','g','t','h',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',$00,'I','n','v','a','l','i','d',' ','c','o','m','m','u','n',
+  'i','c','a','t','i','o','n',' ','s','p','e','e','d',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',$00,'C','h','a','n','n','e','l',' ','i','s',' ','d','i',
+  's','a','b','l','e','d',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',$00,'I','n','v','a','l','i','d',' ','s','t','a','r',
+  't',' ','d','e','l','i','m','i','t','e','r',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',$00,'P','a','r','i','t','y',' ','e','r','r','o',
+  'r',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'M','a','x','i','m','u','m',' ','m','e',
+  's','s','a','g','e',' ','l','e','n','g','t','h',' ','e','x','c','e','e','d','e',
+  'd',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'I','n','v','a','l','i','d',' ','s',
+  'e','c','o','n','d',' ','b','y','t','e',' ','o','f',' ','a','c','k','n','o','w',
+  'l','e','d','g','m','e','n','t',' ',' ',' ',$00,'I','n','v','a','l','i','d',' ',
+  's','e','c','o','n','d',' ','b','y','t','e',' ','o','f',' ','e','n','d',' ','d',
+  'e','l','i','m','i','t','e','r',' ',' ',' ',' ',$00,'C','h','e','c','k',' ','s',
+  'u','m',' ','e','r','r','o','r',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'I','n','v','a','l','i',
+  'd',' ','e','n','d',' ','d','e','l','i','m','i','t','e','r',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'I','n','v','a','l',
+  'i','d',' ','l','e','n','g','t','h',' ','o','f',' ','s','e','n','t',' ','d','a',
+  't','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'S','e','n','t',
+  ' ','d','a','t','a',' ','z','e','r','o',' ','l','e','n','g','t','h',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'T','i','m',
+  'e','o','u','t',' ','n','o','t',' ','h','e','l','d',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'I','n',
+  'v','a','l','i','d',' ','c','h','a','n','n','e','l',' ','m','o','d','e',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00,'U',
+  'n','k','n','o','w','n',' ','e','r','r','o','r',' ',' ',' ',' ',' ',' ',' ',' ',
+  ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',$00;
+
+#def  ComErrorString string[21] __Init____ComErrorString
+
+#defpou __LATENT_INSTANCE GetLastComErrTxt
+  string[81] __fc__GetLastComErrTxt,
+  usint errCode  ;chybov˝ kÛd
+
+
+#defpou __LATENT_INSTANCE GetChanSettings
+  bool __fc__GetChanSettings,
+  usint serChan,  ;ËÌslo sÈriovÈho kan·lu (SCH1, ..., SCH10)
+  pointer chanSet  ;aktu·lnÌ nastavenÌ sÈriovÈho kan·lu
+
+
+#defpou __LATENT_INSTANCE SetChanSettings
+  usint __fc__SetChanSettings,
+  bool rq,  ;é·dost o novÈ nastavenÌ
+  usint serChan,  ;ËÌslo sÈriovÈho kan·lu (SCH1, ..., SCH10)
+  pointer chanSet  ;NovÈ natavenÌ sÈriovÈho kan·lu
+
+
+#data byte __Init___GetChanStat_initStat = 
+    0;
+#def __Const__GetChanStat_initStat TUni_STAT __Init___GetChanStat_initStat
+#defpou __LATENT_INSTANCE GetChanStat
+  TUni_STAT __fc__GetChanStat,
+  uint chanCode  ;kÛd kan·lu (CH1_uni, ..., CH10_uni, ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH2_uni7)
+
+
+#defpou __LATENT_INSTANCE EstabTCPconnection
+  usint __fc__EstabTCPconnection,
+  uint chanCode  ;kÛd kan·lu (ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH2_uni7)
+
+
+#defpou __LATENT_INSTANCE CloseTCPconnection
+  usint __fc__CloseTCPconnection,
+  uint chanCode  ;kÛd kan·lu (ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH2_uni7)
+
+
+#defpou __LATENT_INSTANCE IsEstabTCPconnection
+  bool __fc__IsEstabTCPconnection,
+  uint chanCode  ;kÛd kan·lu (ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH2_uni7)
+
+
+#defpou __LATENT_INSTANCE SetRemoteIPaddress
+  bool __fc__SetRemoteIPaddress,
+  bool rq,  ;û·dost o novÈ nastavenÌ
+  uint chanCode,  ;kÛd kan·lu (ETH1_uni0, ..., ETH1_uni7)
+  pointer ethAdr  ;novÈ nastavenÌ
+
+
+#defpou __LATENT_INSTANCE GetRemoteIPaddress
+  bool __fc__GetRemoteIPaddress,
+  uint chanCode,  ;kÛd kan·lu (ETH1_uni0, ..., ETH1_uni7)
+  pointer ethAdr  ;aktu·lnÌ nastavenÌ
+
+
+; Global variables
+#def  MAX_LENGHT_OF_WEB_USER_NAME 10
+#def  __Init____MAX_LENGHT_OF_WEB_USER_NAME MAX_LENGHT_OF_WEB_USER_NAME
+#def  HTTP_URI_SIZE 65
+#def  __Init____HTTP_URI_SIZE HTTP_URI_SIZE
+
+; Global types
+#def  T_SESSION_STATE usint   ; ENUM Type 
+
+; Global types
+#struct  TWebServerAccess
+  usint state,  ;stav p¯ihl·öenÌ
+  string[11] user,  ;jmÈno uûivatele
+  usint level,  ;˙roveÚ p¯ihl·öenÌ
+  usint error,  ;kÛd chyby
+  TIPadr IP,  ;IP adresa uûivatele
+  string[66] lastFile  ;n·zev poslednÌho poûadovanÈho souboru
+
+; Global types
+#def  TWebServerAccessTable TWebServerAccess[8]  ;p¯Ìstupov· tabulka web serveru PLC
+
+#defpou __LATENT_INSTANCE GetWebServerAccess
+  bool __fc__GetWebServerAccess,
+  pointer accessTable  ;p¯Ìstupov· tabulka web serveru PLC
+
+
+#defpou __LATENT_INSTANCE SetRTS
+  bool __fc__SetRTS,
+  uint chanCode,  ;kÛd kan·lu (CH1_uni, ..., CH10_uni)
+  bool value,  ;hodnota RTS
+  pointer pUniOut
+
+
+#defpou __LATENT_INSTANCE GetRTS
+  bool __fc__GetRTS,
+  uint chanCode,  ;kÛd kan·lu (CH1_uni, ..., CH10_uni)
+  pointer pUniOut
+
+
+#defpou __LATENT_INSTANCE MACADR_TO_STRING
+  string[19] __fc__MACADR_TO_STRING,
+  TMacAdr macAdr  ;pole s MAC adresou
+
+
+#defpou fbSendTo
+  bool rq,  ;û·dost o vysÌl·nÌ
+  uint chanCode,  ;kÛd kan·lu (CH1_uni, ..., CH10_uni, ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH4_uni7)
+  uint lenTx,  ;velikost zpr·vy (poËet byt˘)
+  pointer data,  ;buffer pro vysÌlanou zpr·vu
+  bool mesSent,  ;vysÌl·nÌ zpr·vy bylo zah·jeno
+  usint error,  ;chybov˝ kÛd
+  uint lenData,  ;velikost skuteËnÏ odvysÌlanÈ zpr·vy
+  pointer pUniOut,
+  pointer pUniIn,
+  pointer pUniOutData
+
+
+#defpou fbRecvFrom
+  bool rq,  ;û·dost o p¯Ìjem
+  uint chanCode,  ;kÛd kan·lu (CH1_uni, ..., CH10_uni, ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH4_uni7)
+  uint lenRx,  ;max. moûn· dÈlka p¯ijat˝ch dat
+  pointer data,  ;buffer pro p¯ijatou zpr·vu
+  bool mesRec,  ;p¯Ìznak novÏ p¯ijatÈ zpr·vy
+  usint error,  ;chybov˝ kÛd
+  uint lenData,  ;velikost skuteËnÏ p¯ijatÈ zpr·vy (poËet byt˘)
+  pointer pUniIn,
+  pointer pUniInData,
+  bool oldARC  ;ARRAY[0..39] OF BOOL;
+
+
+#defpou fbRecvTxt
+  bool getMes,  ;Vybere zpr·vu z bufferu
+  bool reset,  ;Vymaûe buffer
+  uint chanCode,  ;KÛd kan·lu (CH1_uni, ..., CH10_uni, ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH4_uni7)
+  uint lenBuf,  ;DÈlka pracovniho bufferu
+  uint lenTxt,  ;DÈlka txtMes
+  bool full,  ;Buffer je pln˝, zpr·vy nebyly odebÌr·ny dostateËnÏ rychle
+  uint lenMes,  ;DÈlka p¯ijatÈho textu
+  usint error,  ;chybov˝ kÛd
+  uint actPos,
+  fbRecvFrom RecvFrom,
+  pointer buffer,  ;PrvnÌ byte pracovniho bufferu
+  pointer txtMes  ;PrvnÌ znak p¯ijatÈho textu
+
+
+#defpou fbRecvTxtChar
+  bool getMes,  ;Vybere zpr·vu z bufferu
+  bool reset,  ;Vymaûe buffer
+  uint chanCode,  ;KÛd kan·lu (CH1_uni, ..., CH10_uni, ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH4_uni7)
+  uint lenBuf,  ;DÈlka pracovniho bufferu
+  uint lenTxt,  ;DÈlka txtMes
+  byte delimiter,  ;oddÏlovacÌ znak
+  bool full,  ;Buffer je pln˝, zpr·vy nebyly odebÌr·ny dostateËnÏ rychle
+  uint lenMes,  ;DÈlka p¯ijatÈho textu
+  usint error,  ;chybov˝ kÛd
+  uint actPos,
+  fbRecvFrom RecvFrom,
+  pointer buffer,  ;PrvnÌ byte pracovniho bufferu
+  pointer txtMes  ;PrvnÌ znak p¯ijatÈho textu
+
+
+#defpou __LATENT_INSTANCE GetIPaddress
+  bool __fc__GetIPaddress,
+  usint ethChan,  ;ËÌslo Ethernet kan·lu (ETH1, ETH2, ETH3)
+  pointer ethAdr  ;aktu·lnÌ IP adresa, maska a adresa br·ny sÌtÏ
+
+
+#defpou __LATENT_INSTANCE SetIPaddress
+  bool __fc__SetIPaddress,
+  bool rq,  ;û·dost o nastavenÌ nov˝ch hodnot
+  usint ethChan,  ;ËÌslo Ethernet kan·lu (ETH1, ETH2, ETH3)
+  pointer ethAdr  ;nov· IP adresa, maska sÌtÏ a adresa br·ny
+
+
+#defpou __LATENT_INSTANCE GetMACaddress
+  bool __fc__GetMACaddress,
+  usint ethChan,  ;ËÌslo Ethernet kan·lu (ETH1, ETH2, ETH3)
+  pointer MacAdr  ;aktu·lnÌ MAC adresa
+
+
+#defpou __LATENT_INSTANCE SetDHCPsupport
+  bool __fc__SetDHCPsupport,
+  bool rq,  ;û·dost o zapnutÌ podpory DHCP
+  usint ethChan  ;ËÌslo Ethernet kan·lu (pouze ETH1)
+
+
+#defpou __LATENT_INSTANCE GetDNS_IP
+  TIPadr __fc__GetDNS_IP,  ;IP adresa
+  usint ethChan  ;ËÌslo Ethernet kan·lu (pouze ETH1)
+
+
+#defpou __LATENT_INSTANCE SetDNS_IP
+  bool __fc__SetDNS_IP,
+  bool rq,  ;û·dost o nastavenÌ novÈ IP adresy DNS serveru
+  usint ethChan,  ;ËÌslo Ethernet kan·lu (pouze ETH1)
+  TIPadr DNS_IP  ;IP adresa DNS serveru
+
+
+#defpou __LATENT_INSTANCE STRING_TO_IPADR
+  TIPadr __fc__STRING_TO_IPADR,  ;IP adresa
+  string[81] IPAdr  ;¯etÏzec s IP adresou
+
+
+#defpou __LATENT_INSTANCE IPADR_TO_STRING
+  string[81] __fc__IPADR_TO_STRING,
+  TIPadr IPAdr  ;pole s IP adresou
+
+
+#defpou fbKeepAliveTCP
+  bool rq,  ;û·dost o udrûov·nÌ spojenÌ
+  uint chanCode,  ;kÛd kan·lu (ETH1_uni0, ..., ETH1_uni7, ETH2_uni0, ..., ETH2_uni7)
+  time PT,  ;interval odesÌl·nÌ udrûovacÌch paket˘ (T#5s...T#60s)
+  usint error,  ;chybov˝ kÛd
+  fbTick tick
+
+
+#defpou __LATENT_INSTANCE CheckGatewayIP
+  bool __fc__CheckGatewayIP,
+  usint ethChan  ;ËÌslo Ethernet kan·lu (ETH1, ETH2, ETH3)
+
+
+; Global types
+#def  HANDLE udint  ;identifik·tor souboru
+
+; Global types
+#struct  TDirStack
+  HANDLE hDir,  ;identifik·tor souboru
+  string[13] sDir
+
+; Global variables
+#def  INVALID_HANDLE_VALUE 0
+#def  __Init____INVALID_HANDLE_VALUE INVALID_HANDLE_VALUE
+#def  MAX_PATH 65
+#def  __Init____MAX_PATH MAX_PATH
+#def  MAX_COUNT_OPEN_FILES 16
+#def  __Init____MAX_COUNT_OPEN_FILES MAX_COUNT_OPEN_FILES
+#def  DIR_STACK_MAX_LEVEL 4
+#def  __Init____DIR_STACK_MAX_LEVEL DIR_STACK_MAX_LEVEL
+
+; Global types
+#struct  TFileInfo
+  date_and_time creationTime,  ;Ëas vytvo¯enÌ souboru
+  date_and_time modifyTime,  ;Ëas poslednÌ modifikace
+  udint fileSize,  ;velikost souboru (poËet byt˘)
+  dword attrib,  ;atributy souboru
+  string[81] fileName,  ;jmÈno souboru
+  byte empty
+
+; Global types
+#struct  TDiskInfo
+  udint TotalNumberOfKBytes,  ;velikost disku (poËet kilobyt˘)
+  udint TotalNumberOfFreeKBytes  ;volnÈ mÌsto na disku (poËet kilobyt˘)
+
+; Global types
+#def  TF_MODE usint   ; ENUM Type 
+
+#defpou __LATENT_INSTANCE FileOpen
+  HANDLE __fc__FileOpen,  ;identifik·tor souboru
+  usint mode,  ;zp˘sob p¯Ìstupu k souboru (F_READ / F_WRITE / F_APPEND)
+  pointer fileName  ;jmÈno souboru (vËetnÏ cesty)
+
+
+#defpou __LATENT_INSTANCE FileClose
+  bool __fc__FileClose,
+  HANDLE hFile  ;identifik·tor souboru
+
+
+#defpou __LATENT_INSTANCE FileDelete
+  bool __fc__FileDelete,
+  pointer fileName  ;jmÈno souboru (vËetnÏ cesty)
+
+
+#defpou __LATENT_INSTANCE FileRead
+  udint __fc__FileRead,
+  HANDLE hFile,  ;identifik·tor souboru
+  udint adrBuf,  ;adresa promÏnnÈ, do kterÈ budou zkopÌrovan· data ze souboru
+  udint size  ;dÈlka Ëten˝ch dat (poËet byt˘)
+
+
+#defpou __LATENT_INSTANCE FileWrite
+  udint __fc__FileWrite,
+  HANDLE hFile,  ;identifik·tor souboru
+  udint adrBuf,  ;adresa promÏnnÈ, ze kterÈ budou zkopÌrovan· data do souboru
+  udint size  ;dÈlka zapisovan˝ch dat (poËet byt˘)
+
+
+; Global variables
+#def  BEGIN_POS 0
+#def  __Init____BEGIN_POS BEGIN_POS
+#def  END_POS 4294967295
+#def  __Init____END_POS END_POS
+
+#defpou __LATENT_INSTANCE FileSetPos
+  bool __fc__FileSetPos,
+  HANDLE hFile,  ;identifik·tor souboru
+  udint offset  ;pozice v souboru
+
+
+#defpou __LATENT_INSTANCE FileExists
+  bool __fc__FileExists,
+  pointer fileName  ;jmÈno souboru (vËetnÏ cesty)
+
+
+; Global variables
+#def  UNKNOWN_SIZE 4294967295
+#def  __Init____UNKNOWN_SIZE UNKNOWN_SIZE
+
+#defpou __LATENT_INSTANCE FileSize
+  udint __fc__FileSize,
+  HANDLE hFile  ;identifik·tor souboru
+
+
+#defpou __LATENT_INSTANCE DirOpen
+  HANDLE __fc__DirOpen,  ;identifik·tor souboru
+  pointer dirName,  ;jmÈno adres·¯e (vËetnÏ cesty)
+  pointer dirInfo  ;struktura s informacemi o prvnÌm souboru v adres·¯i
+
+
+#defpou __LATENT_INSTANCE DirClose
+  bool __fc__DirClose,
+  HANDLE hDir  ;identifik·tor souboru
+
+
+#defpou __LATENT_INSTANCE DirRead
+  bool __fc__DirRead,
+  HANDLE hDir,  ;identifik·tor souboru
+  pointer dirInfo  ;struktura s informacemi o dalöÌm souboru v adres·¯i
+
+
+#defpou __LATENT_INSTANCE DirCreate
+  bool __fc__DirCreate,
+  pointer dirName  ;jmÈno adres·¯e (vËetnÏ cesty)
+
+
+#defpou __LATENT_INSTANCE DirDelete
+  bool __fc__DirDelete,
+  pointer dirName  ;jmÈno adres·¯e (vËetnÏ cesty)
+
+
+#defpou __LATENT_INSTANCE GetLastErr
+  udint __fc__GetLastErr
+
+
+#defpou __LATENT_INSTANCE GetLastErrTxt
+  bool __fc__GetLastErrTxt,
+  udint errCode,  ;chybov˝ kÛd
+  pointer errMessage  ;textov˝ popis chyby
+
+
+#defpou __LATENT_INSTANCE DiskInfo
+  bool __fc__DiskInfo,
+  pointer diskName,  ;n·zev disku (pr·zdn˝ string pro default disk)
+  pointer diskDesc  ;informace o disku
+
+
+#defpou __LATENT_INSTANCE FindFreeCluster
+  byte __fc__FindFreeCluster,
+  pointer fileName  ;jmÈno souboru (vËetnÏ cesty)
+
+
+#defpou __LATENT_INSTANCE FileInfo
+  bool __fc__FileInfo,
+  pointer fileName,  ;jmÈno adres·¯e (vËetnÏ cesty)
+  pointer fileDesc  ;struktura s informacemi o souboru
+
+
+#defpou __LATENT_INSTANCE CloseAllFiles
+  bool __fc__CloseAllFiles
+
+
+#defpou __LATENT_INSTANCE OpenFilesCount
+  uint __fc__OpenFilesCount
+
+
+#defpou ReadFromFile
+  pointer fileName,  ;jmÈno souboru (vËetnÏ cesty)
+  pointer dstVar,  ;adresa promÏnnÈ, do kterÈ budou uloûena data p¯eËten· ze souboru
+  bool exec,  ;û·dost o ËtenÌ = n·bÏûn· hrana zah·jÌ ËtenÌ ze souboru
+  udint seek,  ;offset od zaË·tku souboru, od kterÈho je ËtenÌ zah·jeno
+  udint size,  ;Poûadovan· velikost Ëten˝ch dat (poËet byt˘)
+  bool done,  ;ËtenÌ ze souboru je ukonËeno
+  bool busy,  ;probÌh· ËtenÌ ze souboru
+  bool err,  ;p¯Ìznak chyby p¯i ËtenÌ ze souboru
+  udint errID,  ;chybov˝ kÛd (0 = bez chyby)
+  udint actSize,  ;poËet skuteËnÏ naËten˝ch byt˘
+  R_TRIG execTrig,
+  R_TRIG errTrig,
+  HANDLE hnd,  ;identifik·tor souboru
+  udint adrVar
+
+
+#defpou WriteToFile
+  pointer fileName,  ;jmÈno souboru (vËetnÏ cesty)
+  pointer srcVar,  ;adresa promÏnnÈ, jejÌû obsah bude zaps·n souboru
+  bool exec,  ;û·dost o z·pis = n·bÏûn· hrana zah·jÌ z·pis do souboru
+  udint seek,  ;offset v souboru, od kterÈho je zah·jen z·pis
+  udint size,  ;velikost zapisovan˝ch dat (poËet byt˘)
+  bool done,  ;z·pis do souboru byl dokonËen
+  bool busy,  ;probÌh· z·pis do souboru
+  bool err,  ;p¯Ìznak chyby p¯i z·pisu do souboru
+  udint errID,  ;chybov˝ kÛd (0 = bez chyby)
+  udint actSize,  ;poËet skuteËnÏ zapsan˝ch byt˘
+  R_TRIG eTrig,
+  R_TRIG errTrig,
+  HANDLE hnd,  ;identifik·tor souboru
+  udint adrVar,
+  uint idle
+
+
+#defpou CreatePath
+  bool exec,  ;û·dost o vytvo¯enÌ cesty = n·bÏûn· hrana zah·jÌ kontrolu resp. vytv·¯enÌ cesty
+  pointer fileName,  ;jmÈno adres·¯e vËetnÏ cesty (nap¯. WWW/NEW_DIR/)
+  bool done,  ;cesta byla vytvo¯ena
+  bool busy,  ;probÌh· vytv·¯enÌ cesty
+  bool err,  ;p¯Ìznak chyby p¯i vytv·¯enÌ cesty
+  udint errID,  ;chybov˝ kÛd (0 = bez chyby)
+  R_TRIG eTrig,  ;rising edge of exec
+  R_TRIG errTrig,  ;rising edge of err
+  bool createDir,
+  string[81] path,
+  string[81] copy,
+  uint idle
+
+
+#defpou WriteDbxToFile
+  pointer fileName,  ;jmÈno souboru (vËetnÏ cesty)
+  bool exec,  ;û·dost o z·pis = n·bÏûn· hrana zah·jÌ z·pis do souboru
+  udint seek,  ;offset v souboru, od kterÈho je zah·jen z·pis
+  udint srcAdr,  ;adresa v DataBoxu, kde zaËÌnajÌ data, kter· budou uloûena do souboru
+  udint size,  ;velikost zapisovan˝ch dat (poËet byt˘)
+  bool done,  ;dokonËen z·pis do souboru
+  bool busy,  ;probÌh· z·pis do souboru
+  bool err,  ;p¯Ìznak chyby p¯i z·pisu do souboru
+  udint errID,  ;chybov˝ kÛd (0 = bez chyby)
+  udint actSize,  ;poËet skuteËnÏ zapsan˝ch byt˘
+  R_TRIG eTrig,
+  R_TRIG errTrig,
+  HANDLE hnd,  ;identifik·tor souboru
+  udint adrVar,
+  uint idle
+
+
+#defpou ReadDbxFromFile
+  pointer fileName,  ;jmÈno souboru (vËetnÏ cesty)
+  bool exec,  ;û·dost o ËtenÌ = n·bÏûn· hrana zah·jÌ ËtenÌ ze souboru
+  udint seek,  ;offset od zaË·tku souboru, od kterÈho je zah·jeno ËtenÌ
+  udint dstAdr,  ;adresa DataBoxu, od kterÈ budou uloûena data p¯eËten· ze souboru
+  udint size,  ;velikost Ëten˝ch dat (poËet byt˘)
+  bool done,  ;ËtenÌ ze souboru je ukonËeno
+  bool busy,  ;probÌh· ËtenÌ ze souboru
+  bool err,  ;p¯Ìznak chyby p¯i ËtenÌ ze souboru
+  udint errID,  ;
+  udint actSize,  ;poËet skuteËnÏ naËten˝ch byt˘
+  R_TRIG execTrig,
+  R_TRIG errTrig,
+  HANDLE hnd,  ;identifik·tor souboru
+  udint adrVar
+
+
+#defpou WriteToFileSeq
+  pointer fileName,  ;jmÈno souboru (vËetnÏ cesty)
+  pointer srcVar,  ;adresa promÏnnÈ, jejÌû obsah bude zaps·n souboru
+  bool write,  ;û·dost o z·pis do souboru
+  bool close,  ;û·dost o uzav¯enÌ souboru
+  udint size,  ;velikost zapisovan˝ch dat (poËet byt˘)
+  bool open,  ;soubor je aktu·lnÏ otev¯en pro z·pis
+  bool err,  ;p¯Ìznak chyby p¯i z·pisu do souboru
+  udint errID,  ;chybov˝ kÛd (0 = bez chyby)
+  udint actSize,  ;aktu·lnÌ velikost souboru (poËet byt˘)
+  R_TRIG errTrig,
+  udint wrSize,
+  HANDLE hnd  ;identifik·tor souboru
+
+
+#defpou DeleteDirectories
+  bool exec,  ;û·dost o smaz·nÌ
+  pointer dirName,  ;jmÈno adres·¯e (vËetnÏ cesty)
+  TDirStack[5] dirStack,
+  string[81] CurrFile,
+  usint dirStackLev,
+  usint i,
+  TFileInfo lLocalFileInfo,
+  bool Done,
+  bool Busy,
+  bool Err,
+  bool __EDGE_R__exec
+
+
+#data byte __Init___ReadLine_SEPARATOR = 
+   10,  0;
+#def  __Const__ReadLine_SEPARATOR byte[2] __Init___ReadLine_SEPARATOR
+#defpou ReadLine
+  udint line,  ;»Ìslo û·danÈho ¯·dku (1..n)
+  udint maxLen,  ;MaximalnÌ dÈlka ¯·dku
+  pointer fileName,  ;JmÈno souboru i s cestou
+  pointer txtLine,  ;NaËten˝ ¯·dek ze souboru
+  bool done,  ;»tenÌ ze souboru je ukonËeno
+  bool busy,  ;Zanepr·zdnÏn ËtenÌm ze souboru
+  bool err,  ;P¯Ìznak chyby
+  bool lineContinues,  ;ÿ·dek byl delöÌ neû maxim·lnÌ dÈlka a bude pokraËovat
+  udint actLine,  ;»Ìslo aktu·lnÏ naËtenÈho ¯·dku
+  udint errID,  ;Chybov˝ kÛd (0 = bez chyby)
+  string[81] errTxt,  ;Text poslednÌ chyby
+  udint lastLine,  ;cislo naposled hledaneho radku
+  string[81] lastFile,  ;jmeno souboru, se kterym se naposledy pracovalo
+  udint actPos,  ;aktualni pozice v souboru (offset od zacatku)
+  udint actSize,  ;pocet znaku nactenych ze souboru
+  int i,
+  int index,
+  uint outidx,
+  bool bufTxtReady,
+  bool newFile,
+  bool newFileTest,
+  TFileInfo fileInf,  ;struktura s informacemi o souboru
+  word empty,
+  ReadFromFile ReadFile
+
+
+#defpou __LATENT_INSTANCE USINT_TO_STRINGF
+  string[81] __fc__USINT_TO_STRINGF,
+  usint in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE SINT_TO_STRINGF
+  string[81] __fc__SINT_TO_STRINGF,
+  sint in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE UINT_TO_STRINGF
+  string[81] __fc__UINT_TO_STRINGF,
+  uint in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE INT_TO_STRINGF
+  string[81] __fc__INT_TO_STRINGF,
+  int in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE UDINT_TO_STRINGF
+  string[81] __fc__UDINT_TO_STRINGF,
+  udint in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE DINT_TO_STRINGF
+  string[81] __fc__DINT_TO_STRINGF,
+  dint in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE REAL_TO_STRINGF
+  string[81] __fc__REAL_TO_STRINGF,
+  real in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE LREAL_TO_STRINGF
+  string[81] __fc__LREAL_TO_STRINGF,
+  lreal in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE BYTE_TO_STRINGF
+  string[81] __fc__BYTE_TO_STRINGF,
+  byte in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE WORD_TO_STRINGF
+  string[81] __fc__WORD_TO_STRINGF,
+  word in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE DWORD_TO_STRINGF
+  string[81] __fc__DWORD_TO_STRINGF,
+  dword in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE DATE_TO_STRINGF
+  string[81] __fc__DATE_TO_STRINGF,
+  date in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE DT_TO_STRINGF
+  string[81] __fc__DT_TO_STRINGF,
+  date_and_time in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE TIME_TO_STRINGF
+  string[81] __fc__TIME_TO_STRINGF,
+  time in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE TOD_TO_STRINGF
+  string[81] __fc__TOD_TO_STRINGF,
+  time_of_day in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+#defpou __LATENT_INSTANCE BOOL_TO_STRINGF
+  string[81] __fc__BOOL_TO_STRINGF,
+  bool in,
+  string[81] format  ; form·tovacÌ ¯etÏzec
+
+
+; Global types
+#struct  LONGTIME
+  dint Days,  ;PoËet dn˘
+  time TimeOfDay  ;»as ve dni
+
+#defpou __LATENT_INSTANCE DATE_OF_DT
+  date __fc__DATE_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE TIME_OF_DT
+  time __fc__TIME_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE YEAR_OF_DT
+  uint __fc__YEAR_OF_DT,
+  date_and_time in,  ;VstupnÌ promÏnn·
+  string[31] s
+
+
+#defpou __LATENT_INSTANCE MONTH_OF_DT
+  usint __fc__MONTH_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE DAY_OF_DT
+  usint __fc__DAY_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE HOUR_OF_DT
+  usint __fc__HOUR_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE MIN_OF_DT
+  usint __fc__MIN_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE SEC_OF_DT
+  usint __fc__SEC_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE MSEC_OF_DT
+  uint __fc__MSEC_OF_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE CutMSec_From_DT
+  date_and_time __fc__CutMSec_From_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE CutSec_From_DT
+  date_and_time __fc__CutSec_From_DT,
+  date_and_time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE YEAR_OF_DATE
+  uint __fc__YEAR_OF_DATE,
+  date in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE MONTH_OF_DATE
+  usint __fc__MONTH_OF_DATE,
+  date in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE DAY_OF_DATE
+  usint __fc__DAY_OF_DATE,
+  date in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE DAY_OF_YEAR
+  uint __fc__DAY_OF_YEAR,
+  date in,  ;VstupnÌ promÏnn·
+  uint year,
+  string[81] tmp,
+  date yearD,
+  lreal secOfYear
+
+
+#defpou __LATENT_INSTANCE HOUR_OF_TIME
+  usint __fc__HOUR_OF_TIME,
+  time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE MIN_OF_TIME
+  usint __fc__MIN_OF_TIME,
+  time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE SEC_OF_TIME
+  usint __fc__SEC_OF_TIME,
+  time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE MSEC_OF_TIME
+  uint __fc__MSEC_OF_TIME,
+  time in  ;VstupnÌ promÏnn·
+
+
+#defpou __LATENT_INSTANCE DecodeTime
+  bool __fc__DecodeTime,
+  time in,  ;VstupnÌ promÏnn·
+  pointer H,  ;Hodiny
+  pointer M,  ;Minuty
+  pointer S,  ;Sekundy
+  pointer Ms  ;Milisekundy
+
+
+#defpou __LATENT_INSTANCE EncodeTime
+  time __fc__EncodeTime,
+  usint H,  ;Hodiny
+  usint M,  ;Minuty
+  usint S,  ;Sekundy
+  uint Ms  ;Milisekundy
+
+
+#defpou __LATENT_INSTANCE MUL_TIME_REAL
+  time __fc__MUL_TIME_REAL,
+  time IN1,  ;»ase k vyn·sobenÌ
+  real IN2  ;N·sobitel
+
+
+#defpou __LATENT_INSTANCE MUL_TIME_LREAL
+  time __fc__MUL_TIME_LREAL,
+  time IN1,  ;»ase k vyn·sobenÌ
+  lreal IN2  ;N·sobitel
+
+
+#defpou __LATENT_INSTANCE DIV_TIME_REAL
+  time __fc__DIV_TIME_REAL,
+  time IN1,  ;»ase k vydÏlenÌ
+  real IN2  ;DÏlitel
+
+
+#defpou __LATENT_INSTANCE DIV_TIME_LREAL
+  time __fc__DIV_TIME_LREAL,
+  time IN1,  ;»ase k vydÏlenÌ
+  lreal IN2  ;DÏlitel
+
+
+; Global variables
+#data byte __Init____MonthsNamesRFC2822 = 
+  'J','a','n',$00,'F','e','b',$00,'M','a','r',$00,'A','p','r',$00,'M','a','y',$00,'J',
+  'u','n',$00,'J','u','l',$00,'A','u','g',$00,'S','e','p',$00,'O','c','t',$00,'N',
+  'o','v',$00,'D','e','c',$00;
+#def  MonthsNamesRFC2822 string[12] __Init____MonthsNamesRFC2822
+
+#defpou __LATENT_INSTANCE GetDateAndTime_RFC2822
+  string[27] __fc__GetDateAndTime_RFC2822,
+  int UtcOff,  ;Posun ËasovÈho p·sma v minut·ch
+  string[81] Format
+
+
+#defpou __LATENT_INSTANCE WeekNumber
+  usint __fc__WeekNumber,
+  date_and_time IN  ;»as ke kterÈmu se vypoËte ËÌslo t˝dnu
+
+
+#defpou __LATENT_INSTANCE TIME_TO_REALsec
+  real __fc__TIME_TO_REALsec,
+  time IN  ;»as
+
+
+#defpou __LATENT_INSTANCE LONGTIME_TO_LREAL
+  lreal __fc__LONGTIME_TO_LREAL,
+  LONGTIME IN
+
+
+#defpou __LATENT_INSTANCE LREAL_TO_LONGTIME
+  LONGTIME __fc__LREAL_TO_LONGTIME,
+  lreal IN
+
+
+#defpou __LATENT_INSTANCE ADD_DT_LONGTIME
+  date_and_time __fc__ADD_DT_LONGTIME,
+  date_and_time IN1,  ;PrvnÌ Ëas k seËtenÌ
+  LONGTIME IN2  ;Druh˝ Ëas k seËtenÌ
+
+
+#defpou __LATENT_INSTANCE ADD_LONGTIME
+  LONGTIME __fc__ADD_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k seËtenÌ
+  LONGTIME IN2
+
+
+#defpou __LATENT_INSTANCE ADD_LONGTIME_TIME
+  LONGTIME __fc__ADD_LONGTIME_TIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k seËtenÌ
+  time IN2  ;Druh˝ Ëas k seËtenÌ
+
+
+#defpou __LATENT_INSTANCE DIV_LONGTIME
+  LONGTIME __fc__DIV_LONGTIME,
+  LONGTIME IN1,  ;»ase k vydÏlenÌ
+  real IN2  ;DÏlitel
+
+
+#defpou __LATENT_INSTANCE EQ_LONGTIME
+  bool __fc__EQ_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k porovn·nÌ
+  LONGTIME IN2  ;Druh˝ Ëas k porovn·nÌ
+
+
+#defpou __LATENT_INSTANCE GE_LONGTIME
+  bool __fc__GE_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k porovn·nÌ
+  LONGTIME IN2  ;Druh˝ Ëas k porovn·nÌ
+
+
+#defpou __LATENT_INSTANCE GT_LONGTIME
+  bool __fc__GT_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k porovn·nÌ
+  LONGTIME IN2  ;Druh˝ Ëas k porovn·nÌ
+
+
+#defpou __LATENT_INSTANCE LE_LONGTIME
+  bool __fc__LE_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k porovn·nÌ
+  LONGTIME IN2  ;Druh˝ Ëas k porovn·nÌ
+
+
+#defpou __LATENT_INSTANCE LT_LONGTIME
+  bool __fc__LT_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k porovn·nÌ
+  LONGTIME IN2  ;Druh˝ Ëas k porovn·nÌ
+
+
+#defpou __LATENT_INSTANCE MUL_LONGTIME
+  LONGTIME __fc__MUL_LONGTIME,
+  LONGTIME IN1,  ;»ase k vyn·sobenÌ
+  real IN2  ;N·sobitel
+
+
+#defpou __LATENT_INSTANCE NE_LONGTIME
+  bool __fc__NE_LONGTIME,
+  LONGTIME IN1,  ;PrvnÌ Ëas k porovn·nÌ
+  LONGTIME IN2  ;Druh˝ Ëas k porovn·nÌ
+
+
+#defpou __LATENT_INSTANCE SUB_DATE_DATE_LONG
+  LONGTIME __fc__SUB_DATE_DATE_LONG,
+  date IN1,  ;Datum od kterÈho se odeËÌt·
+  date IN2  ;Datum kterÈ se odeËÌt·
+
+
+#defpou __LATENT_INSTANCE SUB_DT_DT_LONG
+  LONGTIME __fc__SUB_DT_DT_LONG,
+  date_and_time IN1,  ;Datum a Ëas od kterÈho se odeËÌt·
+  date_and_time IN2  ;Datum a Ëas kter˝ se odeËÌt·
+
+
+#defpou __LATENT_INSTANCE SUB_DT_LONGTIME
+  date_and_time __fc__SUB_DT_LONGTIME,
+  date_and_time IN1,  ;Datum a Ëas od kterÈho se odeËÌt·
+  LONGTIME IN2  ;»as kter˝ se odeËÌt·
+
+
+#defpou __LATENT_INSTANCE SUB_LONGTIME
+  LONGTIME __fc__SUB_LONGTIME,
+  LONGTIME IN1,  ;»as od kterÈho se odeËÌt·
+  LONGTIME IN2  ;»as kter˝ se odeËÌt·
+
+
+#defpou __LATENT_INSTANCE SUB_LONGTIME_TIME
+  LONGTIME __fc__SUB_LONGTIME_TIME,
+  LONGTIME IN1,  ;»as od kterÈho se odeËÌt·
+  time IN2  ;»as kter˝ se odeËÌt·
+
+
+#defpou AbsoluteTON
+  bool IN,  ;vstup ËasovaËe
+  LONGTIME PT,  ;p¯edvolba ËasovaËe
+  pointer TS,  ;Ëasov· znaËka (musÌ b˝t RETAIN)
+  bool Q,  ;v˝stup ËasovaËe
+  LONGTIME ET,  ;aktu·lnÌ hodnota ËasovaËe
+  R_TRIG RT
+
+
+#defpou __LATENT_INSTANCE AES128_encrypt
+  uint __fc__AES128_encrypt,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech (musÌ b˝t dÏliteln· 16)
+  uint bufferLen,  ;velikost datovÈho bufferu v bytech
+  pointer key,  ;öifrovacÌ klÌË (16 byt˘)
+  pointer iv,  ;inicializaËnÌ vektor (16 byt˘)
+  pointer data  ;öifrovan· data (vstup i v˝stup)
+
+
+#defpou __LATENT_INSTANCE AES128_decrypt
+  uint __fc__AES128_decrypt,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech (musÌ b˝t dÏliteln· 16)
+  pointer key,  ;deöifrovacÌ klÌË (16 byt˘)
+  pointer iv,  ;inicializaËnÌ vektor (16 byt˘)
+  pointer data  ;deöifrovan· data (vstup i v˝stup)
+
+
+#defpou __LATENT_INSTANCE RC4
+  uint __fc__RC4,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech
+  uint keyLen,  ;dÈlka öifrovacÌho / deöifrovacÌho klÌËe v bytech
+  uint skip,  ;kolik byt˘ RC4 gener·toru je p¯eskoËeno
+  pointer key,  ;öifrovacÌ / deöifrovacÌ klÌË
+  pointer data  ;öifrovan· data (vstup i v˝stup)
+
+
+#defpou __LATENT_INSTANCE Base64_encode
+  uint __fc__Base64_encode,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech
+  uint bufferLen,  ;velikost datovÈho bufferu v bytech
+  pointer data,  ;vstupnÌ data
+  pointer out  ;zakÛdovan˝ text
+
+
+#defpou __LATENT_INSTANCE Base64_decode
+  uint __fc__Base64_decode,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech
+  pointer data,  ;vstupnÌ text
+  pointer out  ;dekÛdovan· data
+
+
+#defpou __LATENT_INSTANCE SHA1_hash
+  uint __fc__SHA1_hash,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech
+  uint bufferLen,  ;velikost bufferu pro hash v bytech (minim·lnÏ 41 byt˘)
+  pointer data,  ;vstupnÌ data
+  pointer hash  ;v˝sledn˝ hash
+
+
+#defpou __LATENT_INSTANCE SHA256_hash
+  uint __fc__SHA256_hash,
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech
+  uint bufferLen,  ;velikost bufferu pro hash v bytech (minim·lnÏ 65 byt˘)
+  pointer data,  ;vstupnÌ data
+  pointer hash  ;v˝sledn˝ hash
+
+
+#defpou __LATENT_INSTANCE HMAC_SHA256
+  uint __fc__HMAC_SHA256,
+  uint keyLen,  ;dÈlka klÌËe v bytech
+  uint dataLen,  ;dÈlka vstupnÌch dat v bytech
+  uint bufferLen,  ;velikost bufferu pro hash v bytech (minim·lnÏ 32 byt˘)
+  pointer key,  ;klÌË
+  pointer data,  ;vstupnÌ data
+  pointer hash  ;v˝sledn˝ hash
+
+
+#defpou __LATENT_INSTANCE Base64_encode_string
+  string[81] __fc__Base64_encode_string,
+  string[61] data  ;vstupnÌ ASCII ¯etÏzec o max. dÈlce 60 znak˘
+
+
+#defpou __LATENT_INSTANCE Base64_encode_ptr_string
+  string[81] __fc__Base64_encode_ptr_string,
+  pointer data,  ;pointer to first byte of data to encode
+  uint dataLen  ;dÈlka vstupnÌch dat v bytech (max. 60)
+
+
+; Global variables
+#data byte __Init____INTERNETLIB_END_OF_LINE_ = 
+  $0D,$0A,$00;
+#def INTERNETLIB_END_OF_LINE_ string __Init____INTERNETLIB_END_OF_LINE_
+#data byte __Init____INTERNETLIB_EMPTY_STRING_ = 
+  $00,$00;
+#def INTERNETLIB_EMPTY_STRING_ string __Init____INTERNETLIB_EMPTY_STRING_
+
+#defpou __LATENT_INSTANCE _FindNextPathSeparator
+  bool __fc___FindNextPathSeparator,
+  pointer In,  ;string with path
+  pointer Pos  ;start with zero
+
+
+; Global types
+#struct  TDnsReplyHeader
+  uint TransactionID,
+  bool Recursion_des,
+  bool Truncated,
+  bool Authoritative,
+  bool OpCode_0,
+  bool OpCode_1,
+  bool OpCode_2,
+  bool OpCode_3,
+  bool Response,
+  bool ReplyCode_0,
+  bool ReplyCode_1,
+  bool ReplyCode_2,
+  bool ReplyCode_3,
+  bool Empty,
+  bool Autheticated,
+  bool Reseved,
+  bool Recursion_ava,
+  uint Question,
+  uint AnswerRRs,
+  uint AuthorityRRs,
+  uint AdditionalRRs
+
+; Global types
+#struct  TDnsReply
+  TDnsReplyHeader Header,
+  usint[512] Data
+
+; Global types
+#struct  TDnsQueryHeader
+  uint TransactionID,
+  bool Recursion_des,
+  bool Truncated,
+  bool Empty_6,
+  bool OpCode_0,
+  bool OpCode_1,
+  bool OpCode_2,
+  bool OpCode_3,
+  bool Query,
+  bool Empty_0,
+  bool Empty_1,
+  bool Empty_2,
+  bool Empty_3,
+  bool NonAutheticated,
+  bool Empty_4,
+  bool Reseved,
+  bool Empty_5,
+  uint Question,
+  uint AnswerRRs,
+  uint AuthorityRRs,
+  uint AdditionalRRs
+
+; Global types
+#struct  TDnsQuery
+  TDnsQueryHeader Header,
+  string[81] QueryString
+
+#defpou __LATENT_INSTANCE _internetlib_DnsLenOfDomainName
+  udint __fc___internetlib_DnsLenOfDomainName,
+  pointer IN
+
+
+#defpou __LATENT_INSTANCE _internetlib_DnsCodeDomainName
+  string[81] __fc___internetlib_DnsCodeDomainName,
+  string[81] IN,
+  int I
+
+
+#defpou __LATENT_INSTANCE _internetlib_DnsDecodeDomainName
+  string[81] __fc___internetlib_DnsDecodeDomainName,
+  pointer IN,
+  pointer BG
+
+
+#defpou fbNsLookUp
+  bool getIP,  ;ZÌskat IP adresu dle jmÈna
+  uint chanCode,  ;p¯enosov˝ kan·l  UDP, lport: 0, rport: 53, in: 524, out: 93
+  TIPadr DnsIP,  ;IP adresa DNS serveru
+  pointer Name,  ;DomÈnove jmÈno
+  pointer IP,  ;ZÌskan· IP adresa
+  bool Done,  ;IP adresa obdrûena ˙spÏsnÏ
+  bool Busy,  ;Operace probÌha
+  bool Err,  ;Nastala chyba
+  usint ErrId,  ;»Ìslo chyby
+  fbRecvFrom RecvFrom,
+  fbSendTo SendTo,
+  TON timeout,
+  TON timeout2,
+  TDnsQuery netDnsQuery,
+  TDnsReply netDnsReply,
+  uint TransID,
+  bool __EDGE_R__getIP
+
+
+#defpou fbNsLookUpEx
+  bool getIP,  ;ZÌskat IP adresu dle jmÈna
+  TIPadr dnsIP,  ;IP adresa DNS serveru
+  string[81] Name,  ;DomÈnove jmÈno
+  pointer IP,  ;ZÌskan· IP adresa
+  bool Done,  ;IP adresa obdrûena ˙spÏsnÏ
+  bool Busy,  ;Operace probÌha
+  bool Err,  ;Nastala chyba
+  usint ErrId,  ;»Ìslo chyby
+  string[81] CurrName,  ;current domain name
+  bool __EDGE_R__getIP
+
+
+; Global types
+#def  THttpBuffer usint[512]
+
+; Global types
+#def  THttpState usint   ; ENUM Type 
+
+#defpou fbHttpRequest
+  bool Post,  ;vyslat data metodou POST
+  bool Get,  ;zÌskat data metodu GET
+  bool Cancel,  ;zruöit probÌhajÌcÌ operaci
+  uint chanCode,  ;p¯enosov˝ kan·l TCP master in: 512, out: 512
+  TIPadr IPadr,  ;IP adresa vzd·leneho serveru
+  uint port,  ;»Ìslo portu vzd·lenÈho serveru
+  bool Close,  ;Pokud je nastaveno, blok neËek· na server aû zav¯e spojenÌ a zav¯e jej aktivnÏ jakmile zÌsk· vöechny data
+  pointer Action,  ;Cesta k dat˘m na serveru (vûdy zaËÌn· znakem '/')
+  pointer Host,  ;JmÈno hostitele
+  pointer Data,  ;Data pro metodu POST
+  pointer RecvData,  ;Bufer dat 512 byt˘
+  bool Done,  ;Operace ukonËena
+  bool Busy,  ;Operace probÌha
+  bool Err,  ;Chyba komunikace
+  usint ErrId,  ;»Ìslo chyby
+  bool DataReady,  ;P¯ijata nov· data
+  uint DataLen,  ;DÈlka dat
+  usint State,  ;Stav komunikace
+  int Result,  ;HTTP kod
+  sint Progress,  ;Pr˘bÏh stahov·nÌ dat
+  bool ResRecv,
+  bool LenRecv,
+  bool HeaderRecv,
+  bool WasEOL,
+  TON TimeOutTon,
+  string[256] helpstring,
+  fbRecvFrom RecvFrom,
+  fbSendTo SendTo,
+  dint ContLen,
+  dint WholeLen,
+  string[81] lHost,
+  bool __EDGE_R__Post,
+  bool __EDGE_R__Get,
+  bool __EDGE_R__Cancel
+
+
+; Global types
+#def  TSmtpState usint   ; ENUM Type 
+
+; Global variables
+#data byte __Init____SMTP_END_OF_LINE_2_ = 
+  '>',$0D,$0A,$00;
+#def SMTP_END_OF_LINE_2_ string __Init____SMTP_END_OF_LINE_2_
+
+#defpou fbSmtp
+  bool Send,  ;spustÌ odesl·nÌ zpr·vy
+  bool Auth,  ;vyûaduje server authetifikaci?
+  bool Cancel,  ;stornovat odesÌl·nÌ
+  uint chanCode,  ;p¯enosov˝ kan·l  TCP Master, in: 255, out: 255
+  TIPadr IPadr,  ;IP adresa SMTP serveru
+  uint port,  ;Port SMTP serveru
+  usint Lines,  ;poËet ¯·dk˘ tÏla zpr·vy
+  int UtcOff,  ;posun ËasovÈho p·sma v minut·ch
+  string[17] charset,  ;znakov· sada tÏla zpr·vy ('windows-1250', 'UTF-8',...)
+  string[33] attachementType,  ;uûivatelsky definovan˝ MINE typ p¯Ìlohy. NenÌ-li specifikov·n, je pouûit 'application/octet-stream' (dalöÌ moûnÈ hodnoty jsou 'image/jpeg', 'image/png', 'text/plain; charset=windows-1250',...)
+  bool genMessageID,  ;vygeneruje unik·tnÌ Message-ID
+  pointer Sender,  ;adresa odesÌlatele
+  pointer SendName,  ;jmÈno odesÌlatele
+  pointer Rcpt,  ;adresa p¯Ìjemce
+  pointer Subject,  ;p¯edmÏt zpr·vy
+  pointer Text,  ;prvnÌ ¯·dek tÏla zpr·vy
+  pointer Attach,  ;jmÈno souboru s p¯ilohou
+  pointer Username,  ;uûivatelskÈ jmÈno pro SMTP server
+  pointer Password,  ;heslo pro SMTP server
+  bool Done,  ;truepokud se poda¯ilo zpr·vu odeslat
+  bool Busy,  ;truepokud se pr·vÏ odesÌl· zpr·va
+  bool Err,  ;truepokud nastala p¯i odesÌl·nÌ chyba
+  usint ErrId,  ;ËÌslo chyby
+  uint ReplyCode,  ;kÛd odpovÏdi serveru
+  usint State,  ;stav komunikace
+  TON timeout_cntr,  ;detekce timeoutu pri komunikaci
+  string[256] cmd,
+  usint[512] buff,
+  string[256] copy_rcpt,
+  string[181] temp_rcpt,
+  string[81] body_rcpt,
+  pointer ptrText,
+  sint body_lines,
+  fbRecvTxt Recv_from,  ;FB pro prijem
+  fbSendTo Send_to,  ;FB pro vysilani
+  HANDLE h,  ;identifik·tor souboru
+  bool TRO,  ;buffer overflow
+  bool lAuth,  ;byla pozadovana autorizace
+  bool mesRec,
+  bool __EDGE_R__Send,
+  bool __EDGE_R__Cancel
+
+
+; Global types
+#struct  TNtpMessage
+  byte Flags,  ;|  LI1 | LI0 | VN2 | VN1 | VN0 |Mode2|Mode1|Mode0|
+  usint Stratum,
+  sint Polling,
+  sint Precision,
+  udint RootDelay,
+  udint RootDispersion,
+  udint RefIdentifier,
+  udint ReferenceTS,
+  udint ReferenceTSFrac,
+  udint OriginateTS,
+  udint OriginateTSFrac,
+  udint ReceiveTS,
+  udint ReceiveTSFrac,
+  udint TransmitTS,
+  udint TransmitTSFrac
+
+#data byte __Init___fbSntp__fbSntp_EMPTY_NTP_MESSAGE_ = 
+   27, 15,  8,248,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  0,  0;
+#def __Const__fbSntp__fbSntp_EMPTY_NTP_MESSAGE_ TNtpMessage __Init___fbSntp__fbSntp_EMPTY_NTP_MESSAGE_
+#defpou fbSntp
+  bool Get,  ;ZÌskat nov˝ Ëasov˝ ofset ze serveru
+  bool Accept,  ;P¯ijmout Ëasov˝ ofset ze serveru
+  uint chanCode,  ;UNI UDP kan·l (60 bytes IN/OUT)
+  TIPadr IPadr,  ;IP adresa NTP serveru
+  uint port,  ;Port NTP serveru
+  int UtcOff,  ;Posun ËasovÈho p·sma v minut·ch
+  bool Done,  ;»asov˝ ofset ˙spÏönÏ zÌsk·n
+  bool Busy,  ;ProbÌha komunikace
+  bool TimeSet,  ;Nov˝ Ëas nastaven do RTC
+  bool Err,  ;Chyba bÏhem komunikace
+  usint ErrId,  ;»Ìslo chyby
+  lreal Offset,  ;ZÌskan˝ ofset [s]
+  lreal Error,  ;MaximalnÌ chyba zÌskanÈho ofsetu [s]
+  bool Recv,
+  bool SettingTime,
+  date_and_time Now,
+  date_and_time NowLocal,
+  usint[7] NowTeco,
+  uint NowMili,
+  TNtpMessage NtpPacket,
+  fbSendTo SendTo,
+  fbRecvFrom RecvFrom,
+  udint Attemps,
+  udint Success,
+  TON ShortTimeout,
+  TON Timeout,
+  uint maxSW22,
+  bool __EDGE_R__Get,
+  bool __EDGE_R__Accept
+
+
+; Global types
+#struct  TNsLookUpItem
+  bool Request,
+  bool Set,
+  bool Done,
+  bool Err,
+  TIPadr IP,  ;IP adresa
+  string[81] Name
+
+; Global types
+#def  TNsLookUpTable TNsLookUpItem[16]
+
+#defpou fbNsLookUpByTable
+  uint chanCode,  ;p¯enosov˝ kan·l UDP, lport: 0, rport: 53, in: 524, out: 93
+  TIPadr DnsIP,  ;Adresa DNS serveru
+  pointer NsLookUpTable,  ;Tabulka domenov˝ch jmen
+  bool Busy,  ;ProbÌha komunikace
+  bool Err,  ;Chyba komunikace
+  usint ErrId,  ;»Ìslo chyby
+  uint i,
+  uint j,
+  fbNsLookUp NsLookUp,
+  TNsLookUpItem NsLookUpItem
+
+
+; Global types
+#def  TFtpStoreState usint   ; ENUM Type 
+
+; Global variables
+#def  FTP_DIR_STACK_ 4
+#def  __Init____FTP_DIR_STACK_ FTP_DIR_STACK_
+
+; Global types
+#struct  TFtpDirStack
+  HANDLE hDir,  ;identifik·tor souboru
+  string[13] sDir
+
+#defpou fbStoreToFtp
+  bool Send,  ;Odeöle soubor/adres·¯ na FTP
+  TIPadr IPadr,  ;IP adresa FTP serveru
+  uint port,  ;Port FTP serveru
+  uint chanCodeCom,  ;P¯enosov˝ kan·l TCP Master, in: 255, out: 255
+  uint chanCodeDat,  ;P¯enosov˝ kan·l TCP Master, in: 1, out: 255
+  pointer User,  ;UûivatelskÈ jmÈno
+  pointer Pass,  ;Heslo
+  pointer LocalName,  ;JmÈno souboru nebo sloûky na pamÏùovÈ kartÏ
+  pointer RemotName,  ;JmÈno souboru nebo sloûky na FTP serveru
+  bool Done,  ;Soubor byl uloûen na FTP server
+  bool Busy,  ;Soubor se ukl·d· na FTP server
+  bool Err,  ;Nastala chyba
+  usint ErrId,  ;»Ìslo chyby
+  uint ReplyCode,  ;KÛd odpovÏdi serveru
+  usint State,  ;Stav komunikace
+  string[81] CurrFile,  ;JmÈno aktu·lnÏ nahr·vanÈho souboru
+  usint Progress,  ;Pr˘bÏh nahr·v·nÌ souboru v procentech
+  fbSendTo Send_To_Com,
+  fbRecvFrom Recv_From_Com,
+  fbKeepAliveTCP KeepAliveTCP,
+  TRemoteEthAdr rea,
+  string[256] cmdCom,
+  string[81] lRemotName,
+  TFileInfo lLocalFileInfo,
+  udint idPos,
+  udint lSize,
+  udint lTrans,
+  TFtpDirStack[5] dirStack,
+  usint dirStackLev,
+  usint i,
+  usint eErrId,
+  fbSendTo Send_To_Dat,
+  usint[255] cmdDat,
+  TON timeoutCom,
+  udint data,
+  HANDLE h,  ;identifik·tor souboru
+  usint[6] pasvDat,
+  bool TRO,
+  bool mesRec,
+  bool iniDir,
+  bool endDir,
+  bool TRO_com,
+  bool TRO_dat,
+  bool __EDGE_R__Send
+
+
+; Global types
+#def  THttpPostData usint[1536]
+
+#defpou fbHttpRequestL
+  bool Post,  ;vyslat data metodou POST
+  bool Get,  ;zÌskat data metodu GET
+  bool Cancel,  ;zruöit probÌhajÌcÌ operaci
+  uint chanCode,  ;p¯enosov˝ kan·l TCP master in: 512, out: 512
+  TIPadr IPadr,  ;IP adresa vzd·leneho serveru
+  uint port,  ;»Ìslo portu vzd·lenÈho serveru
+  uint postLen,  ;DÈlka dat pro metodu POST
+  bool Close,  ;Pokud je nastaveno, blok neËek· na server aû zav¯e spojenÌ a zav¯e jej aktivnÏ jakmile zÌsk· vöechny data
+  pointer Action,  ;Cesta k dat˘m na serveru (vûdy zaËÌn· znakem '/')
+  pointer Host,  ;JmÈno hostitele
+  pointer Data,  ;PrvnÌ byte dat pro metodu POST
+  pointer RecvData,  ;Bufer dat 512 byt˘
+  bool Done,  ;Operace ukonËena
+  bool Busy,  ;Operace probÌha
+  bool Err,  ;Chyba komunikace
+  usint ErrId,  ;»Ìslo chyby
+  bool DataReady,  ;P¯ijata nov· data
+  uint DataLen,  ;DÈlka dat
+  usint State,  ;Stav komunikace
+  int Result,  ;HTTP kod
+  sint Progress,  ;Pr˘bÏh stahov·nÌ dat
+  bool ResRecv,
+  bool LenRecv,
+  bool HeaderRecv,
+  bool WasEOL,
+  TON TimeOutTon,
+  string[256] helpstring,
+  fbRecvFrom RecvFrom,
+  fbSendTo SendTo,
+  dint ContLen,
+  dint WholeLen,
+  uint lPostLen,
+  string[81] lHost,
+  uint BodyLen,
+  bool __EDGE_R__Post,
+  bool __EDGE_R__Get,
+  bool __EDGE_R__Cancel
+
+
+#defpou fbHttpRequestL2
+  bool Post,  ;vyslat data metodou POST
+  bool Get,  ;zÌskat data metodu GET
+  bool Cancel,  ;zruöit probÌhajÌcÌ operaci
+  uint chanCode,  ;p¯enosov˝ kan·l TCP master in: 512, out: 512
+  TIPadr IPadr,  ;IP adresa vzd·leneho serveru
+  uint port,  ;»Ìslo portu vzd·lenÈho serveru
+  uint postLen,  ;DÈlka dat pro metodu POST
+  bool Close,  ;Pokud je nastaveno, blok neËek· na server aû zav¯e spojenÌ a zav¯e jej aktivnÏ jakmile zÌsk· vöechny data
+  pointer Action,  ;Cesta k dat˘m na serveru (vûdy zaËÌn· znakem '/')
+  pointer Host,  ;JmÈno hostitele
+  pointer Data,  ;PrvnÌ byte dat pro metodu POST
+  pointer ContentType,  ;Typ obsahu (Content-Type)
+  pointer RecvData,  ;Bufer dat 512 byt˘
+  bool Done,  ;Operace ukonËena
+  bool Busy,  ;Operace probÌha
+  bool Err,  ;Chyba komunikace
+  usint ErrId,  ;»Ìslo chyby
+  bool DataReady,  ;P¯ijata nov· data
+  uint DataLen,  ;DÈlka dat
+  usint State,  ;Stav komunikace
+  int Result,  ;HTTP kod
+  sint Progress,  ;Pr˘bÏh stahov·nÌ dat
+  bool ResRecv,
+  bool LenRecv,
+  bool HeaderRecv,
+  bool WasEOL,
+  TON TimeOutTon,
+  string[256] helpstring,
+  fbRecvFrom RecvFrom,
+  fbSendTo SendTo,
+  dint ContLen,
+  dint WholeLen,
+  uint lPostLen,
+  string[81] lHost,
+  uint BodyLen,
+  bool __EDGE_R__Post,
+  bool __EDGE_R__Get,
+  bool __EDGE_R__Cancel
+
+
+#data byte __Init___fbSplitUrlAddress_HTTP_IP_NULL = 
+    0,  0,  0,  0;
+#def __Const__fbSplitUrlAddress_HTTP_IP_NULL TIPadr __Init___fbSplitUrlAddress_HTTP_IP_NULL
+#defpou fbSplitUrlAddress
+  bool split,  ;RozdÏlenÌ URL adresy
+  bool done,  ;URL adresa rozdÏlena a IP adresa ˙spÏönÏ zÌsk·na
+  bool busy,  ;Operace probÌh·
+  bool err,  ;Nastala chyba
+  usint errId,  ;»Ìslo chyby
+  pointer urlAddress,  ;URL adresa tak jak je uvedena ve webovÈm prohlÌûeËi
+  pointer host,  ;JmÈno hostitele
+  pointer action,  ;Cesta k dat˘m na serveru (vûdy zaËÌn· znakem '/')
+  pointer ipAdr,  ;IP adresa vzd·lenÈho serveru
+  pointer port,  ;»Ìslo portu vzd·lenÈho serveru
+  fbNsLookUpEx NsLookUp,
+  bool __EDGE_R__split
+
+
+#defpou fbRetriveFromFtp
+  bool Retrieve,  ;P¯Ìjmout soubor z FTP
+  TIPadr IPadr,  ;IP adresa FTP serveru
+  uint port,  ;Port FTP serveru
+  uint chanCodeCom,  ;P¯enosov˝ kan·l TCP Master, in: 255, out: 255
+  uint chanCodeDat,  ;P¯enosov˝ kan·l TCP Master, in: 255, out: 1
+  pointer User,  ;UûivatelskÈ jmÈno
+  pointer Pass,  ;Heslo
+  pointer LocalName,  ;JmÈno souboru na pamÏùovÈ kartÏ
+  pointer RemotName,  ;JmÈno souboru na FTP serveru
+  bool Done,  ;Soubor byl uloûen na pamÏùovou kartu
+  bool Busy,  ;Soubor se ukl·d· na pamÏùovou kartu
+  bool Err,  ;Nastala chyba
+  usint ErrId,  ;»Ìslo chyby
+  uint ReplyCode,  ;KÛd odpovÏdi serveru
+  usint State,  ;Stav komunikace
+  usint Progress,  ;Pr˘bÏh nahr·v·nÌ souboru v procentech
+  fbSendTo Send_To_Com,
+  fbRecvTxt Recv_From_Com,  ;fbRecvFrom;
+  fbKeepAliveTCP KeepAliveTCP,
+  TRemoteEthAdr rea,
+  string[256] cmdCom,
+  string[81] lRemotName,
+  TFileInfo lLocalFileInfo,
+  udint idPos,
+  udint lSize,
+  udint lTrans,
+  usint i,
+  usint eErrId,
+  fbRecvFrom Recv_From_Dat,
+  WriteToFileSeq WTFS,
+  usint[255] cmdBuffer,
+  usint[255] cmdDat,
+  TON timeoutCom,
+  udint data,
+  HANDLE h,  ;identifik·tor souboru
+  usint[6] pasvDat,
+  bool TRO,
+  bool mesRec,
+  bool TRO_com,
+  bool TRO_dat,
+  bool __EDGE_R__Retrieve
+
+
+; Global types
+#struct  T_PING_INFO
+  dint result,  ;0=probÌh·, 1=dokonËeno bez chyb, -1=chyba
+  TIPadr hostIP,  ;IP adresa hostitele
+  time responseTime,  ;Ëas odezvy
+  udint pingNumber,  ;ËÌslo pingu
+  udint dataLen,  ;dÈlka dat
+  usint ttl,  ;TTL odpovÏdi
+  string[81] errMsg  ;chybov· zpr·va
+
+#defpou fbPingIP
+  bool rqPing,  ;é·dost o odesl·nÌ Ping
+  TIPadr hostIP,  ;IP adresa hostitele
+  usint ttl,  ;éivotnost paketu TTL
+  time timeLimit,  ;»asov˝ limit pro odpovÏÔ
+  uint dataLen,  ;DÈlka dat
+  pointer pingInfo,  ;Informace o Pingu
+  bool done,  ;Operace byla ˙spÏönÏ dokonËena
+  bool busy,  ;Operace probÌh·
+  bool err,  ;Nastala chyba
+  TON timeout,
+  bool waitArp,
+  bool __EDGE_R__rqPing
+
+
+#defpou fbPing
+  bool rqPing,  ;é·dost o odesl·nÌ Ping
+  string[81] hostName,  ;JmÈno hostitele
+  bool done,  ;Operace byla ˙spÏönÏ dokonËena
+  bool busy,  ;Operace probÌh·
+  bool err,  ;Nastala chyba
+  T_PING_INFO pingInfo,  ;Informace o Pingu
+  bool rqSplit,
+  fbSplitUrlAddress SplitUrlAdr,
+  fbPingIP PingIP,
+  string[81] host,  ;JmÈno hostitele
+  string[81] action,  ;Poûadovan· str·nka nap¯Ìklad "/index.xml"
+  TIPadr ipAdr,  ;IP adresa vzd·leneho serveru
+  uint port,  ;»Ìslo portu vzd·lenÈho serveru
+  bool __EDGE_R__rqPing
+
+
+; Global variables
+#def  JSON_MAX_STACK_LEVEL 9
+#def  __Init____JSON_MAX_STACK_LEVEL JSON_MAX_STACK_LEVEL
+
+; Global types
+#struct  TJsonItem
+  string[256] name,  ;cel˝ n·zev poloûky
+  string[256] value  ;hodnota poloûky
+
+; Global types
+#def  TJsonParserStat usint   ; ENUM Type 
+
+; Global types
+#struct  TJsonStackItem
+  usint stat,  ;stav parseru
+  bool isArray,  ;p¯Ìznak pole
+  uint arrayIndex,  ;index pole
+  string[32] name  ;n·zev poloûky
+
+; Global types
+#struct  TJsonStack
+  aligned bool done,  ;byla vyparsovan· poloûka
+  aligned bool eod,  ;konec dokumentu
+  usint error,  ;kÛd chyby
+  string[33] errTxt,  ;popis chyby
+  sint maxLevel,  ;max ˙roveÚ stacku
+  sint level,  ;˙roveÚ stacku
+  TJsonStackItem[10] item
+
+#defpou __LATENT_INSTANCE JSON_MemcpyPtr
+  udint __fc__JSON_MemcpyPtr,
+  pointer source,  ;source
+  pointer dest,  ;destination
+  udint length  ;number of bytes
+
+
+#defpou fbJsonParser
+  bool start,  ;TRUE zaËne parsovat od zaË·tku JSON dat, FALSE pokraËuje tam, kde se minule skonËilo
+  bool shrink,  ;TRUE odstranÌ z bufferu jiû zpracovanou Ë·st a nezpracovan˝ zbytek p¯esune na zaË·tek bufferu
+  udint size,  ;velikost bufferu s JSON dokumentem
+  pointer sourceJSON,  ;zaË·tek JSON dat
+  pointer jsonItem,  ;v˝stup JSON parseru
+  bool done,  ;byla vyparsov·na dalöÌ poloûka
+  bool eod,  ;konec JSON dokumentu
+  usint error,  ;error <> 0 ... doölo k chybÏ
+  uint restLen,  ;poËet byt˘, kter˝ zb˝v· zpracovat
+  TJsonStack jsonStack,  ;z·sobnÌk pro anal˝zu dokumentu
+  sint i,
+  udint index,
+  pointer src,
+  pointer end,
+  usint char,
+  bool break
+
+
+; Global types
+#struct  TJsonInfo
+  TJsonItem item,  ;v˝stup JSON parseru
+  TJsonStack stack  ;z·sobnÌk pro anal˝zu dokumentu
+
+#defpou fbJsonParserEx
+  bool start,  ;TRUE zaËne parsovat od zaË·tku JSON dat, FALSE pokraËuje tam, kde se minule skonËilo
+  bool shrink,  ;TRUE odstranÌ z bufferu jiû zpracovanou Ë·st a nezpracovan˝ zbytek p¯esune na zaË·tek bufferu
+  udint size,  ;velikost bufferu s JSON dokumentem
+  pointer sourceJSON,  ;zaË·tek JSON dat
+  pointer JsonInfo,  ;v˝stup JSON parseru
+  bool done,  ;byla vyparsov·na dalöÌ poloûka
+  bool eod,  ;konec JSON dokumentu
+  usint error,  ;error <> 0 ... doölo k chybÏ
+  uint restLen,  ;poËet byt˘, kter˝ zb˝v· zpracovat
+  sint i,
+  udint index,
+  pointer src,
+  pointer end,
+  usint char,
+  bool break,
+  udint tmp
+
+
+#defpou fbJsonFileParser
+  bool exec,  ;parsovat JSON soubor
+  pointer fileName,  ;jmÈno souboru s JSON dokumentem
+  pointer JsonInfo,  ;v˝sledek parsov·nÌ
+  bool start,  ;prÌznak inicializace bloku
+  bool done,  ;v˝sledek parsov·nÌ je pripraven v JsonInfo
+  bool busy,  ;blok je zanepr·zdnen
+  bool eof,  ;konec souboru
+  bool break,  ;buffer zpracov·n, pokracovat prÌötÌ cyklus
+  bool err,  ;prÌznak chyby
+  string[81] errTxt,  ;popis chyby
+  udint fileSize,  ;velikost souboru
+  udint processed,  ;zpracov·no (pocet znaku)
+  bool rqInit,
+  bool rqFile,
+  bool rqParse,
+  bool rqStart,
+  R_TRIG trgExecOn,
+  ReadFromFile ReadFile,
+  fbJsonParserEx JsonParser,
+  usint[769] JsonBuffer,
+  udint sumaLen,  ;kolik nacteno ze souboru
+  udint actLen,  ;aktualni velikost JSON bufferu
+  uint restLen
+
+
+#data byte __Init___fbJsonPageParser_HTTP_IP_NULL = 
+    0,  0,  0,  0;
+#def __Const__fbJsonPageParser_HTTP_IP_NULL TIPadr __Init___fbJsonPageParser_HTTP_IP_NULL
+#defpou fbJsonPageParser
+  bool exec,  ;parsovat json soubor
+  uint chanCode,  ;komunikaËnÌ kan·l (ETH1_uni0, ETH1_uni1,...)
+  pointer pageName,  ;n·zev web str·nky s s json dokumentem
+  pointer JsonInfo,  ;v˝sledek parsov·nÌ
+  bool start,  ;p¯Ìznak inicializace bloku
+  bool done,  ;v˝sledek parsov·nÌ je p¯ipraven v jsonInfo
+  bool busy,  ;blok je zanepr·zdnÏn
+  bool eof,  ;konec souboru
+  bool break,  ;buffer zpracov·n, pokraËovat p¯ÌötÌ cyklus
+  bool err,  ;p¯Ìznak chyby
+  string[81] errTxt,  ;popis chyby
+  udint fileSize,  ;velikost souboru
+  udint processed,  ;zpracov·no (poËet znak˘)
+  bool rqShrink,
+  bool rqFile,
+  bool rqParse,
+  bool rqStart,
+  R_TRIG trgExecOn,
+  fbJsonParserEx JsonParser,
+  usint[769] JsonBuffer,
+  udint sumaLen,  ;kolik nacteno ze souboru
+  udint actLen,  ;aktualni velikost json bufferu
+  uint restLen,
+  int pos,
+  TIPadr HttpIP,  ;IP adresa
+  uint HttpPort,
+  string[81] HttpName,
+  string[81] Action,
+  string[2] Empty,
+  bool dnsRequest,
+  fbSplitUrlAddress SplitUrlAddress,
+  fbHttpRequest HttpRequest
+
+
+#defpou __LATENT_INSTANCE CheckCRC_16
+  uint __fc__CheckCRC_16,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length  ;dÈlka pole (poËet byt˘)
+
+
+#defpou __LATENT_INSTANCE CheckSum
+  usint __fc__CheckSum,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length,  ;dÈlka pole (poËet byt˘)
+  uint i,
+  usint sum,
+  pointer ptrc
+
+
+#defpou __LATENT_INSTANCE CheckSum_XOR
+  usint __fc__CheckSum_XOR,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length,  ;dÈlka pole (poËet byt˘)
+  uint i,
+  byte sum,
+  pointer ptrc
+
+
+#defpou __LATENT_INSTANCE CheckCRC_CCITT
+  uint __fc__CheckCRC_CCITT,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length,  ;dÈlka pole (poËet byt˘)
+  word valCRC,
+  word tmp,
+  uint i,
+  uint j,
+  pointer ptrMsg
+
+
+#defpou __LATENT_INSTANCE CheckCRC_TECO
+  uint __fc__CheckCRC_TECO,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length,  ;dÈlka pole (poËet byt˘)
+  word valCRC,
+  word tmp,
+  uint i,
+  uint j,
+  pointer ptrMsg
+
+
+#defpou __LATENT_INSTANCE CheckCRC_DIN
+  uint __fc__CheckCRC_DIN,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length,  ;dÈlka pole (poËet byt˘)
+  word tmp,
+  word valCRC,
+  uint i,
+  uint j,
+  pointer ptrMsg
+
+
+#defpou __LATENT_INSTANCE CheckCRC_ARNEP
+  uint __fc__CheckCRC_ARNEP,
+  pointer ptr,  ;pointer na pole byt˘
+  uint length,  ;dÈlka pole (poËet byt˘)
+  word valCRC,
+  byte tmp,
+  uint i,
+  uint j,
+  pointer ptrMsg
+
+
+#defpou __LATENT_INSTANCE CheckCRC_32
+  udint __fc__CheckCRC_32,
+  pointer ptr,
+  uint length,
+  dword valCRC,
+  dword mask,
+  uint i,
+  uint j,
+  pointer ptrMsg
+
+
+; Global types
+#struct  TCanvasInfo
+  usint ver,  ;verze struktury bufferu
+  usint flags,  ;p¯Ìznaky (.0 = 1 buffer je otev¯en pro z·pis)
+  uint maxLen,  ;maximalnÌ dÈlka bufferu (o 1 byte menöÌ, aby se do bufferu vûdy veöla znaËka konec bufferu)
+  uint actLen,  ;aktualnÌ dÈlka bufferu (rozpracovan·)
+  uint macroptr  ;pomocn· promÏnn· pro definici makra
+
+; Global types
+#struct  TCanvasPoint
+  int x,  ;sou¯adnice X
+  int y  ;sou¯adnice Y
+
+; Global types
+#struct  TCanvasTouch
+  int x,  ;X sou¯adnice mÌsta dotyku/kliknutÌ (-32767 bez dotyku/kliknutÌ)
+  int y,  ;Y sou¯adnice mÌsta dotyku/kliknutÌ (-32767 bez dotyku/kliknutÌ)
+  udint color  ;barva v mÌstÏ dotyku/kliknutÌ
+
+; Global types
+#struct  TCanvasHeadBuf
+  uint dataChg,  ;unik·tnÌ ËÌslo indikujÌcÌ zmÏnu dat
+  uint dataLen  ;celkov· delka dat v bufferu
+
+; Global types
+#struct  TCanvasData64
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[64] buf  ;data
+
+; Global types
+#struct  TCanvasData128
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[128] buf  ;data
+
+; Global types
+#struct  TCanvasData256
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[256] buf  ;data
+
+; Global types
+#struct  TCanvasData384
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[384] buf  ;data
+
+; Global types
+#struct  TCanvasData512
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[512] buf  ;data
+
+; Global types
+#struct  TCanvasData768
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[768] buf  ;data
+
+; Global types
+#struct  TCanvasData1024
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[1024] buf  ;data
+
+; Global types
+#struct  TCanvasData1536
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[1536] buf  ;data
+
+; Global types
+#struct  TCanvasData2048
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[2048] buf  ;data
+
+; Global types
+#struct  TCanvasData3072
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[3072] buf  ;data
+
+; Global types
+#struct  TCanvasData4096
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[4096] buf  ;data
+
+; Global types
+#struct  TCanvasData6144
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[6144] buf  ;data
+
+; Global types
+#struct  TCanvasData
+  TCanvasInfo info,  ;informace o bufferu
+  TCanvasTouch touch,  ;informace o dotyku/kliknutÌ
+  TCanvasHeadBuf bufHead,  ;hlaviËka bufferu
+  usint[8192] buf  ;data
+
+; Global variables
+#def  GPRIMITIVE_BEGIN 1
+#def  __Init____GPRIMITIVE_BEGIN GPRIMITIVE_BEGIN
+#def  GPRIMITIVE_END 2
+#def  __Init____GPRIMITIVE_END GPRIMITIVE_END
+#def  GPRIMITIVE_SETLINEWIDTH 3
+#def  __Init____GPRIMITIVE_SETLINEWIDTH GPRIMITIVE_SETLINEWIDTH
+#def  GPRIMITIVE_SETLINESTYLE 4
+#def  __Init____GPRIMITIVE_SETLINESTYLE GPRIMITIVE_SETLINESTYLE
+#def  GPRIMITIVE_SETFGCOLOR 5
+#def  __Init____GPRIMITIVE_SETFGCOLOR GPRIMITIVE_SETFGCOLOR
+#def  GPRIMITIVE_SETBGCOLOR 6
+#def  __Init____GPRIMITIVE_SETBGCOLOR GPRIMITIVE_SETBGCOLOR
+#def  GPRIMITIVE_SETTEXTSIZE 7
+#def  __Init____GPRIMITIVE_SETTEXTSIZE GPRIMITIVE_SETTEXTSIZE
+#def  GPRIMITIVE_SETTEXTSTYLE 8
+#def  __Init____GPRIMITIVE_SETTEXTSTYLE GPRIMITIVE_SETTEXTSTYLE
+#def  GPRIMITIVE_SETGRADIENTSTYLE 9
+#def  __Init____GPRIMITIVE_SETGRADIENTSTYLE GPRIMITIVE_SETGRADIENTSTYLE
+#def  GPRIMITIVE_SETORIGIN 10
+#def  __Init____GPRIMITIVE_SETORIGIN GPRIMITIVE_SETORIGIN
+#def  GPRIMITIVE_RESETORIGIN 11
+#def  __Init____GPRIMITIVE_RESETORIGIN GPRIMITIVE_RESETORIGIN
+#def  GPRIMITIVE_SETVIRTSIZE 12
+#def  __Init____GPRIMITIVE_SETVIRTSIZE GPRIMITIVE_SETVIRTSIZE
+#def  GPRIMITIVE_SETFILLSTYLE 13
+#def  __Init____GPRIMITIVE_SETFILLSTYLE GPRIMITIVE_SETFILLSTYLE
+#def  GPRIMITIVE_POINT 16
+#def  __Init____GPRIMITIVE_POINT GPRIMITIVE_POINT
+#def  GPRIMITIVE_LINE 17
+#def  __Init____GPRIMITIVE_LINE GPRIMITIVE_LINE
+#def  GPRIMITIVE_MOVETO 18
+#def  __Init____GPRIMITIVE_MOVETO GPRIMITIVE_MOVETO
+#def  GPRIMITIVE_LINETO 19
+#def  __Init____GPRIMITIVE_LINETO GPRIMITIVE_LINETO
+#def  GPRIMITIVE_BOX 20
+#def  __Init____GPRIMITIVE_BOX GPRIMITIVE_BOX
+#def  GPRIMITIVE_FILLBOX 21
+#def  __Init____GPRIMITIVE_FILLBOX GPRIMITIVE_FILLBOX
+#def  GPRIMITIVE_POLYGON 22
+#def  __Init____GPRIMITIVE_POLYGON GPRIMITIVE_POLYGON
+#def  GPRIMITIVE_FILLPOLYGON 23
+#def  __Init____GPRIMITIVE_FILLPOLYGON GPRIMITIVE_FILLPOLYGON
+#def  GPRIMITIVE_CIRCLE 24
+#def  __Init____GPRIMITIVE_CIRCLE GPRIMITIVE_CIRCLE
+#def  GPRIMITIVE_FILLCIRCLE 25
+#def  __Init____GPRIMITIVE_FILLCIRCLE GPRIMITIVE_FILLCIRCLE
+#def  GPRIMITIVE_ARC 26
+#def  __Init____GPRIMITIVE_ARC GPRIMITIVE_ARC
+#def  GPRIMITIVE_FILLARC 27
+#def  __Init____GPRIMITIVE_FILLARC GPRIMITIVE_FILLARC
+#def  GPRIMITIVE_WRITETEXT 28
+#def  __Init____GPRIMITIVE_WRITETEXT GPRIMITIVE_WRITETEXT
+#def  GPRIMITIVE_IMAGE 29
+#def  __Init____GPRIMITIVE_IMAGE GPRIMITIVE_IMAGE
+#def  GPRIMITIVE_MOVE 32
+#def  __Init____GPRIMITIVE_MOVE GPRIMITIVE_MOVE
+#def  GPRIMITIVE_CBOX 33
+#def  __Init____GPRIMITIVE_CBOX GPRIMITIVE_CBOX
+#def  GPRIMITIVE_CFILLBOX 34
+#def  __Init____GPRIMITIVE_CFILLBOX GPRIMITIVE_CFILLBOX
+#def  GPRIMITIVE_CFILLARC 35
+#def  __Init____GPRIMITIVE_CFILLARC GPRIMITIVE_CFILLARC
+#def  GPRIMITIVE_CWRITETEXT 36
+#def  __Init____GPRIMITIVE_CWRITETEXT GPRIMITIVE_CWRITETEXT
+#def  GPRIMITIVE_CIMAGE 37
+#def  __Init____GPRIMITIVE_CIMAGE GPRIMITIVE_CIMAGE
+#def  GPRIMITIVE_CCIRCLE 38
+#def  __Init____GPRIMITIVE_CCIRCLE GPRIMITIVE_CCIRCLE
+#def  GPRIMITIVE_CFILLCIRCLE 39
+#def  __Init____GPRIMITIVE_CFILLCIRCLE GPRIMITIVE_CFILLCIRCLE
+#def  GPRIMITIVE_HEADING 40
+#def  __Init____GPRIMITIVE_HEADING GPRIMITIVE_HEADING
+#def  GPRIMITIVE_TURN 41
+#def  __Init____GPRIMITIVE_TURN GPRIMITIVE_TURN
+#def  GPRIMITIVE_LINEFWD 42
+#def  __Init____GPRIMITIVE_LINEFWD GPRIMITIVE_LINEFWD
+#def  GPRIMITIVE_MOVEFWD 43
+#def  __Init____GPRIMITIVE_MOVEFWD GPRIMITIVE_MOVEFWD
+#def  GPRIMITIVE_PUSHPOSITION 44
+#def  __Init____GPRIMITIVE_PUSHPOSITION GPRIMITIVE_PUSHPOSITION
+#def  GPRIMITIVE_POPPOSITION 45
+#def  __Init____GPRIMITIVE_POPPOSITION GPRIMITIVE_POPPOSITION
+#def  GPRIMITIVE_CPOLYGON 46
+#def  __Init____GPRIMITIVE_CPOLYGON GPRIMITIVE_CPOLYGON
+#def  GPRIMITIVE_CFILLPOLYGON 47
+#def  __Init____GPRIMITIVE_CFILLPOLYGON GPRIMITIVE_CFILLPOLYGON
+#def  GPRIMITIVE_GRAPHLINE 48
+#def  __Init____GPRIMITIVE_GRAPHLINE GPRIMITIVE_GRAPHLINE
+#def  GPRIMITIVE_GRAPHBARS 49
+#def  __Init____GPRIMITIVE_GRAPHBARS GPRIMITIVE_GRAPHBARS
+#def  GPRIMITIVE_PUSHHEADING 50
+#def  __Init____GPRIMITIVE_PUSHHEADING GPRIMITIVE_PUSHHEADING
+#def  GPRIMITIVE_POPHEADING 51
+#def  __Init____GPRIMITIVE_POPHEADING GPRIMITIVE_POPHEADING
+#def  GPRIMITIVE_MACROBEGIN 52
+#def  __Init____GPRIMITIVE_MACROBEGIN GPRIMITIVE_MACROBEGIN
+#def  GPRIMITIVE_MACROEND 53
+#def  __Init____GPRIMITIVE_MACROEND GPRIMITIVE_MACROEND
+#def  GPRIMITIVE_MACRORUN 54
+#def  __Init____GPRIMITIVE_MACRORUN GPRIMITIVE_MACRORUN
+#def  GPRIMITIVE_RADIALSCALE 55
+#def  __Init____GPRIMITIVE_RADIALSCALE GPRIMITIVE_RADIALSCALE
+#def  GPRIMITIVE_LINEARSCALE 56
+#def  __Init____GPRIMITIVE_LINEARSCALE GPRIMITIVE_LINEARSCALE
+#def  GPRIMITIVE_ROUNDBOX 57
+#def  __Init____GPRIMITIVE_ROUNDBOX GPRIMITIVE_ROUNDBOX
+#def  GPRIMITIVE_ROUNDFILLBOX 58
+#def  __Init____GPRIMITIVE_ROUNDFILLBOX GPRIMITIVE_ROUNDFILLBOX
+#def  GPRIMITIVE_CROUNDBOX 59
+#def  __Init____GPRIMITIVE_CROUNDBOX GPRIMITIVE_CROUNDBOX
+#def  GPRIMITIVE_CROUNDFILLBOX 60
+#def  __Init____GPRIMITIVE_CROUNDFILLBOX GPRIMITIVE_CROUNDFILLBOX
+#def  GPRIMITIVE_CARC 61
+#def  __Init____GPRIMITIVE_CARC GPRIMITIVE_CARC
+#def  GTEXT_STYLE_NORMAL 0
+#def  __Init____GTEXT_STYLE_NORMAL GTEXT_STYLE_NORMAL
+#def  GTEXT_STYLE_BOLD 1
+#def  __Init____GTEXT_STYLE_BOLD GTEXT_STYLE_BOLD
+#def  GTEXT_STYLE_ITALIC 2
+#def  __Init____GTEXT_STYLE_ITALIC GTEXT_STYLE_ITALIC
+#def  GTEXT_STYLE_FILLBG 4
+#def  __Init____GTEXT_STYLE_FILLBG GTEXT_STYLE_FILLBG
+#def  GTEXT_STYLE_ALIGN_LEFT 0
+#def  __Init____GTEXT_STYLE_ALIGN_LEFT GTEXT_STYLE_ALIGN_LEFT
+#def  GTEXT_STYLE_ALIGN_RIGHT 16
+#def  __Init____GTEXT_STYLE_ALIGN_RIGHT GTEXT_STYLE_ALIGN_RIGHT
+#def  GTEXT_STYLE_ALIGN_CENTER 32
+#def  __Init____GTEXT_STYLE_ALIGN_CENTER GTEXT_STYLE_ALIGN_CENTER
+#def  GTEXT_STYLE_HRIGHT 0
+#def  __Init____GTEXT_STYLE_HRIGHT GTEXT_STYLE_HRIGHT
+#def  GTEXT_STYLE_HLEFT 64
+#def  __Init____GTEXT_STYLE_HLEFT GTEXT_STYLE_HLEFT
+#def  GTEXT_STYLE_HCENTER 128
+#def  __Init____GTEXT_STYLE_HCENTER GTEXT_STYLE_HCENTER
+#def  GTEXT_STYLE_VDOWN 0
+#def  __Init____GTEXT_STYLE_VDOWN GTEXT_STYLE_VDOWN
+#def  GTEXT_STYLE_VUP 256
+#def  __Init____GTEXT_STYLE_VUP GTEXT_STYLE_VUP
+#def  GTEXT_STYLE_VCENTER 512
+#def  __Init____GTEXT_STYLE_VCENTER GTEXT_STYLE_VCENTER
+#def  GLINE_STYLE_SOLID 0
+#def  __Init____GLINE_STYLE_SOLID GLINE_STYLE_SOLID
+#def  GLINE_STYLE_DASH 1
+#def  __Init____GLINE_STYLE_DASH GLINE_STYLE_DASH
+#def  GLINE_STYLE_DOTDASH 2
+#def  __Init____GLINE_STYLE_DOTDASH GLINE_STYLE_DOTDASH
+#def  GLINE_STYLE_DOT 3
+#def  __Init____GLINE_STYLE_DOT GLINE_STYLE_DOT
+#def  GLINE_CAP_BUTT 0
+#def  __Init____GLINE_CAP_BUTT GLINE_CAP_BUTT
+#def  GLINE_CAP_ROUND 16
+#def  __Init____GLINE_CAP_ROUND GLINE_CAP_ROUND
+#def  GLINE_CAP_SQUARE 32
+#def  __Init____GLINE_CAP_SQUARE GLINE_CAP_SQUARE
+#def  GLINE_JOIN_MITTER 0
+#def  __Init____GLINE_JOIN_MITTER GLINE_JOIN_MITTER
+#def  GLINE_JOIN_ROUND 64
+#def  __Init____GLINE_JOIN_ROUND GLINE_JOIN_ROUND
+#def  GLINE_JOIN_BEVEL 128
+#def  __Init____GLINE_JOIN_BEVEL GLINE_JOIN_BEVEL
+#def  GFILL_STYLE_BGCOLOR 0
+#def  __Init____GFILL_STYLE_BGCOLOR GFILL_STYLE_BGCOLOR
+#def  GFILL_STYLE_FRAME 1
+#def  __Init____GFILL_STYLE_FRAME GFILL_STYLE_FRAME
+#def  GFILL_STYLE_GRADIENT 2
+#def  __Init____GFILL_STYLE_GRADIENT GFILL_STYLE_GRADIENT
+#def  GGRADIENT_STYLE_LINEAR 0
+#def  __Init____GGRADIENT_STYLE_LINEAR GGRADIENT_STYLE_LINEAR
+#def  GGRADIENT_STYLE_BAR1_3 2
+#def  __Init____GGRADIENT_STYLE_BAR1_3 GGRADIENT_STYLE_BAR1_3
+#def  GGRADIENT_STYLE_RADIAL 1
+#def  __Init____GGRADIENT_STYLE_RADIAL GGRADIENT_STYLE_RADIAL
+#def  GGRADIENT_STYLE_RADIAL1_3 3
+#def  __Init____GGRADIENT_STYLE_RADIAL1_3 GGRADIENT_STYLE_RADIAL1_3
+#def  GGRADIENT_STYLE_HORIZONTAL 128
+#def  __Init____GGRADIENT_STYLE_HORIZONTAL GGRADIENT_STYLE_HORIZONTAL
+#def  GPOS_TYPE_PCT 16384
+#def  __Init____GPOS_TYPE_PCT GPOS_TYPE_PCT
+#def  GGRAPH_LINE_DEFAULT 0
+#def  __Init____GGRAPH_LINE_DEFAULT GGRAPH_LINE_DEFAULT
+#def  GGRAPH_LINE_SHOWDOT 1
+#def  __Init____GGRAPH_LINE_SHOWDOT GGRAPH_LINE_SHOWDOT
+#def  GGRAPH_LINE_SHOWCROSS 2
+#def  __Init____GGRAPH_LINE_SHOWCROSS GGRAPH_LINE_SHOWCROSS
+#def  GGRAPH_LINE_NOLINES 8
+#def  __Init____GGRAPH_LINE_NOLINES GGRAPH_LINE_NOLINES
+#def  GGRAPH_LINE_INTERPOLATE 16
+#def  __Init____GGRAPH_LINE_INTERPOLATE GGRAPH_LINE_INTERPOLATE
+#def  GGRAPH_LINE_FILL 32
+#def  __Init____GGRAPH_LINE_FILL GGRAPH_LINE_FILL
+#def  GCOLOR_TRANSPARENT 4278190080
+#def  __Init____GCOLOR_TRANSPARENT GCOLOR_TRANSPARENT
+#def  GCOLOR_TRANSPARENT3_4 3221225472
+#def  __Init____GCOLOR_TRANSPARENT3_4 GCOLOR_TRANSPARENT3_4
+#def  GCOLOR_TRANSPARENT1_2 2147483648
+#def  __Init____GCOLOR_TRANSPARENT1_2 GCOLOR_TRANSPARENT1_2
+#def  GCOLOR_TRANSPARENT1_4 1073741824
+#def  __Init____GCOLOR_TRANSPARENT1_4 GCOLOR_TRANSPARENT1_4
+#def  GCOLOR_WHITE 16777215
+#def  __Init____GCOLOR_WHITE GCOLOR_WHITE
+#def  GCOLOR_BLACK 1
+#def  __Init____GCOLOR_BLACK GCOLOR_BLACK
+#def  GCOLOR_RED 255
+#def  __Init____GCOLOR_RED GCOLOR_RED
+#def  GCOLOR_ORANGE 33023
+#def  __Init____GCOLOR_ORANGE GCOLOR_ORANGE
+#def  GCOLOR_YELLOW 65535
+#def  __Init____GCOLOR_YELLOW GCOLOR_YELLOW
+#def  GCOLOR_CHARTREUSE 65408
+#def  __Init____GCOLOR_CHARTREUSE GCOLOR_CHARTREUSE
+#def  GCOLOR_GREEN 65280
+#def  __Init____GCOLOR_GREEN GCOLOR_GREEN
+#def  GCOLOR_SPRINGGREEN 8453888
+#def  __Init____GCOLOR_SPRINGGREEN GCOLOR_SPRINGGREEN
+#def  GCOLOR_CYAN 16776960
+#def  __Init____GCOLOR_CYAN GCOLOR_CYAN
+#def  GCOLOR_AZURE 16744448
+#def  __Init____GCOLOR_AZURE GCOLOR_AZURE
+#def  GCOLOR_BLUE 16711680
+#def  __Init____GCOLOR_BLUE GCOLOR_BLUE
+#def  GCOLOR_VIOLET 16711808
+#def  __Init____GCOLOR_VIOLET GCOLOR_VIOLET
+#def  GCOLOR_MAGENTA 16711935
+#def  __Init____GCOLOR_MAGENTA GCOLOR_MAGENTA
+#def  GCOLOR_ROSE 8388863
+#def  __Init____GCOLOR_ROSE GCOLOR_ROSE
+#def  GCOLOR_LTGRAY 12632256
+#def  __Init____GCOLOR_LTGRAY GCOLOR_LTGRAY
+#def  GCOLOR_GRAY 8421504
+#def  __Init____GCOLOR_GRAY GCOLOR_GRAY
+#def  GCOLOR_DKGRAY 4210752
+#def  __Init____GCOLOR_DKGRAY GCOLOR_DKGRAY
+#def  GCOLOR_RED_50 15657983
+#def  __Init____GCOLOR_RED_50 GCOLOR_RED_50
+#def  GCOLOR_RED_100 13815295
+#def  __Init____GCOLOR_RED_100 GCOLOR_RED_100
+#def  GCOLOR_RED_200 10132207
+#def  __Init____GCOLOR_RED_200 GCOLOR_RED_200
+#def  GCOLOR_RED_300 7566309
+#def  __Init____GCOLOR_RED_300 GCOLOR_RED_300
+#def  GCOLOR_RED_400 5264367
+#def  __Init____GCOLOR_RED_400 GCOLOR_RED_400
+#def  GCOLOR_RED_500 3556340
+#def  __Init____GCOLOR_RED_500 GCOLOR_RED_500
+#def  GCOLOR_RED_600 3488229
+#def  __Init____GCOLOR_RED_600 GCOLOR_RED_600
+#def  GCOLOR_RED_700 3092435
+#def  __Init____GCOLOR_RED_700 GCOLOR_RED_700
+#def  GCOLOR_RED_800 2631878
+#def  __Init____GCOLOR_RED_800 GCOLOR_RED_800
+#def  GCOLOR_RED_900 1842359
+#def  __Init____GCOLOR_RED_900 GCOLOR_RED_900
+#def  GCOLOR_RED_A100 8424191
+#def  __Init____GCOLOR_RED_A100 GCOLOR_RED_A100
+#def  GCOLOR_RED_A200 5395199
+#def  __Init____GCOLOR_RED_A200 GCOLOR_RED_A200
+#def  GCOLOR_RED_A400 4462591
+#def  __Init____GCOLOR_RED_A400 GCOLOR_RED_A400
+#def  GCOLOR_RED_A700 213
+#def  __Init____GCOLOR_RED_A700 GCOLOR_RED_A700
+#def  GCOLOR_PINK_50 15525116
+#def  __Init____GCOLOR_PINK_50 GCOLOR_PINK_50
+#def  GCOLOR_PINK_100 13679608
+#def  __Init____GCOLOR_PINK_100 GCOLOR_PINK_100
+#def  GCOLOR_PINK_200 11636724
+#def  __Init____GCOLOR_PINK_200 GCOLOR_PINK_200
+#def  GCOLOR_PINK_300 9593584
+#def  __Init____GCOLOR_PINK_300 GCOLOR_PINK_300
+#def  GCOLOR_PINK_400 8012012
+#def  __Init____GCOLOR_PINK_400 GCOLOR_PINK_400
+#def  GCOLOR_PINK_500 6495977
+#def  __Init____GCOLOR_PINK_500 GCOLOR_PINK_500
+#def  GCOLOR_PINK_600 6298584
+#def  __Init____GCOLOR_PINK_600 GCOLOR_PINK_600
+#def  GCOLOR_PINK_700 5970114
+#def  __Init____GCOLOR_PINK_700 GCOLOR_PINK_700
+#def  GCOLOR_PINK_800 5706925
+#def  __Init____GCOLOR_PINK_800 GCOLOR_PINK_800
+#def  GCOLOR_PINK_900 5181064
+#def  __Init____GCOLOR_PINK_900 GCOLOR_PINK_900
+#def  GCOLOR_PINK_A100 11239679
+#def  __Init____GCOLOR_PINK_A100 GCOLOR_PINK_A100
+#def  GCOLOR_PINK_A200 8470783
+#def  __Init____GCOLOR_PINK_A200 GCOLOR_PINK_A200
+#def  GCOLOR_PINK_A400 5701877
+#def  __Init____GCOLOR_PINK_A400 GCOLOR_PINK_A400
+#def  GCOLOR_PINK_A700 6427077
+#def  __Init____GCOLOR_PINK_A700 GCOLOR_PINK_A700
+#def  GCOLOR_PURPLE_50 16115187
+#def  __Init____GCOLOR_PURPLE_50 GCOLOR_PURPLE_50
+#def  GCOLOR_PURPLE_100 15187681
+#def  __Init____GCOLOR_PURPLE_100 GCOLOR_PURPLE_100
+#def  GCOLOR_PURPLE_200 14193614
+#def  __Init____GCOLOR_PURPLE_200 GCOLOR_PURPLE_200
+#def  GCOLOR_PURPLE_300 13134010
+#def  __Init____GCOLOR_PURPLE_300 GCOLOR_PURPLE_300
+#def  GCOLOR_PURPLE_400 12339115
+#def  __Init____GCOLOR_PURPLE_400 GCOLOR_PURPLE_400
+#def  GCOLOR_PURPLE_500 11544476
+#def  __Init____GCOLOR_PURPLE_500 GCOLOR_PURPLE_500
+#def  GCOLOR_PURPLE_600 11150478
+#def  __Init____GCOLOR_PURPLE_600 GCOLOR_PURPLE_600
+#def  GCOLOR_PURPLE_700 10624891
+#def  __Init____GCOLOR_PURPLE_700 GCOLOR_PURPLE_700
+#def  GCOLOR_PURPLE_800 10099562
+#def  __Init____GCOLOR_PURPLE_800 GCOLOR_PURPLE_800
+#def  GCOLOR_PURPLE_900 9180234
+#def  __Init____GCOLOR_PURPLE_900 GCOLOR_PURPLE_900
+#def  GCOLOR_PURPLE_A100 16548074
+#def  __Init____GCOLOR_PURPLE_A100 GCOLOR_PURPLE_A100
+#def  GCOLOR_PURPLE_A200 16466144
+#def  __Init____GCOLOR_PURPLE_A200 GCOLOR_PURPLE_A200
+#def  GCOLOR_PURPLE_A400 16318677
+#def  __Init____GCOLOR_PURPLE_A400 GCOLOR_PURPLE_A400
+#def  GCOLOR_PURPLE_A700 16711850
+#def  __Init____GCOLOR_PURPLE_A700 GCOLOR_PURPLE_A700
+#def  GCOLOR_DEEP_PURPLE_50 16181229
+#def  __Init____GCOLOR_DEEP_PURPLE_50 GCOLOR_DEEP_PURPLE_50
+#def  GCOLOR_DEEP_PURPLE_100 15320273
+#def  __Init____GCOLOR_DEEP_PURPLE_100 GCOLOR_DEEP_PURPLE_100
+#def  GCOLOR_DEEP_PURPLE_200 14392755
+#def  __Init____GCOLOR_DEEP_PURPLE_200 GCOLOR_DEEP_PURPLE_200
+#def  GCOLOR_DEEP_PURPLE_300 13464981
+#def  __Init____GCOLOR_DEEP_PURPLE_300 GCOLOR_DEEP_PURPLE_300
+#def  GCOLOR_DEEP_PURPLE_400 12736382
+#def  __Init____GCOLOR_DEEP_PURPLE_400 GCOLOR_DEEP_PURPLE_400
+#def  GCOLOR_DEEP_PURPLE_500 12008039
+#def  __Init____GCOLOR_DEEP_PURPLE_500 GCOLOR_DEEP_PURPLE_500
+#def  GCOLOR_DEEP_PURPLE_600 11613534
+#def  __Init____GCOLOR_DEEP_PURPLE_600 GCOLOR_DEEP_PURPLE_600
+#def  GCOLOR_DEEP_PURPLE_700 11021649
+#def  __Init____GCOLOR_DEEP_PURPLE_700 GCOLOR_DEEP_PURPLE_700
+#def  GCOLOR_DEEP_PURPLE_800 10495813
+#def  __Init____GCOLOR_DEEP_PURPLE_800 GCOLOR_DEEP_PURPLE_800
+#def  GCOLOR_DEEP_PURPLE_900 9575217
+#def  __Init____GCOLOR_DEEP_PURPLE_900 GCOLOR_DEEP_PURPLE_900
+#def  GCOLOR_DEEP_PURPLE_A100 16746675
+#def  __Init____GCOLOR_DEEP_PURPLE_A100 GCOLOR_DEEP_PURPLE_A100
+#def  GCOLOR_DEEP_PURPLE_A200 16731516
+#def  __Init____GCOLOR_DEEP_PURPLE_A200 GCOLOR_DEEP_PURPLE_A200
+#def  GCOLOR_DEEP_PURPLE_A400 16719717
+#def  __Init____GCOLOR_DEEP_PURPLE_A400 GCOLOR_DEEP_PURPLE_A400
+#def  GCOLOR_DEEP_PURPLE_A700 15335522
+#def  __Init____GCOLOR_DEEP_PURPLE_A700 GCOLOR_DEEP_PURPLE_A700
+#def  GCOLOR_INDIGO_50 16181992
+#def  __Init____GCOLOR_INDIGO_50 GCOLOR_INDIGO_50
+#def  GCOLOR_INDIGO_100 15321797
+#def  __Init____GCOLOR_INDIGO_100 GCOLOR_INDIGO_100
+#def  GCOLOR_INDIGO_200 14330015
+#def  __Init____GCOLOR_INDIGO_200 GCOLOR_INDIGO_200
+#def  GCOLOR_INDIGO_300 13338233
+#def  __Init____GCOLOR_INDIGO_300 GCOLOR_INDIGO_300
+#def  GCOLOR_INDIGO_400 12610396
+#def  __Init____GCOLOR_INDIGO_400 GCOLOR_INDIGO_400
+#def  GCOLOR_INDIGO_500 11882815
+#def  __Init____GCOLOR_INDIGO_500 GCOLOR_INDIGO_500
+#def  GCOLOR_INDIGO_600 11225401
+#def  __Init____GCOLOR_INDIGO_600 GCOLOR_INDIGO_600
+#def  GCOLOR_INDIGO_700 10436400
+#def  __Init____GCOLOR_INDIGO_700 GCOLOR_INDIGO_700
+#def  GCOLOR_INDIGO_800 9647400
+#def  __Init____GCOLOR_INDIGO_800 GCOLOR_INDIGO_800
+#def  GCOLOR_INDIGO_900 8266522
+#def  __Init____GCOLOR_INDIGO_900 GCOLOR_INDIGO_900
+#def  GCOLOR_INDIGO_A100 16752268
+#def  __Init____GCOLOR_INDIGO_A100 GCOLOR_INDIGO_A100
+#def  GCOLOR_INDIGO_A200 16674131
+#def  __Init____GCOLOR_INDIGO_A200 GCOLOR_INDIGO_A200
+#def  GCOLOR_INDIGO_A400 16669245
+#def  __Init____GCOLOR_INDIGO_A400 GCOLOR_INDIGO_A400
+#def  GCOLOR_INDIGO_A700 16666416
+#def  __Init____GCOLOR_INDIGO_A700 GCOLOR_INDIGO_A700
+#def  GCOLOR_BLUE_50 16642787
+#def  __Init____GCOLOR_BLUE_50 GCOLOR_BLUE_50
+#def  GCOLOR_BLUE_100 16506555
+#def  __Init____GCOLOR_BLUE_100 GCOLOR_BLUE_100
+#def  GCOLOR_BLUE_200 16370320
+#def  __Init____GCOLOR_BLUE_200 GCOLOR_BLUE_200
+#def  GCOLOR_BLUE_300 16168292
+#def  __Init____GCOLOR_BLUE_300 GCOLOR_BLUE_300
+#def  GCOLOR_BLUE_400 16098626
+#def  __Init____GCOLOR_BLUE_400 GCOLOR_BLUE_400
+#def  GCOLOR_BLUE_500 15963681
+#def  __Init____GCOLOR_BLUE_500 GCOLOR_BLUE_500
+#def  GCOLOR_BLUE_600 15042590
+#def  __Init____GCOLOR_BLUE_600 GCOLOR_BLUE_600
+#def  GCOLOR_BLUE_700 13792793
+#def  __Init____GCOLOR_BLUE_700 GCOLOR_BLUE_700
+#def  GCOLOR_BLUE_800 12608789
+#def  __Init____GCOLOR_BLUE_800 GCOLOR_BLUE_800
+#def  GCOLOR_BLUE_900 10569485
+#def  __Init____GCOLOR_BLUE_900 GCOLOR_BLUE_900
+#def  GCOLOR_BLUE_A100 16757122
+#def  __Init____GCOLOR_BLUE_A100 GCOLOR_BLUE_A100
+#def  GCOLOR_BLUE_A200 16747076
+#def  __Init____GCOLOR_BLUE_A200 GCOLOR_BLUE_A200
+#def  GCOLOR_BLUE_A400 16742697
+#def  __Init____GCOLOR_BLUE_A400 GCOLOR_BLUE_A400
+#def  GCOLOR_BLUE_A700 16736809
+#def  __Init____GCOLOR_BLUE_A700 GCOLOR_BLUE_A700
+#def  GCOLOR_LIGHT_BLUE_50 16709089
+#def  __Init____GCOLOR_LIGHT_BLUE_50 GCOLOR_LIGHT_BLUE_50
+#def  GCOLOR_LIGHT_BLUE_100 16573875
+#def  __Init____GCOLOR_LIGHT_BLUE_100 GCOLOR_LIGHT_BLUE_100
+#def  GCOLOR_LIGHT_BLUE_200 16438401
+#def  __Init____GCOLOR_LIGHT_BLUE_200 GCOLOR_LIGHT_BLUE_200
+#def  GCOLOR_LIGHT_BLUE_300 16237391
+#def  __Init____GCOLOR_LIGHT_BLUE_300 GCOLOR_LIGHT_BLUE_300
+#def  GCOLOR_LIGHT_BLUE_400 16168489
+#def  __Init____GCOLOR_LIGHT_BLUE_400 GCOLOR_LIGHT_BLUE_400
+#def  GCOLOR_LIGHT_BLUE_500 16034051
+#def  __Init____GCOLOR_LIGHT_BLUE_500 GCOLOR_LIGHT_BLUE_500
+#def  GCOLOR_LIGHT_BLUE_600 15047427
+#def  __Init____GCOLOR_LIGHT_BLUE_600 GCOLOR_LIGHT_BLUE_600
+#def  GCOLOR_LIGHT_BLUE_700 13731842
+#def  __Init____GCOLOR_LIGHT_BLUE_700 GCOLOR_LIGHT_BLUE_700
+#def  GCOLOR_LIGHT_BLUE_800 12416770
+#def  __Init____GCOLOR_LIGHT_BLUE_800 GCOLOR_LIGHT_BLUE_800
+#def  GCOLOR_LIGHT_BLUE_900 10180353
+#def  __Init____GCOLOR_LIGHT_BLUE_900 GCOLOR_LIGHT_BLUE_900
+#def  GCOLOR_LIGHT_BLUE_A100 16767104
+#def  __Init____GCOLOR_LIGHT_BLUE_A100 GCOLOR_LIGHT_BLUE_A100
+#def  GCOLOR_LIGHT_BLUE_A200 16761920
+#def  __Init____GCOLOR_LIGHT_BLUE_A200 GCOLOR_LIGHT_BLUE_A200
+#def  GCOLOR_LIGHT_BLUE_A400 16756736
+#def  __Init____GCOLOR_LIGHT_BLUE_A400 GCOLOR_LIGHT_BLUE_A400
+#def  GCOLOR_LIGHT_BLUE_A700 15372544
+#def  __Init____GCOLOR_LIGHT_BLUE_A700 GCOLOR_LIGHT_BLUE_A700
+#def  GCOLOR_CYAN_50 16447456
+#def  __Init____GCOLOR_CYAN_50 GCOLOR_CYAN_50
+#def  GCOLOR_CYAN_100 15920050
+#def  __Init____GCOLOR_CYAN_100 GCOLOR_CYAN_100
+#def  GCOLOR_CYAN_200 15392384
+#def  __Init____GCOLOR_CYAN_200 GCOLOR_CYAN_200
+#def  GCOLOR_CYAN_300 14798925
+#def  __Init____GCOLOR_CYAN_300 GCOLOR_CYAN_300
+#def  GCOLOR_CYAN_400 14337574
+#def  __Init____GCOLOR_CYAN_400 GCOLOR_CYAN_400
+#def  GCOLOR_CYAN_500 13941760
+#def  __Init____GCOLOR_CYAN_500 GCOLOR_CYAN_500
+#def  GCOLOR_CYAN_600 12692480
+#def  __Init____GCOLOR_CYAN_600 GCOLOR_CYAN_600
+#def  GCOLOR_CYAN_700 10983168
+#def  __Init____GCOLOR_CYAN_700 GCOLOR_CYAN_700
+#def  GCOLOR_CYAN_800 9405184
+#def  __Init____GCOLOR_CYAN_800 GCOLOR_CYAN_800
+#def  GCOLOR_CYAN_900 6578176
+#def  __Init____GCOLOR_CYAN_900 GCOLOR_CYAN_900
+#def  GCOLOR_CYAN_A100 16777092
+#def  __Init____GCOLOR_CYAN_A100 GCOLOR_CYAN_A100
+#def  GCOLOR_CYAN_A200 16776984
+#def  __Init____GCOLOR_CYAN_A200 GCOLOR_CYAN_A200
+#def  GCOLOR_CYAN_A400 16770304
+#def  __Init____GCOLOR_CYAN_A400 GCOLOR_CYAN_A400
+#def  GCOLOR_CYAN_A700 13940736
+#def  __Init____GCOLOR_CYAN_A700 GCOLOR_CYAN_A700
+#def  GCOLOR_TEAL_50 15856352
+#def  __Init____GCOLOR_TEAL_50 GCOLOR_TEAL_50
+#def  GCOLOR_TEAL_100 14409650
+#def  __Init____GCOLOR_TEAL_100 GCOLOR_TEAL_100
+#def  GCOLOR_TEAL_200 12897152
+#def  __Init____GCOLOR_TEAL_200 GCOLOR_TEAL_200
+#def  GCOLOR_TEAL_300 11318861
+#def  __Init____GCOLOR_TEAL_300 GCOLOR_TEAL_300
+#def  GCOLOR_TEAL_400 10135078
+#def  __Init____GCOLOR_TEAL_400 GCOLOR_TEAL_400
+#def  GCOLOR_TEAL_500 8951296
+#def  __Init____GCOLOR_TEAL_500 GCOLOR_TEAL_500
+#def  GCOLOR_TEAL_600 8096000
+#def  __Init____GCOLOR_TEAL_600 GCOLOR_TEAL_600
+#def  GCOLOR_TEAL_700 7043328
+#def  __Init____GCOLOR_TEAL_700 GCOLOR_TEAL_700
+#def  GCOLOR_TEAL_800 6056192
+#def  __Init____GCOLOR_TEAL_800 GCOLOR_TEAL_800
+#def  GCOLOR_TEAL_900 4214016
+#def  __Init____GCOLOR_TEAL_900 GCOLOR_TEAL_900
+#def  GCOLOR_TEAL_A100 15466407
+#def  __Init____GCOLOR_TEAL_A100 GCOLOR_TEAL_A100
+#def  GCOLOR_TEAL_A200 14352228
+#def  __Init____GCOLOR_TEAL_A200 GCOLOR_TEAL_A200
+#def  GCOLOR_TEAL_A400 11987229
+#def  __Init____GCOLOR_TEAL_A400 GCOLOR_TEAL_A400
+#def  GCOLOR_TEAL_A700 10862336
+#def  __Init____GCOLOR_TEAL_A700 GCOLOR_TEAL_A700
+#def  GCOLOR_GREEN_50 15332840
+#def  __Init____GCOLOR_GREEN_50 GCOLOR_GREEN_50
+#def  GCOLOR_GREEN_100 13231816
+#def  __Init____GCOLOR_GREEN_100 GCOLOR_GREEN_100
+#def  GCOLOR_GREEN_200 10999461
+#def  __Init____GCOLOR_GREEN_200 GCOLOR_GREEN_200
+#def  GCOLOR_GREEN_300 8701825
+#def  __Init____GCOLOR_GREEN_300 GCOLOR_GREEN_300
+#def  GCOLOR_GREEN_400 6994790
+#def  __Init____GCOLOR_GREEN_400 GCOLOR_GREEN_400
+#def  GCOLOR_GREEN_500 5287756
+#def  __Init____GCOLOR_GREEN_500 GCOLOR_GREEN_500
+#def  GCOLOR_GREEN_600 4694083
+#def  __Init____GCOLOR_GREEN_600 GCOLOR_GREEN_600
+#def  GCOLOR_GREEN_700 3968568
+#def  __Init____GCOLOR_GREEN_700 GCOLOR_GREEN_700
+#def  GCOLOR_GREEN_800 3308846
+#def  __Init____GCOLOR_GREEN_800 GCOLOR_GREEN_800
+#def  GCOLOR_GREEN_900 2121243
+#def  __Init____GCOLOR_GREEN_900 GCOLOR_GREEN_900
+#def  GCOLOR_GREEN_A100 13301433
+#def  __Init____GCOLOR_GREEN_A100 GCOLOR_GREEN_A100
+#def  GCOLOR_GREEN_A200 11464809
+#def  __Init____GCOLOR_GREEN_A200 GCOLOR_GREEN_A200
+#def  GCOLOR_GREEN_A400 7792128
+#def  __Init____GCOLOR_GREEN_A400 GCOLOR_GREEN_A400
+#def  GCOLOR_GREEN_A700 5490688
+#def  __Init____GCOLOR_GREEN_A700 GCOLOR_GREEN_A700
+#def  GCOLOR_LIGHT_GREEN_50 15333617
+#def  __Init____GCOLOR_LIGHT_GREEN_50 GCOLOR_LIGHT_GREEN_50
+#def  GCOLOR_LIGHT_GREEN_100 13168092
+#def  __Init____GCOLOR_LIGHT_GREEN_100 GCOLOR_LIGHT_GREEN_100
+#def  GCOLOR_LIGHT_GREEN_200 10871237
+#def  __Init____GCOLOR_LIGHT_GREEN_200 GCOLOR_LIGHT_GREEN_200
+#def  GCOLOR_LIGHT_GREEN_300 8508846
+#def  __Init____GCOLOR_LIGHT_GREEN_300 GCOLOR_LIGHT_GREEN_300
+#def  GCOLOR_LIGHT_GREEN_400 6671516
+#def  __Init____GCOLOR_LIGHT_GREEN_400 GCOLOR_LIGHT_GREEN_400
+#def  GCOLOR_LIGHT_GREEN_500 4899723
+#def  __Init____GCOLOR_LIGHT_GREEN_500 GCOLOR_LIGHT_GREEN_500
+#def  GCOLOR_LIGHT_GREEN_600 4371324
+#def  __Init____GCOLOR_LIGHT_GREEN_600 GCOLOR_LIGHT_GREEN_600
+#def  GCOLOR_LIGHT_GREEN_700 3710824
+#def  __Init____GCOLOR_LIGHT_GREEN_700 GCOLOR_LIGHT_GREEN_700
+#def  GCOLOR_LIGHT_GREEN_800 3115861
+#def  __Init____GCOLOR_LIGHT_GREEN_800 GCOLOR_LIGHT_GREEN_800
+#def  GCOLOR_LIGHT_GREEN_900 1993011
+#def  __Init____GCOLOR_LIGHT_GREEN_900 GCOLOR_LIGHT_GREEN_900
+#def  GCOLOR_LIGHT_GREEN_A100 9502668
+#def  __Init____GCOLOR_LIGHT_GREEN_A100 GCOLOR_LIGHT_GREEN_A100
+#def  GCOLOR_LIGHT_GREEN_A200 5898162
+#def  __Init____GCOLOR_LIGHT_GREEN_A200 GCOLOR_LIGHT_GREEN_A200
+#def  GCOLOR_LIGHT_GREEN_A400 262006
+#def  __Init____GCOLOR_LIGHT_GREEN_A400 GCOLOR_LIGHT_GREEN_A400
+#def  GCOLOR_LIGHT_GREEN_A700 1564004
+#def  __Init____GCOLOR_LIGHT_GREEN_A700 GCOLOR_LIGHT_GREEN_A700
+#def  GCOLOR_LIME_50 15203321
+#def  __Init____GCOLOR_LIME_50 GCOLOR_LIME_50
+#def  GCOLOR_LIME_100 12842224
+#def  __Init____GCOLOR_LIME_100 GCOLOR_LIME_100
+#def  GCOLOR_LIME_200 10284774
+#def  __Init____GCOLOR_LIME_200 GCOLOR_LIME_200
+#def  GCOLOR_LIME_300 7727068
+#def  __Init____GCOLOR_LIME_300 GCOLOR_LIME_300
+#def  GCOLOR_LIME_400 5759444
+#def  __Init____GCOLOR_LIME_400 GCOLOR_LIME_400
+#def  GCOLOR_LIME_500 3792077
+#def  __Init____GCOLOR_LIME_500 GCOLOR_LIME_500
+#def  GCOLOR_LIME_600 3394240
+#def  __Init____GCOLOR_LIME_600 GCOLOR_LIME_600
+#def  GCOLOR_LIME_700 2864303
+#def  __Init____GCOLOR_LIME_700 GCOLOR_LIME_700
+#def  GCOLOR_LIME_800 2399646
+#def  __Init____GCOLOR_LIME_800 GCOLOR_LIME_800
+#def  GCOLOR_LIME_900 1537922
+#def  __Init____GCOLOR_LIME_900 GCOLOR_LIME_900
+#def  GCOLOR_LIME_A100 8519668
+#def  __Init____GCOLOR_LIME_A100 GCOLOR_LIME_A100
+#def  GCOLOR_LIME_A200 4325358
+#def  __Init____GCOLOR_LIME_A200 GCOLOR_LIME_A200
+#def  GCOLOR_LIME_A400 65478
+#def  __Init____GCOLOR_LIME_A400 GCOLOR_LIME_A400
+#def  GCOLOR_LIME_A700 60078
+#def  __Init____GCOLOR_LIME_A700 GCOLOR_LIME_A700
+#def  GCOLOR_YELLOW_50 15203839
+#def  __Init____GCOLOR_YELLOW_50 GCOLOR_YELLOW_50
+#def  GCOLOR_YELLOW_100 12909055
+#def  __Init____GCOLOR_YELLOW_100 GCOLOR_YELLOW_100
+#def  GCOLOR_YELLOW_200 10352127
+#def  __Init____GCOLOR_YELLOW_200 GCOLOR_YELLOW_200
+#def  GCOLOR_YELLOW_300 7795199
+#def  __Init____GCOLOR_YELLOW_300 GCOLOR_YELLOW_300
+#def  GCOLOR_YELLOW_400 5828351
+#def  __Init____GCOLOR_YELLOW_400 GCOLOR_YELLOW_400
+#def  GCOLOR_YELLOW_500 3927039
+#def  __Init____GCOLOR_YELLOW_500 GCOLOR_YELLOW_500
+#def  GCOLOR_YELLOW_600 3528957
+#def  __Init____GCOLOR_YELLOW_600 GCOLOR_YELLOW_600
+#def  GCOLOR_YELLOW_700 2998523
+#def  __Init____GCOLOR_YELLOW_700 GCOLOR_YELLOW_700
+#def  GCOLOR_YELLOW_800 2468089
+#def  __Init____GCOLOR_YELLOW_800 GCOLOR_YELLOW_800
+#def  GCOLOR_YELLOW_900 1540085
+#def  __Init____GCOLOR_YELLOW_900 GCOLOR_YELLOW_900
+#def  GCOLOR_YELLOW_A100 9306111
+#def  __Init____GCOLOR_YELLOW_A100 GCOLOR_YELLOW_A100
+#def  GCOLOR_YELLOW_A200 65535
+#def  __Init____GCOLOR_YELLOW_A200 GCOLOR_YELLOW_A200
+#def  GCOLOR_YELLOW_A400 60159
+#def  __Init____GCOLOR_YELLOW_A400 GCOLOR_YELLOW_A400
+#def  GCOLOR_YELLOW_A700 55039
+#def  __Init____GCOLOR_YELLOW_A700 GCOLOR_YELLOW_A700
+#def  GCOLOR_AMBER_50 14809343
+#def  __Init____GCOLOR_AMBER_50 GCOLOR_AMBER_50
+#def  GCOLOR_AMBER_100 11791615
+#def  __Init____GCOLOR_AMBER_100 GCOLOR_AMBER_100
+#def  GCOLOR_AMBER_200 8577279
+#def  __Init____GCOLOR_AMBER_200 GCOLOR_AMBER_200
+#def  GCOLOR_AMBER_300 5232127
+#def  __Init____GCOLOR_AMBER_300 GCOLOR_AMBER_300
+#def  GCOLOR_AMBER_400 2673407
+#def  __Init____GCOLOR_AMBER_400 GCOLOR_AMBER_400
+#def  GCOLOR_AMBER_500 508415
+#def  __Init____GCOLOR_AMBER_500 GCOLOR_AMBER_500
+#def  GCOLOR_AMBER_600 46079
+#def  __Init____GCOLOR_AMBER_600 GCOLOR_AMBER_600
+#def  GCOLOR_AMBER_700 41215
+#def  __Init____GCOLOR_AMBER_700 GCOLOR_AMBER_700
+#def  GCOLOR_AMBER_800 36863
+#def  __Init____GCOLOR_AMBER_800 GCOLOR_AMBER_800
+#def  GCOLOR_AMBER_900 28671
+#def  __Init____GCOLOR_AMBER_900 GCOLOR_AMBER_900
+#def  GCOLOR_AMBER_A100 8381951
+#def  __Init____GCOLOR_AMBER_A100 GCOLOR_AMBER_A100
+#def  GCOLOR_AMBER_A200 4249599
+#def  __Init____GCOLOR_AMBER_A200 GCOLOR_AMBER_A200
+#def  GCOLOR_AMBER_A400 50431
+#def  __Init____GCOLOR_AMBER_A400 GCOLOR_AMBER_A400
+#def  GCOLOR_AMBER_A700 44031
+#def  __Init____GCOLOR_AMBER_A700 GCOLOR_AMBER_A700
+#def  GCOLOR_ORANGE_50 14742527
+#def  __Init____GCOLOR_ORANGE_50 GCOLOR_ORANGE_50
+#def  GCOLOR_ORANGE_100 11723007
+#def  __Init____GCOLOR_ORANGE_100 GCOLOR_ORANGE_100
+#def  GCOLOR_ORANGE_200 8441087
+#def  __Init____GCOLOR_ORANGE_200 GCOLOR_ORANGE_200
+#def  GCOLOR_ORANGE_300 5093375
+#def  __Init____GCOLOR_ORANGE_300 GCOLOR_ORANGE_300
+#def  GCOLOR_ORANGE_400 2533375
+#def  __Init____GCOLOR_ORANGE_400 GCOLOR_ORANGE_400
+#def  GCOLOR_ORANGE_500 39167
+#def  __Init____GCOLOR_ORANGE_500 GCOLOR_ORANGE_500
+#def  GCOLOR_ORANGE_600 36091
+#def  __Init____GCOLOR_ORANGE_600 GCOLOR_ORANGE_600
+#def  GCOLOR_ORANGE_700 31989
+#def  __Init____GCOLOR_ORANGE_700 GCOLOR_ORANGE_700
+#def  GCOLOR_ORANGE_800 27887
+#def  __Init____GCOLOR_ORANGE_800 GCOLOR_ORANGE_800
+#def  GCOLOR_ORANGE_900 20966
+#def  __Init____GCOLOR_ORANGE_900 GCOLOR_ORANGE_900
+#def  GCOLOR_ORANGE_A100 8442367
+#def  __Init____GCOLOR_ORANGE_A100 GCOLOR_ORANGE_A100
+#def  GCOLOR_ORANGE_A200 4238335
+#def  __Init____GCOLOR_ORANGE_A200 GCOLOR_ORANGE_A200
+#def  GCOLOR_ORANGE_A400 37375
+#def  __Init____GCOLOR_ORANGE_A400 GCOLOR_ORANGE_A400
+#def  GCOLOR_ORANGE_A700 28159
+#def  __Init____GCOLOR_ORANGE_A700 GCOLOR_ORANGE_A700
+#def  GCOLOR_DEEP_ORANGE_50 15198715
+#def  __Init____GCOLOR_DEEP_ORANGE_50 GCOLOR_DEEP_ORANGE_50
+#def  GCOLOR_DEEP_ORANGE_100 12373247
+#def  __Init____GCOLOR_DEEP_ORANGE_100 GCOLOR_DEEP_ORANGE_100
+#def  GCOLOR_DEEP_ORANGE_200 9546751
+#def  __Init____GCOLOR_DEEP_ORANGE_200 GCOLOR_DEEP_ORANGE_200
+#def  GCOLOR_DEEP_ORANGE_300 6654719
+#def  __Init____GCOLOR_DEEP_ORANGE_300 GCOLOR_DEEP_ORANGE_300
+#def  GCOLOR_DEEP_ORANGE_400 4419839
+#def  __Init____GCOLOR_DEEP_ORANGE_400 GCOLOR_DEEP_ORANGE_400
+#def  GCOLOR_DEEP_ORANGE_500 2250751
+#def  __Init____GCOLOR_DEEP_ORANGE_500 GCOLOR_DEEP_ORANGE_500
+#def  GCOLOR_DEEP_ORANGE_600 1987060
+#def  __Init____GCOLOR_DEEP_ORANGE_600 GCOLOR_DEEP_ORANGE_600
+#def  GCOLOR_DEEP_ORANGE_700 1657574
+#def  __Init____GCOLOR_DEEP_ORANGE_700 GCOLOR_DEEP_ORANGE_700
+#def  GCOLOR_DEEP_ORANGE_800 1393624
+#def  __Init____GCOLOR_DEEP_ORANGE_800 GCOLOR_DEEP_ORANGE_800
+#def  GCOLOR_DEEP_ORANGE_900 800447
+#def  __Init____GCOLOR_DEEP_ORANGE_900 GCOLOR_DEEP_ORANGE_900
+#def  GCOLOR_DEEP_ORANGE_A100 8429311
+#def  __Init____GCOLOR_DEEP_ORANGE_A100 GCOLOR_DEEP_ORANGE_A100
+#def  GCOLOR_DEEP_ORANGE_A200 4222719
+#def  __Init____GCOLOR_DEEP_ORANGE_A200 GCOLOR_DEEP_ORANGE_A200
+#def  GCOLOR_DEEP_ORANGE_A400 15871
+#def  __Init____GCOLOR_DEEP_ORANGE_A400 GCOLOR_DEEP_ORANGE_A400
+#def  GCOLOR_DEEP_ORANGE_A700 11485
+#def  __Init____GCOLOR_DEEP_ORANGE_A700 GCOLOR_DEEP_ORANGE_A700
+#def  GCOLOR_BROWN_50 15330287
+#def  __Init____GCOLOR_BROWN_50 GCOLOR_BROWN_50
+#def  GCOLOR_BROWN_100 13159639
+#def  __Init____GCOLOR_BROWN_100 GCOLOR_BROWN_100
+#def  GCOLOR_BROWN_200 10791612
+#def  __Init____GCOLOR_BROWN_200 GCOLOR_BROWN_200
+#def  GCOLOR_BROWN_300 8358049
+#def  __Init____GCOLOR_BROWN_300 GCOLOR_BROWN_300
+#def  GCOLOR_BROWN_400 6516365
+#def  __Init____GCOLOR_BROWN_400 GCOLOR_BROWN_400
+#def  GCOLOR_BROWN_500 4740473
+#def  __Init____GCOLOR_BROWN_500 GCOLOR_BROWN_500
+#def  GCOLOR_BROWN_600 4279405
+#def  __Init____GCOLOR_BROWN_600 GCOLOR_BROWN_600
+#def  GCOLOR_BROWN_700 3620957
+#def  __Init____GCOLOR_BROWN_700 GCOLOR_BROWN_700
+#def  GCOLOR_BROWN_800 3028046
+#def  __Init____GCOLOR_BROWN_800 GCOLOR_BROWN_800
+#def  GCOLOR_BROWN_900 2303806
+#def  __Init____GCOLOR_BROWN_900 GCOLOR_BROWN_900
+#def  GCOLOR_GREY_50 16448250
+#def  __Init____GCOLOR_GREY_50 GCOLOR_GREY_50
+#def  GCOLOR_GREY_100 16119285
+#def  __Init____GCOLOR_GREY_100 GCOLOR_GREY_100
+#def  GCOLOR_GREY_200 15658734
+#def  __Init____GCOLOR_GREY_200 GCOLOR_GREY_200
+#def  GCOLOR_GREY_300 14737632
+#def  __Init____GCOLOR_GREY_300 GCOLOR_GREY_300
+#def  GCOLOR_GREY_400 12434877
+#def  __Init____GCOLOR_GREY_400 GCOLOR_GREY_400
+#def  GCOLOR_GREY_500 10395294
+#def  __Init____GCOLOR_GREY_500 GCOLOR_GREY_500
+#def  GCOLOR_GREY_600 7697781
+#def  __Init____GCOLOR_GREY_600 GCOLOR_GREY_600
+#def  GCOLOR_GREY_700 6381921
+#def  __Init____GCOLOR_GREY_700 GCOLOR_GREY_700
+#def  GCOLOR_GREY_800 4342338
+#def  __Init____GCOLOR_GREY_800 GCOLOR_GREY_800
+#def  GCOLOR_GREY_900 2171169
+#def  __Init____GCOLOR_GREY_900 GCOLOR_GREY_900
+#def  GCOLOR_BLUE_GREY_50 15855596
+#def  __Init____GCOLOR_BLUE_GREY_50 GCOLOR_BLUE_GREY_50
+#def  GCOLOR_BLUE_GREY_100 14473423
+#def  __Init____GCOLOR_BLUE_GREY_100 GCOLOR_BLUE_GREY_100
+#def  GCOLOR_BLUE_GREY_200 12959408
+#def  __Init____GCOLOR_BLUE_GREY_200 GCOLOR_BLUE_GREY_200
+#def  GCOLOR_BLUE_GREY_300 11445392
+#def  __Init____GCOLOR_BLUE_GREY_300 GCOLOR_BLUE_GREY_300
+#def  GCOLOR_BLUE_GREY_400 10260600
+#def  __Init____GCOLOR_BLUE_GREY_400 GCOLOR_BLUE_GREY_400
+#def  GCOLOR_BLUE_GREY_500 9141600
+#def  __Init____GCOLOR_BLUE_GREY_500 GCOLOR_BLUE_GREY_500
+#def  GCOLOR_BLUE_GREY_600 8023636
+#def  __Init____GCOLOR_BLUE_GREY_600 GCOLOR_BLUE_GREY_600
+#def  GCOLOR_BLUE_GREY_700 6576709
+#def  __Init____GCOLOR_BLUE_GREY_700 GCOLOR_BLUE_GREY_700
+#def  GCOLOR_BLUE_GREY_800 5195575
+#def  __Init____GCOLOR_BLUE_GREY_800 GCOLOR_BLUE_GREY_800
+#def  GCOLOR_BLUE_GREY_900 3682854
+#def  __Init____GCOLOR_BLUE_GREY_900 GCOLOR_BLUE_GREY_900
+#def  GRSCALE_NO_FIRST 1
+#def  __Init____GRSCALE_NO_FIRST GRSCALE_NO_FIRST
+#def  GRSCALE_NO_LAST 2
+#def  __Init____GRSCALE_NO_LAST GRSCALE_NO_LAST
+#def  GRSCALE_NO_LABELS 4
+#def  __Init____GRSCALE_NO_LABELS GRSCALE_NO_LABELS
+#def  GRSCALE_BOLD_TICK 8
+#def  __Init____GRSCALE_BOLD_TICK GRSCALE_BOLD_TICK
+#def  GRSCALE_CIRCULAR_TICK 16
+#def  __Init____GRSCALE_CIRCULAR_TICK GRSCALE_CIRCULAR_TICK
+#def  GRSCALE_OUTLINE 32
+#def  __Init____GRSCALE_OUTLINE GRSCALE_OUTLINE
+#def  GLSCALE_HORIZONTAL 0
+#def  __Init____GLSCALE_HORIZONTAL GLSCALE_HORIZONTAL
+#def  GLSCALE_VERTICAL 1
+#def  __Init____GLSCALE_VERTICAL GLSCALE_VERTICAL
+#def  GLSCALE_NO_BASELINE 2
+#def  __Init____GLSCALE_NO_BASELINE GLSCALE_NO_BASELINE
+#def  GLSCALE_NO_LABELS 4
+#def  __Init____GLSCALE_NO_LABELS GLSCALE_NO_LABELS
+#def  GLSCALE_BOLD_TICK 8
+#def  __Init____GLSCALE_BOLD_TICK GLSCALE_BOLD_TICK
+
+#defpou __LATENT_INSTANCE GC_TestSpace
+  bool __fc__GC_TestSpace,
+  uint rqLen,
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveByte
+  bool __fc__GC_SaveByte,
+  usint data,  ;BYTE k uloûenÌ
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveWord
+  bool __fc__GC_SaveWord,
+  int data,
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveDword
+  bool __fc__GC_SaveDword,
+  udint data,
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveWordArray
+  bool __fc__GC_SaveWordArray,
+  int n,  ;number of items
+  pointer data,  ;first item
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveDwordArray
+  bool __fc__GC_SaveDwordArray,
+  usint n,  ;number of items
+  pointer data,  ;first item
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SavePos
+  bool __fc__GC_SavePos,
+  int x,
+  int y,
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveAngle
+  bool __fc__GC_SaveAngle,
+  real angle,  ;uhel ve stupnich
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveReal
+  bool __fc__GC_SaveReal,
+  real data,
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_SaveString
+  bool __fc__GC_SaveString,
+  pointer in,
+  pointer GrData,
+  uint l
+
+
+#defpou __LATENT_INSTANCE GC_SaveArray
+  bool __fc__GC_SaveArray,
+  pointer in,
+  usint lenIn,
+  pointer GrData
+
+
+#defpou __LATENT_INSTANCE GC_DataLen
+  uint __fc__GC_DataLen,
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Begin
+  bool __fc__GC_Begin,
+  udint SizeOfGrData,
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_End
+  bool __fc__GC_End,
+  pointer GrData,  ;odkaz na buffer kreslÌcÌho pl·tna
+  pointer w
+
+
+#defpou __LATENT_INSTANCE GC_MacroBegin
+  bool __fc__GC_MacroBegin,
+  usint index,  ;index makra (1-10)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_MacroEnd
+  bool __fc__GC_MacroEnd,
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_MacroRun
+  bool __fc__GC_MacroRun,
+  usint index,  ;index makra (1-10)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetLineWidth
+  bool __fc__GC_SetLineWidth,
+  usint width,  ;öÌ¯ka Ë·ry v pixelech
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetLineStyle
+  bool __fc__GC_SetLineStyle,
+  usint style,  ;styl definovan˝ konstantami GLINE_...
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetFillStyle
+  bool __fc__GC_SetFillStyle,
+  usint style,  ;styl definovan˝ konstantami GFILL_...
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetFgColor
+  bool __fc__GC_SetFgColor,
+  udint color,  ;barva uloûenÈ ve form·tu UDINT (16#AABBGGRR)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetBgColor
+  bool __fc__GC_SetBgColor,
+  udint color,  ;barva uloûenÈ ve form·tu UDINT (16#AABBGGRR)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetTextSize
+  bool __fc__GC_SetTextSize,
+  usint size,  ;v˝öka pÌsma v pixelech
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetTextStyle
+  bool __fc__GC_SetTextStyle,
+  uint style,  ;styl definovan˝ konstantami GTEXT_STYLE_...
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetGradientStyle
+  bool __fc__GC_SetGradientStyle,
+  udint color1,  ;poË·teËnÌ barva uloûenÈ ve form·tu UDINT (16#AABBGGRR)
+  udint color2,  ;koncov· barva uloûenÈ ve form·tu UDINT (16#AABBGGRR)
+  usint style,  ;styl definovan˝ konstantami GGRADIENT_STYLE_...
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetOrigin
+  bool __fc__GC_SetOrigin,
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_ResetOrigin
+  bool __fc__GC_ResetOrigin,
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_SetVirtSize
+  bool __fc__GC_SetVirtSize,
+  int width,  ;öÌ¯ka virtu·lnÌ kreslÌcÌ plochy
+  int height,  ;v˝öka virtu·lnÌ kreslÌcÌ plochy
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_MoveTo
+  bool __fc__GC_MoveTo,
+  int x,  ;nov· sou¯adnice X kreslÌcÌho pera
+  int y,  ;nov· sou¯adnice Y kreslÌcÌho pera
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Move
+  bool __fc__GC_Move,
+  int x,  ;relativnÌ zmÏna pozice v ose X
+  int y,  ;relativnÌ zmÏna pozice v ose Y
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Point
+  bool __fc__GC_Point,
+  int x,  ;sou¯adnice X
+  int y,  ;sou¯adnice Y
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_LineTo
+  bool __fc__GC_LineTo,
+  int x,  ;sou¯adnice X koncovÈho bodu
+  int y,  ;sou¯adnice Y koncovÈho bodu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Line
+  bool __fc__GC_Line,
+  int x1,  ;sou¯adnice X poË·teËnÌho bodu
+  int y1,  ;sou¯adnice Y poË·teËnÌho bodu
+  int x2,  ;sou¯adnice X koncovÈho bodu
+  int y2,  ;sou¯adnice Y koncovÈho bodu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Box
+  bool __fc__GC_Box,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x,  ;sou¯adnice X levÈho hornÌho rohu
+  int y,  ;sou¯adnice Y levÈho hornÌho rohu
+  int width,  ;öÌ¯ka obdÈlnÌku
+  int height,  ;v˝öka obdÈlnÌku
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CBox
+  bool __fc__GC_CBox,
+  bool fill,  ;kreslit vyplnÏn˝
+  int width,  ;öÌ¯ka obdÈlnÌku
+  int height,  ;v˝öka obdÈlnÌku
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_RoundBox
+  bool __fc__GC_RoundBox,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x,  ;sou¯adnice X levÈho hornÌho rohu
+  int y,  ;sou¯adnice Y levÈho hornÌho rohu
+  int width,  ;öÌ¯ka obdÈlnÌku
+  int height,  ;v˝öka obdÈlnÌku
+  int r,  ;polomÏr rohu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CRoundBox
+  bool __fc__GC_CRoundBox,
+  bool fill,  ;kreslit vyplnÏn˝
+  int width,  ;öÌ¯ka obdÈlnÌku
+  int height,  ;v˝öka obdÈlnÌku
+  int r,  ;polomÏr rohu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Triangle
+  bool __fc__GC_Triangle,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x1,  ;sou¯adnice X prvnÌho bodu
+  int y1,  ;sou¯adnice Y prvnÌho bodu
+  int x2,  ;sou¯adnice X druhÈho bodu
+  int y2,  ;sou¯adnice Y druhÈho bodu
+  int x3,  ;sou¯adnice X t¯etÌho bodu
+  int y3,  ;sou¯adnice Y t¯etÌho bodu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Polygon4
+  bool __fc__GC_Polygon4,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x1,  ;sou¯adnice X prvnÌho bodu
+  int y1,  ;sou¯adnice Y prvnÌho bodu
+  int x2,  ;sou¯adnice X druhÈho bodu
+  int y2,  ;sou¯adnice Y druhÈho bodu
+  int x3,  ;sou¯adnice X t¯etÌho bodu
+  int y3,  ;sou¯adnice Y t¯etÌho bodu
+  int x4,  ;sou¯adnice X ËtvrtÈho bodu
+  int y4,  ;sou¯adnice Y ËtvrtÈho bodu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Polygon
+  bool __fc__GC_Polygon,
+  bool fill,  ;kreslit vyplnÏn˝
+  usint numPoints,  ;poËet bod˘
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_PolygonArray
+  bool __fc__GC_PolygonArray,
+  bool fill,  ;kreslit vyplnÏn˝
+  usint numPoints,  ;poËet bod˘
+  pointer points,  ;prvnÌ bod v poli bod˘
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Arc
+  bool __fc__GC_Arc,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x,  ;sou¯adnice X st¯edovÈho bodu
+  int y,  ;sou¯adnice Y st¯edovÈho bodu
+  int rx,  ;polomÏr v ose X
+  int ry,  ;polomÏr v ose Y
+  real angle,  ;poË·teËnÌ ˙hel oblouku ve stupnÌch
+  real dangle,  ;dÈlka oblouku ve stupnÌch
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CArc
+  bool __fc__GC_CArc,
+  bool fill,  ;kreslit vyplnÏn˝
+  int rx,  ;polomÏr v ose X
+  int ry,  ;polomÏr v ose Y
+  real angle,  ;poË·teËnÌ ˙hel oblouku ve stupnÌch
+  real dangle,  ;dÈlka oblouku ve stupnÌch
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Circle
+  bool __fc__GC_Circle,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x,  ;sou¯adnice X st¯edovÈho bodu
+  int y,  ;sou¯adnice Y st¯edovÈho bodu
+  int r,  ;polomÏr
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CCircle
+  bool __fc__GC_CCircle,
+  bool fill,  ;kreslit vyplnÏn˝
+  int r,  ;polomÏr
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CTriangle
+  bool __fc__GC_CTriangle,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x1,  ;sou¯adnice X prvnÌho bodu
+  int y1,  ;sou¯adnice Y prvnÌho bodu
+  int x2,  ;sou¯adnice X druhÈho bodu
+  int y2,  ;sou¯adnice Y druhÈho bodu
+  int x3,  ;sou¯adnice X t¯etÌho bodu
+  int y3,  ;sou¯adnice Y t¯etÌho bodu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CPolygon4
+  bool __fc__GC_CPolygon4,
+  bool fill,  ;kreslit vyplnÏn˝
+  int x1,  ;sou¯adnice X prvnÌho bodu
+  int y1,  ;sou¯adnice Y prvnÌho bodu
+  int x2,  ;sou¯adnice X druhÈho bodu
+  int y2,  ;sou¯adnice Y druhÈho bodu
+  int x3,  ;sou¯adnice X t¯etÌho bodu
+  int y3,  ;sou¯adnice Y t¯etÌho bodu
+  int x4,  ;sou¯adnice X ËtvrtÈho bodu
+  int y4,  ;sou¯adnice Y ËtvrtÈho bodu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CPolygon
+  bool __fc__GC_CPolygon,
+  bool fill,  ;kreslit vyplnÏn˝
+  usint numPoints,  ;poËet bod˘
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CPolygonArray
+  bool __fc__GC_CPolygonArray,
+  bool fill,  ;kreslit vyplnÏn˝
+  usint numPoints,  ;poËet bod˘
+  pointer points,  ;prvnÌ bod v poli bod˘
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_AddPoint
+  bool __fc__GC_AddPoint,
+  int x,  ;sou¯adnice X
+  int y,  ;sou¯adnice Y
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_WriteText
+  bool __fc__GC_WriteText,
+  string[81] text,  ;text, kter˝ se m· zobrazit
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CWriteText
+  bool __fc__GC_CWriteText,
+  string[81] text,  ;text, kter˝ se m· zobrazit
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Image
+  bool __fc__GC_Image,
+  int width,  ;öÌ¯ka vykreslenÈho obr·zku (0 p˘vodnÌ velikost)
+  int height,  ;v˝öka vykreslenÈho obr·zku (0 p˘vodnÌ velikost)
+  string[81] fileName,  ;jmÈno obr·zku
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_CImage
+  bool __fc__GC_CImage,
+  int width,  ;öÌ¯ka vykreslenÈho obr·zku (0 p˘vodnÌ velikost)
+  int height,  ;v˝öka vykreslenÈho obr·zku (0 p˘vodnÌ velikost)
+  string[81] fileName,  ;dlouhÈ jmÈno obr·zku p¯i¯azenÈ ke kreslicÌmu pl·tnu
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Heading
+  bool __fc__GC_Heading,
+  real angle,  ;nov˝ ˙hel kreslÌcÌho pera ve stupnÌch
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_Turn
+  bool __fc__GC_Turn,
+  real angle,  ;˙hel pootoËenÌ kreslicÌho pera ve stupnÌch
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_LineFwd
+  bool __fc__GC_LineFwd,
+  int length,  ;dÈlka Ë·ry
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_MoveFwd
+  bool __fc__GC_MoveFwd,
+  int length,  ;vzd·lenost mezi starou a novou pozicÌ kreslÌcÌho pera
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_PushPosition
+  bool __fc__GC_PushPosition,
+  usint index,  ;index pozice v z·sobnÌku (1 ñ 10) nebo vrchol z·sobnÌku (0)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_PopPosition
+  bool __fc__GC_PopPosition,
+  usint index,  ;index pozice v z·sobnÌku (1 ñ 10) nebo vrchol z·sobnÌku (0)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_PushHeading
+  bool __fc__GC_PushHeading,
+  usint index,  ;index pozice v z·sobnÌku (1 ñ 10) nebo vrchol z·sobnÌku (0)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_PopHeading
+  bool __fc__GC_PopHeading,
+  usint index,  ;index pozice v z·sobnÌku (1 ñ 10) nebo vrchol z·sobnÌku (0)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_GraphLineArray
+  bool __fc__GC_GraphLineArray,
+  usint params,  ;volitelnÈ parametry, kterÈ upravujÌ zobrazenÌ grafu (konstanty GGRAPH_LINE_...)
+  int length,  ;dÈlka Ë·ry grafu v pixelech
+  int numPoints,  ;poËet datov˝ch bod˘
+  pointer data,  ;prvnÌ prvek pole sou¯adnic Y relativnÏ k pozici kreslicÌho pera
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_GraphLineRealArray
+  bool __fc__GC_GraphLineRealArray,
+  usint params,  ;volitelnÈ parametry, kterÈ upravujÌ zobrazenÌ grafu (konstanty GGRAPH_LINE_...)
+  int length,  ;dÈlka Ë·ry grafu v pixelech
+  int numPoints,  ;poËet datov˝ch bod˘
+  int height,  ;v˝öka grafu v pixelech
+  real minY,  ;hodnota odpovÌdajÌcÌ minimu grafu
+  real maxY,  ;hodnota odpovÌdajÌcÌ maximu grafu
+  pointer data,  ;prvnÌ prvek pole sou¯adnic Y
+  pointer GrData,  ;odkaz na buffer kreslÌcÌho pl·tna
+  int a
+
+
+#defpou __LATENT_INSTANCE GC_GraphLine
+  bool __fc__GC_GraphLine,
+  usint params,  ;volitelnÈ parametry, kterÈ upravujÌ zobrazenÌ grafu (konstanty GGRAPH_LINE_...)
+  int length,  ;dÈlka Ë·ry grafu v pixelech
+  int numPoints,  ;poËet datov˝ch bod˘
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_GraphBarsArray
+  bool __fc__GC_GraphBarsArray,
+  usint params,  ;volitelnÈ parametry, kterÈ upravujÌ zobrazenÌ grafu
+  int length,  ;vzd·lenost mezi st¯edy prvnÌho a poslednÌho sloupce v pixelech
+  int barWidth,  ;öÌ¯ka sloupc˘
+  int numPoints,  ;poËet datov˝ch bod˘
+  pointer data,  ;prvnÌ prvek pole sou¯adnic Y relativnÏ k pozici kreslicÌho pera
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_GraphBarsRealArray
+  bool __fc__GC_GraphBarsRealArray,
+  usint params,  ;volitelnÈ parametry, kterÈ upravujÌ zobrazenÌ grafu
+  int length,  ;vzd·lenost mezi st¯edy prvnÌho a poslednÌho sloupce v pixelech
+  int barWidth,  ;öÌ¯ka sloupc˘
+  int numPoints,  ;poËet datov˝ch bod˘
+  int height,  ;v˝öka grafu v pixelech
+  real minY,  ;hodnota odpovÌdajÌcÌ minimu grafu
+  real maxY,  ;hodnota odpovÌdajÌcÌ maximu grafu
+  pointer data,  ;prvnÌ prvek pole sou¯adnic Y
+  pointer GrData,  ;odkaz na buffer kreslÌcÌho pl·tna
+  int a
+
+
+#defpou __LATENT_INSTANCE GC_GraphBars
+  bool __fc__GC_GraphBars,
+  usint params,  ;volitelnÈ parametry, kterÈ upravujÌ zobrazenÌ grafu
+  int length,  ;vzd·lenost mezi st¯edy prvnÌho a poslednÌho sloupce v pixelech
+  int barWidth,  ;öÌ¯ka sloupc˘
+  int numPoints,  ;poËet datov˝ch bod˘
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_GraphAddData
+  bool __fc__GC_GraphAddData,
+  int data,  ;Sou¯adnice Y datovÈho bodu v pixelech relativnÏ k pozici kreslÌcÌho pera
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_RadialScale
+  bool __fc__GC_RadialScale,
+  int radius,  ;polomÏr
+  real sAngle,  ;poË·teËnÌ ˙hel - odpovÌd· minim·lnÌ hodnotÏ
+  real eAngle,  ;koncov˝ ˙hel - odpovÌd· maxim·lnÌ hodnotÏ
+  int majorTickLen,  ;dÈlka hlavnÌ znaËky s popisem (kladnÈ se kreslÌ smÏrem do st¯edu)
+  int minorTickLen,  ;dÈlka vedlejöÌ znaËky
+  usint labelOffset,  ;odstup textu od znaËky
+  usint labelDec,  ;poËet desetinn˝ch mÌst popisu
+  real sVal,  ;poË·teËnÌ hodnota
+  real eVal,  ;koncov· hodnota
+  real majorStep,  ;krok po kterÈm budou vykresleny hlavnÌ znaËky
+  real labelAt,  ;hodnota na kterÈ bude znaËka s popiskou
+  usint labelStep,  ;krok po kterÈm je vykreslena popiska
+  usint stepDiv,  ;dÏlenÌ kroku hlavnÌch znaËek pro kreslenÌ vedlejöÌ znaËek
+  int params,  ;dalöÌ parametry (konstanty GRSCALE...)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE GC_LinearScale
+  bool __fc__GC_LinearScale,
+  int length,  ;dÈlka
+  int majorTickLen,  ;dÈlka hlavnÌ znaËky s popisem (kladnÈ se kreslÌ doleva/dolu)
+  int minorTickLen,  ;dÈlka vedlejöÌ znaËky
+  int gridLength,  ;dÈlka Ë·ry m¯Ìûky
+  usint labelOffset,  ;odstup textu od znaËky
+  usint labelDec,  ;poËet desetin˝ch mÌst popisu
+  real sVal,  ;poË·teËnÌ hodnota
+  real eVal,  ;koncov· hodnota
+  real majorStep,  ;krok po kterÈm budou vykresleny hlavnÌ znaËky
+  real labelAt,  ;hodnota na kterÈ bude znaËka s popiskou
+  usint labelStep,  ;krok po kterÈm je vykreslena popiska
+  usint stepDiv,  ;dÏlenÌ kroku hlavnÌch znaËek pro kreslenÌ vedlejöÌ znaËek
+  int params,  ;dalöÌ parametry (konstanty GLSCALE...)
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE RGBA_TO_Color
+  udint __fc__RGBA_TO_Color,
+  usint R,  ;»erven· sloûka (0-255)
+  usint G,  ;Zelen· sloûka (0-255)
+  usint B,  ;Modr· sloûka (0-255)
+  usint A  ;Pr˘hlednost (0 - nepr˘hlednÈ, 255 - pr˘hlednÈ)
+
+
+#defpou __LATENT_INSTANCE Color_TO_RGBA
+  bool __fc__Color_TO_RGBA,
+  udint color,  ;barva uloûenÈ ve form·tu UDINT (16#AABBGGRR)
+  pointer R,  ;»erven· sloûka (0-255)
+  pointer G,  ;Zelen· sloûka (0-255)
+  pointer B,  ;Modr· sloûka (0-255)
+  pointer A  ;Pr˘hlednost (0 - nepr˘hlednÈ, 255 - pr˘hlednÈ)
+
+
+#defpou __LATENT_INSTANCE Alpha_TO_Color
+  udint __fc__Alpha_TO_Color,
+  udint color,  ;barva uloûenÈ ve form·tu UDINT (16#AABBGGRR)
+  usint alpha  ;pr˘hlednost (0 - nepr˘hlednÈ, 255 - pr˘hlednÈ)
+
+
+#defpou __LATENT_INSTANCE GC_GraphPolygonRealArray
+  bool __fc__GC_GraphPolygonRealArray,
+  bool fill,  ;kreslit vyplnÏn˝
+  usint numPoints,  ;poËet bod˘
+  int length,  ;dÈlka osy X v pixelech
+  int height,  ;dÈlka osy Y v pixelech
+  real minX,  ;hodnota odpovÌdajÌcÌ minimu osy X
+  real maxX,  ;hodnota odpovÌdajÌcÌ maximu osy X
+  real minY,  ;hodnota odpovÌdajÌcÌ minimu osy Y
+  real maxY,  ;hodnota odpovÌdajÌcÌ maximu osy Y
+  pointer pointsX,  ;prvnÌ bod v poli sou¯adnic X
+  pointer pointsY,  ;prvnÌ bod v poli sou¯adnic Y
+  pointer GrData,  ;odkaz na buffer kreslÌcÌho pl·tna
+  int a
+
+
+#defpou __LATENT_INSTANCE GC_GraphLineXYRealArray
+  bool __fc__GC_GraphLineXYRealArray,
+  int x,  ;sou¯adnice X poË·teËnÌho bodu
+  int y,  ;sou¯adnice Y poË·teËnÌho bodu
+  usint numPoints,  ;poËet bod˘
+  int length,  ;dÈlka osy X v pixelech
+  int height,  ;dÈlka osy Y v pixelech
+  real minX,  ;hodnota odpovÌdajÌcÌ minimu osy X
+  real maxX,  ;hodnota odpovÌdajÌcÌ maximu osy X
+  real minY,  ;hodnota odpovÌdajÌcÌ minimu osy Y
+  real maxY,  ;hodnota odpovÌdajÌcÌ maximu osy Y
+  pointer pointsX,  ;prvnÌ bod v poli sou¯adnic X
+  pointer pointsY,  ;prvnÌ bod v poli sou¯adnic Y
+  pointer GrData  ;odkaz na buffer kreslÌcÌho pl·tna
+
+
+#defpou __LATENT_INSTANCE STRING_TO_UPPER
+  uint __fc__STRING_TO_UPPER,
+  pointer input
+
+
+#defpou __LATENT_INSTANCE STRING_TO_LOWER
+  uint __fc__STRING_TO_LOWER,
+  pointer input
+
+
+#defpou __LATENT_INSTANCE STRING_HEX_TO_UDINT
+  udint __fc__STRING_HEX_TO_UDINT,
+  string[81] input,
+  string[9] tmp
+
+
+#defpou __LATENT_INSTANCE DEG_TO_RAD
+  lreal __fc__DEG_TO_RAD,
+  lreal angle  ;˙hel ve stupnÌch
+
+
+#defpou __LATENT_INSTANCE RAD_TO_DEG
+  lreal __fc__RAD_TO_DEG,
+  lreal angle  ;˙hel v radi·nech
+
+
+#defpou __LATENT_INSTANCE DEGREES_TO_ANGLE
+  lreal __fc__DEGREES_TO_ANGLE,
+  int degrees,  ;StupnÏ
+  int minutes,  ;Minuty
+  int seconds  ;Vte¯iny
+
+
+#defpou __LATENT_INSTANCE FAHRENHEIT_TO_CELSIUS
+  real __fc__FAHRENHEIT_TO_CELSIUS,
+  real temp  ;teplota ve stupnÌch Fahrenheita
+
+
+#defpou __LATENT_INSTANCE CELSIUS_TO_FAHRENHEIT
+  real __fc__CELSIUS_TO_FAHRENHEIT,
+  real temp  ;teplota ve stupnÌch Celsia
+
+
+#defpou __LATENT_INSTANCE ANGLE_TO_DEGREES
+  bool __fc__ANGLE_TO_DEGREES,
+  lreal angle,  ;˙hel ve stupnÌch
+  pointer degrees,  ;StupnÏ
+  pointer minutes,  ;Minuty
+  pointer seconds  ;Vte¯iny
+
+
+#data byte __Init___ISO8859_2_TO_CP1250_ISO8859_2_TO_CP1250_161_190 = 
+  165,162,163,164,188,140,167,168,138,170,141,143,173,142,175,176,185,178,179,180,190,
+  156,183,184,154,186,157,159,189,158;
+#def  __Const__ISO8859_2_TO_CP1250_ISO8859_2_TO_CP1250_161_190 usint[30] __Init___ISO8859_2_TO_CP1250_ISO8859_2_TO_CP1250_161_190
+#defpou __LATENT_INSTANCE ISO8859_2_TO_CP1250
+  udint __fc__ISO8859_2_TO_CP1250,
+  pointer src,  ;prvnÌ byte ¯etÏzce pro p¯evod
+  pointer ps,
+  usint s
+
+
+#defpou __LATENT_INSTANCE REPLACE_CHAR
+  uint __fc__REPLACE_CHAR,
+  byte C1,  ;ASCII hodnota znaku, kter˝ m· b˝t nahrazen
+  byte C2,  ;ASCII hodnota znaku, kter˝m se bude nahrazovat
+  pointer input  ;ÿetizec, ve kterÈm budou znaky nahrazeny
+
+
+; Global types
+#struct  TypeTecoDateTime
+  usint year,  ;rok     (poslednÌ dvÏ ËÌslice letopoËtu)
+  usint month,  ;mÏsÌc   (1 .. 12)
+  usint day,  ;den     (1 .. 28/29/30/31)
+  usint hour,  ;hodina  (0 .. 23)
+  usint min,  ;minuta  (0 .. 59)
+  usint sec,  ;sekunda (0 .. 59)
+  usint dayOfWeek,  ;den v t˝dnu (1 = pondÏlÌ, 7 = nedÏle)
+  uint milisec  ;milisekunda
+
+; Global variables
+#data byte __Init____MonthsNamesRFC822 = 
+  'J','a','n',$00,'F','e','b',$00,'M','a','r',$00,'A','p','r',$00,'M','a','y',$00,'J',
+  'u','n',$00,'J','u','l',$00,'A','u','g',$00,'S','e','p',$00,'O','c','t',$00,'N',
+  'o','v',$00,'D','e','c',$00;
+#def  MonthsNamesRFC822 string[12] __Init____MonthsNamesRFC822
+
+#defpou __LATENT_INSTANCE DT_TO_DT_RFC822
+  string[27] __fc__DT_TO_DT_RFC822,
+  date_and_time dateTime,  ;Datum a Ëas ve form·tu IEC DT
+  uint UtcOff,  ;Posun ËasovÈho p·sma v minut·ch
+  TypeTecoDateTime tmpDT,
+  time tmpTime,
+  string[81] Format
+
+
+#defpou __LATENT_INSTANCE DT_RFC822_TO_DT
+  date_and_time __fc__DT_RFC822_TO_DT,
+  string[81] dateTime,  ;Datum a Ëas podle RFC822 (nap¯. Tue, 28 Aug 2012 7:58 am)
+  TypeTecoDateTime tmpDT
+
+
+#data byte __Init___WindDirectionT115Deg_directionDeg = 
+    0,  0,180, 66,  0,  0,  7, 67,  0,  0, 52, 67,  0,  0, 52, 66,  0,  0, 97, 67,  0,
+    0,  0,  0,  0,128,157, 67,  0,  0,135, 67;
+#def  __Const__WindDirectionT115Deg_directionDeg real[8] __Init___WindDirectionT115Deg_directionDeg
+#defpou __LATENT_INSTANCE WindDirectionT115Deg
+  real __fc__WindDirectionT115Deg,
+  real R
+
+
+#defpou __LATENT_INSTANCE WindDirectionT115StringCs
+  string[3] __fc__WindDirectionT115StringCs,
+  real R,  ;Odpor mÏ¯en˝ na ukazateli smÏru vÏtru T115
+  string[24] direction
+
+
+#defpou __LATENT_INSTANCE WindDirectionT115StringEn
+  string[3] __fc__WindDirectionT115StringEn,
+  real R,  ;Odpor mÏ¯en˝ na ukazateli smÏru vÏtru T115
+  string[24] direction
+
+
+; Global variables
+#data byte __Init____DayNamesRFC1123 = 
+  'M','o','n',$00,'T','u','e',$00,'W','e','d',$00,'T','h','u',$00,'F','r','i',$00,'S',
+  'a','t',$00,'S','u','n',$00;
+#def  DayNamesRFC1123 string[7] __Init____DayNamesRFC1123
+
+#defpou __LATENT_INSTANCE DT_TO_DT_HTTP
+  string[81] __fc__DT_TO_DT_HTTP,
+  date_and_time dateTime,  ;Datum a Ëas ve form·tu IEC DT
+  uint UtcOff,  ;Posun ËasovÈho p·sma v minut·ch
+  date_and_time gmtDT,
+  TypeTecoDateTime tmpDT,
+  time tmpTime
+
+
+#defpou __LATENT_INSTANCE UTF8_TO_CP125x
+  uint __fc__UTF8_TO_CP125x,
+  pointer str,  ;¯etÏzec, kter˝ bude p¯ekÛdov·n z UTF8 na CP125x
+  uint codePage  ;kÛdov· str·nka = 1250,...,1255
+
+
+#defpou fbMeterPulse
+  bool Pulse,  ;Pulzy
+  bool Reset,  ;Nulov·nÌ poËÌtadla pulz˘
+  bool Freeze,  ;ZastavÌ ËÌt·nÌ a nastavÌ frekvenci na nulu
+  time Filter,  ;»asov· konstanta filtru frekvence
+  time MaxPeriod,  ;Maxim·lnÌ perioda mezi pulzy
+  time Base,  ;Z·kladnÌ Ëasov· perioda pro urËov·nÌ frekvence
+  bool PulseOut,  ;Kopie vstupnÌch pulz˘
+  bool Overflow,  ;P¯eteËenÌ ËÌtaËe pulz˘, nastavte Reset do logickÈ 1
+  real Frequency,  ;Frekvence [1/Base]
+  pointer Counter,  ;PoËÌtadlo pulz˘ (musÌ b˝t RETAIN!)
+  real RawFrequncy,
+  time LastPulseTim,
+  real PulseLen,
+  real LastPulseLen,
+  real Exp1,
+  time LastFilterTime,
+  time OldFilter,
+  real MaxPulseLen,
+  bool __EDGE_R__Pulse,
+  bool __EDGE_R__Reset
+
+
+#defpou fbMeterCounter
+  uint Cnt,  ;»ÌtaË pulz˘
+  bool Reset,  ;Nulov·nÌ poËÌtadla pulz˘
+  bool Freeze,  ;ZastavÌ ËÌt·nÌ a nastavÌ frekvenci na nulu
+  time Filter,  ;»asov· konstanta filtru frekvence
+  time MaxPeriod,  ;Maxim·lnÌ perioda mezi pulzy
+  time Base,  ;Z·kladnÌ Ëasov· perioda pro urËov·nÌ frekvence
+  bool Change,  ;»ÌtaË pulz˘ zmÏnil hodnotu
+  bool Overflow,  ;P¯eteËenÌ ËÌtaËe pulz˘, nastavte Reset do logickÈ 1
+  real Frequency,  ;Frekvence [1/Base]
+  pointer Counter,  ;PoËÌtadlo pulz˘ (musÌ b˝t RETAIN!)
+  real RawFrequncy,
+  time LastPulseTim,
+  real PulseLen,
+  real LastPulseLen,
+  real Exp1,
+  time LastFilterTime,
+  time OldFilter,
+  real MaxPulseLen,
+  dint Dif,
+  dint MaxDif,
+  uint CntOld,
+  bool Init,
+  bool __EDGE_R__Reset
+
+
+#defpou __LATENT_INSTANCE STRING_TO_REAL_EX
+  real __fc__STRING_TO_REAL_EX,
+  string[81] input,
+  pointer pchar1,
+  pointer pchar2,
+  string[81] Buffer,
+  byte value1  ;pomocna hodnota
+
+
+#defpou __LATENT_INSTANCE STRING_TO_LREAL_EX
+  lreal __fc__STRING_TO_LREAL_EX,
+  string[81] input,
+  pointer pchar1,
+  pointer pchar2,
+  string[81] Buffer,
+  byte value1  ;pomocna hodnota
+
+
+#defpou __LATENT_INSTANCE STRING_TO_INT_EX
+  int __fc__STRING_TO_INT_EX,
+  string[81] input,
+  pointer pchar1,
+  pointer pchar2,
+  string[81] Buffer,
+  byte value1  ;pomocna hodnota
+
+
+#defpou __LATENT_INSTANCE CP125x_TO_UTF8
+  udint __fc__CP125x_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  pointer TO_UTF8_128_255,
+  pointer cp125x,
+  pointer utf8
+
+
+#defpou __LATENT_INSTANCE CP1250_TO_UTF8
+  udint __fc__CP1250_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  dword[128] TO_UTF8_128_255,
+  pointer cp1250,
+  pointer utf8
+
+
+#defpou __LATENT_INSTANCE CP1251_TO_UTF8
+  udint __fc__CP1251_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  dword[128] TO_UTF8_128_255,
+  pointer cp1251,
+  pointer utf8
+
+
+#defpou __LATENT_INSTANCE CP1252_TO_UTF8
+  udint __fc__CP1252_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  dword[128] TO_UTF8_128_255,
+  pointer cp1252,
+  pointer utf8
+
+
+#defpou __LATENT_INSTANCE CP1253_TO_UTF8
+  udint __fc__CP1253_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  dword[128] TO_UTF8_128_255,
+  pointer cp1253,
+  pointer utf8
+
+
+#defpou __LATENT_INSTANCE CP1254_TO_UTF8
+  udint __fc__CP1254_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  dword[128] TO_UTF8_128_255,
+  pointer cp1254,
+  pointer utf8
+
+
+#defpou __LATENT_INSTANCE CP1255_TO_UTF8
+  udint __fc__CP1255_TO_UTF8,
+  udint maxLen,  ;maximum len of output buffer including end zero
+  dword[128] TO_UTF8_128_255,
+  pointer cp1255,
+  pointer utf8
+
+
+; Global variables
+#def  ICL_SIZE_NAME 24
+#def  __Init____ICL_SIZE_NAME ICL_SIZE_NAME
+#data byte __Init____ICL_IFOX_PATH = 
+  'W','W','W','/','i','F','O','X','/',$00,$00,$00,$00;
+#def ICL_IFOX_PATH string __Init____ICL_IFOX_PATH
+#def  APP_ICON_default 0
+#def  __Init____APP_ICON_default APP_ICON_default
+#def  APP_ICON_socket 1
+#def  __Init____APP_ICON_socket APP_ICON_socket
+#def  APP_ICON_fan 2
+#def  __Init____APP_ICON_fan APP_ICON_fan
+#def  APP_ICON_heating 3
+#def  __Init____APP_ICON_heating APP_ICON_heating
+#def  APP_ICON_extLink 1000
+#def  __Init____APP_ICON_extLink APP_ICON_extLink
+#def  APP_ICON_rain 1001
+#def  __Init____APP_ICON_rain APP_ICON_rain
+#def  APP_ICON_vlc 1002
+#def  __Init____APP_ICON_vlc APP_ICON_vlc
+#def  APP_ICON_parking 1003
+#def  __Init____APP_ICON_parking APP_ICON_parking
+#def  APP_ICON_parkingcar 1004
+#def  __Init____APP_ICON_parkingcar APP_ICON_parkingcar
+#def  APP_ICON_music 1005
+#def  __Init____APP_ICON_music APP_ICON_music
+#def  APP_ICON_radarcloud 1006
+#def  __Init____APP_ICON_radarcloud APP_ICON_radarcloud
+#def  APP_ICON_kodi 1007
+#def  __Init____APP_ICON_kodi APP_ICON_kodi
+
+; Global types
+#struct  T_SET_RGB_LIGHT
+  real level,
+  T_RGB_COLOR RGB
+
+; Global types
+#def  T_TIME_VAL time
+
+; Global types
+#struct  T_TIME_PROG_WEEK
+  string[25] name,  ;n·zev casoveho programu
+  usint update,  ;pozadavek na update cas. programu z aplikace iFoxtrot
+  usint typ,  ;ICL_TPW_TYPE_HEATING, ICL_TPW_TYPE_COOLING, ICL_TPW_TYPE_HEATING_COOLING
+  usint numTimes,  ;pocet casovych znacek za den (min 2, max 7)
+  usint units,  ;jednotky 0 = ∞C, 1 = ∞F
+  real[4] heatTemp,  ;teploty topeni pro kazdy rezim casoveho programu
+  real[4] coolTemp,  ;teploty chlazeni pro kazdy rezim casoveho programu
+  T_TIME_VAL[49] times,  ;casove intervaly casoveho programu
+  usint[56] values,  ;rezimy casoveho programu
+  date_and_time[2] holiday,  ;dovolena [od, do]
+  dword reserved,  ;rezerva
+  uint crc  ;crc = 0 ... povel ze strany termostatu a nebo web rozhrani pro ukladani struktury do souboru
+
+; Global types
+#struct  T_TIME_PROG_WEEK_STAT
+  bool manual,  ;0 = auto, 1 = manual
+  bool holiday,  ;1 = is holiday
+  bool heat,  ;pozadavek na topeni
+  bool cool,  ;pozadavek na chlazeni
+  bool units,  ;0 = ∞C, 1 = ∞F
+  real roomTemp,  ;teplota v mistnosti
+  real heatTemp,  ;pozadovana teplota topeni
+  real coolTemp,  ;pozadovana teplota chlazeni
+  sint mode,  ;zvoleny rezim ... 0 = limit, 1 = ECO, 2 = NIGHT {utlum), 3 = DAY (komfort)
+  usint interval,  ;aktualni interval podle cas. programu
+  real delta,  ;aktualni delta <-5.0, 5.0>
+  word initial  ;initial.0-1	editacni mod - 0 zobrazit data, 1 prochazeni dat, 2 editacni rezim
+
+; Global types
+#struct  T_TIME_PROG_WEEK_CONT
+  bool nextProg,  ;auto -> manual, manual -> auto
+  bool nextMode,  ;zmena rezimu v manualnim modu (ECO <-> NIGHT <-> DAY)
+  sint rqMode,  ;zvoleny rezim ... -1 = no request, 0 = limit, 1 = ECO, 2 = NIGHT {utlum), 3 = DAY (komfort)
+  bool rqNewDelta,  ;zadost o nastaveni nove hodnoty delta
+  real newDelta  ;nova hodnota delta <-5.0, 5.0>
+
+; Global types
+#struct  T_TIME_PROG_WEEK_INTERFACE
+  T_TIME_PROG_WEEK_STAT stat,
+  T_TIME_PROG_WEEK_CONT cont
+
+; Global types
+#struct  T_TIME_PROG_WEEK_WEB_SETTINGS
+  bool darkBg,  ;:= FALSE = light background, TRUE = dark background
+  string[25] copyT,  ;:= 'Copy ';
+  string[25] selT,  ;:= 'Select dest. day';
+  string[33] startH,  ;:= 'Set start of holiday';
+  string[33] endH,  ;:= 'Set end of holiday';
+  string[35] days,  ;:= ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+  string[204] months,  ;:= ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  string[50] buttons  ;:= ['HEAT','COOL','HOLIDAY','CANCEL','SAVE']
+
+; Global types
+#def  T_TIME_PROG_WEEK_WEB_SETTINGS_CZE T_TIME_PROG_WEEK_WEB_SETTINGS
+
+; Global types
+#def  T_TIME_PROG_WEEK_WEB_SETTINGS_ENG T_TIME_PROG_WEEK_WEB_SETTINGS
+
+#defpou fb_iLight
+  bool lightOn,  ;zapnutÌ svÏtla
+  bool lightOff,  ;vypnutÌ svÏtla
+  bool lightToggle,  ;p¯epnutÌ svÏtla
+  time timeLimit,  ;max. doba svÌcenÌ
+  bool webToggle,  ;p¯epnutÌ svÏtla z web str·nky
+  bool lightReset,  ;centr·lnÌ vypnutÌ svÏtel
+  string[25] name,  ;n·zev svÏtla
+  bool out,  ;ovl·d·nÌ svÏtla
+  string[25] GTSAP1_LIGHT_name,
+  bool GTSAP1_LIGHT_enable,
+  bool GTSAP1_LIGHT_type,
+  bool GTSAP1_LIGHT_onoff,
+  time stopTime,
+  bool __EDGE_R__lightOn,
+  bool __EDGE_R__lightOff,
+  bool __EDGE_R__lightToggle,
+  bool __EDGE_R__webToggle,
+  bool __EDGE_R__lightReset
+
+
+; Global variables
+#def  ICL_RELAY_TYPE_ON_OFF 0
+#def  __Init____ICL_RELAY_TYPE_ON_OFF ICL_RELAY_TYPE_ON_OFF
+#def  ICL_RELAY_TYPE_DIMMING 1
+#def  __Init____ICL_RELAY_TYPE_DIMMING ICL_RELAY_TYPE_DIMMING
+#def  ICL_RELAY_TYPE_MULTI_STATE 2
+#def  __Init____ICL_RELAY_TYPE_MULTI_STATE ICL_RELAY_TYPE_MULTI_STATE
+
+#defpou fb_iRelay
+  bool relayOn,  ;zapnutÌ relÈ
+  bool relayOff,  ;vypnutÌ relÈ
+  bool relayToggle,  ;prepnutÌ relÈ
+  time pulseTime,  ;doba trv·nÌ pulzu
+  bool webToggle,  ;prepnutÌ relÈ z web str·nky
+  bool relayReset,  ;centr·lnÌ vypnutÌ relÈ
+  uint symbol,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  string[25] name,  ;n·zev
+  bool out,  ;¯ÌzenÌ relÈ
+  bool out_on,  ;pulz na n·bÏûnou hranu out (z 0 do 1)
+  bool out_off,  ;pulz na sestupnou hranu out (z 1 do 0)
+  string[25] GTSAP1_RELAY_name,  ;n·zev funkcnÌho bloku
+  bool GTSAP1_RELAY_enable,  ;povel k zobrazenÌ funkcnÌho bloku v aplikace iFoxtrot App
+  usint GTSAP1_RELAY_type,  ;model relÈ (0=onOff, 1=dimming, 2=multiState)
+  uint GTSAP1_RELAY_symbol,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  bool GTSAP1_RELAY_onoff,  ;povel na zapnutÌ/vypnutÌ relÈ z aplikace iFoxtrot
+  time stopTime,
+  F_TRIG in_Ftrig,
+  R_TRIG in_Rtrig,
+  bool __EDGE_R__relayOn,
+  bool __EDGE_R__relayOff,
+  bool __EDGE_R__relayToggle,
+  bool __EDGE_R__webToggle,
+  bool __EDGE_R__relayReset
+
+
+#defpou fb_iAction
+  bool action,  ;poûadavek na akci
+  bool webAction,  ;poûadavek na akci z web str·nky
+  string[25] name,  ;n·zev
+  string[25] GTSAP1_ACTION_name,
+  bool GTSAP1_ACTION_enable,
+  bool GTSAP1_ACTION_exec,
+  bool out,  ;TRUE znamen· provÈst akci
+  bool __EDGE_R__action,
+  bool __EDGE_R__webAction
+
+
+#defpou fb_Button1
+  bool in,  ;vstup tlaËÌtka
+  time pressTime,  ;Ëas dlouhÈho stisku
+  bool out,  ;kopie vstupu in
+  bool click,  ;kr·tk˝ stisk
+  bool press,  ;dlouh˝ stisk
+  F_TRIG in_Ftrig,
+  TON in_ton
+
+
+#defpou fb_iSensorPIR
+  bool in,  ;PIR Ëidlo
+  time delay,  ;necitlivost
+  string[25] name,  ;n·zev
+  bool out,  ;detekce pohybu
+  string[25] GTSAP1_PIRSENSOR_name,
+  bool GTSAP1_PIRSENSOR_enable,
+  bool GTSAP1_PIRSENSOR_value,
+  TON timSensor  ;zpozdeni detekce
+
+
+#defpou fb_iDimmer
+  bool lightOn,  ;zapnout svÏtlo na poslednÌ ˙roveÚ (kr·tk˝ stisk)
+  bool levelUp,  ;zv˝öit ˙roveÚ (dlouh˝ stisk)
+  bool lightOff,  ;vypnout svÏtlo (kr·tk˝ stisk)
+  bool levelDw,  ;snÌûit ˙roveÚ (dlouh˝ stisk)
+  bool lightToggle,  ;p¯epnutÌ svÏtla
+  real minLevel,  ;min ˙roveÚ pro svÏtlo (zapalovacÌ ˙roveÚ) [%]
+  time offOnRamp,  ;rampa Off/On z minLevel na 100% [sec]
+  time setRamp,  ;rampa Up/Dw z minLevel na 100% [sec]
+  time timeLimit,  ;omezenÌ max. doby svÌcenÌ (automaticky zhasne) [sec]
+  bool webToggle,  ;ovl·d·nÌ svÏtla z web str·nky
+  bool lightReset,  ;centr·lnÌ zhasnutÌ
+  string[25] name,  ;n·zev svÏtla
+  pointer setLevel,  ;poslednÌ nastaven· ˙roveÚ (promÏnnou umÌstit do VAR_GLOBAL RETAIN)
+  bool out,  ;signalizace On/Off
+  real level,  ;˙roveÚ 0..100[%]
+  real minLev,  ;minim·lnÌ ˙roveÚ 0..90[%]
+  string[25] GTSAP1_LIGHT_name,
+  bool GTSAP1_LIGHT_enable,
+  bool GTSAP1_LIGHT_type,
+  bool GTSAP1_LIGHT_dimtype,
+  bool GTSAP1_LIGHT_onoff,
+  real GTSAP1_LIGHT_dimlevel,
+  real gtsap1_old,  ;pro vyhodnoceni zmeny od mobilni aplikace
+  real oldSetLevel,  ;pro vyhodnoceni zmeny retain promenne
+  bool toggleOn,  ;pomocna pro zapnuti
+  bool toggleOff,  ;pomocna pro vypnuti
+  bool lastLevelUp,
+  bool lastLevelDw,
+  udint lastSL52,
+  TON tim,  ;casovac pro omezeni doby osvetleni
+  bool __EDGE_R__lightOn,
+  bool __EDGE_R__lightOff,
+  bool __EDGE_R__lightToggle,
+  bool __EDGE_R__webToggle,
+  bool __EDGE_R__lightReset
+
+
+#defpou fb_iDimmerLED
+  bool lightOn,  ;zapnout svÏtlo na poslednÌ ˙roveÚ (kr·tk˝ stisk)
+  bool levelUp,  ;zv˝öit ˙roveÚ (dlouh˝ stisk)
+  bool lightOff,  ;vypnout svÏtlo (kr·tk˝ stisk)
+  bool levelDw,  ;snÌûit ˙roveÚ (dlouh˝ stisk)
+  bool lightToggle,  ;p¯epnutÌ svÏtla
+  real minLevel,  ;min ˙roveÚ pro svÏtlo (zapalovacÌ ˙roveÚ) [%]
+  time offOnRamp,  ;rampa Off/On z minLevel na 100% [sec]
+  time setRamp,  ;rampa Up/Dw z minLevel na 100% [sec]
+  time timeLimit,  ;omezenÌ max. doby svÌcenÌ (automaticky zhasne) [sec]
+  bool webToggle,  ;ovl·d·nÌ svÏtla z web str·nky
+  bool lightReset,  ;centr·lnÌ zhasnutÌ
+  string[25] name,  ;n·zev svÏtla
+  pointer setLevel,  ;poslednÌ nastaven· ˙roveÚ (promÏnnou umÌstit do VAR_GLOBAL RETAIN)
+  bool out,  ;signalizace On/Off
+  real level,  ;˙roveÚ 0..100 [%]
+  usint ramp,  ;rampa pro On/Off
+  real minLev,  ;minim·lnÌ ˙roveÚ 0..90[%]
+  string[25] GTSAP1_LIGHT_name,
+  bool GTSAP1_LIGHT_enable,
+  bool GTSAP1_LIGHT_type,
+  bool GTSAP1_LIGHT_dimtype,
+  bool GTSAP1_LIGHT_onoff,
+  real GTSAP1_LIGHT_dimlevel,
+  real gtap1_old,  ;pro vyhodnoceni zmeny od mobilni aplikace
+  real oldSetLevel,  ;pro vyhodnoceni zmeny retain promenne
+  bool toggleOn,  ;pomocna pro zapnuti
+  bool toggleOff,  ;pomocna pro vypnuti
+  bool lastLevelUp,
+  bool lastLevelDw,
+  udint lastSL52,
+  TON tim,  ;casovac pro omezeni doby osvetleni
+  bool __EDGE_R__lightOn,
+  bool __EDGE_R__lightOff,
+  bool __EDGE_R__lightToggle,
+  bool __EDGE_R__webToggle,
+  bool __EDGE_R__lightReset
+
+
+#defpou __LATENT_INSTANCE iControl_RGB_COLOR_TO_UDINT
+  udint __fc__iControl_RGB_COLOR_TO_UDINT,
+  T_RGB_COLOR color
+
+
+#defpou __LATENT_INSTANCE iControl_UDINT_TO_RGB_COLOR
+  T_RGB_COLOR __fc__iControl_UDINT_TO_RGB_COLOR,
+  udint color
+
+
+#defpou fb_iDimmerRGB
+  bool lightOn,  ;zapnout svÏtlo na poslednÌ ˙roveÚ (kr·tk˝ stisk)
+  bool levelUp,  ;zv˝öit ˙roveÚ (dlouh˝ stisk)
+  bool lightOff,  ;vypnout svÏtlo (kr·tk˝ stisk)
+  bool levelDw,  ;snÌûit ˙roveÚ (dlouh˝ stisk)
+  bool lightToggle,  ;p¯epnutÌ svÏtla
+  real minLevel,  ;min ˙roveÚ pro svÏtlo (zapalovacÌ ˙roveÚ) [%]
+  time offOnRamp,  ;rampa Off/On z minLevel na 100% [sec]
+  time setRamp,  ;rampa Up/Dw z minLevel na 100% [sec]
+  time timeLimit,  ;omezenÌ max. doby svÌcenÌ (automaticky zhasne) [sec]
+  bool webToggle,  ;ovl·d·nÌ svÏtla z web str·nky
+  bool lightReset,  ;centr·lnÌ zhasnutÌ
+  string[25] name,  ;n·zev svÏtla
+  pointer setLight,  ;poslednÌ nastaven· ˙roveÚ a barva (promÏnnou umÌstit do VAR_GLOBAL RETAIN)
+  bool out,  ;signalizace On/Off
+  real levelRed,  ;red ˙roveÚ 0..100 [%]
+  real levelGreen,  ;green ˙roveÚ 0..100 [%]
+  real levelBlue,  ;blue ˙roveÚ 0..100 [%]
+  usint rampRed,  ;red rampa [sec]
+  usint rampGreen,  ;green rampa [sec]
+  usint rampBlue,  ;blue rampa [sec]
+  real minLev,  ;minim·lnÌ ˙roveÚ 0..90[%]
+  string[25] GTSAP1_LIGHT_name,
+  bool GTSAP1_LIGHT_enable,
+  bool GTSAP1_LIGHT_type,
+  bool GTSAP1_LIGHT_dimtype,
+  bool GTSAP1_LIGHT_onoff,
+  real GTSAP1_LIGHT_dimlevel,
+  udint GTSAP1_LIGHT_rgb,
+  bool toggleOn,  ;pomocna pro zapnuti
+  bool toggleOff,  ;pomocna pro vypnuti
+  bool lastLevelUp,
+  bool lastLevelDw,
+  udint lastSL52,
+  real level,  ;svetelnost RGB (jas)
+  T_SET_RGB_LIGHT oldSetGTSAP1,
+  T_SET_RGB_LIGHT oldSetLight,
+  TON tim,  ;casovac pro omezeni doby osvetleni
+  real red,
+  real green,
+  real blue,
+  bool __EDGE_R__lightOn,
+  bool __EDGE_R__lightOff,
+  bool __EDGE_R__lightToggle,
+  bool __EDGE_R__webToggle,
+  bool __EDGE_R__lightReset
+
+
+#defpou fb_iJalousie
+  bool rotUp,  ;pootoËit ûaluzie nahoru
+  bool up,  ;ûaluzie nahoru
+  bool rotDw,  ;pootoËit ûaluzie dolu
+  bool dw,  ;ûaluzie dolu
+  bool block,  ;blokace ovl·dacÌch vstup˘
+  bool stop,  ;zastavenÌ pohybu
+  bool ctrUp,  ;centr·lnÌ vytaûenÌ ûaluzie
+  bool ctrDw,  ;centr·lnÌ spuötÏnÌ ûaluzie
+  bool webUp,  ;pro vysunutÌ ûaluziÌ z web rozhranÌ
+  bool webDw,  ;pro spuötÏnÌ ûaluziÌ z web rozhranÌ
+  time upDwTime,  ;maxim·lnÌ doba bÏhu pohonu
+  time rotTime,  ;doba trv·nÌ kroku pri poot·ËenÌ
+  time pauseTime,  ;prodleva p¯ed otoËenÌm smÏru
+  time ctrTime,  ;zpoûdÏnÌ centr·lnÌho pohybu
+  string[25] name,  ;n·zev ûaluzie
+  bool outUp,  ;ûaluzie nahoru
+  bool outDw,  ;ûaluzie dolu
+  bool sig,  ;signalizace chodu
+  bool sigUp,  ;signalizace ûaluzie naho¯e
+  bool sigDw,  ;signalizace ûaluzie dole
+  string[25] GTSAP1_SHUTTER_name,
+  bool GTSAP1_SHUTTER_enable,
+  bool GTSAP1_SHUTTER_up,
+  bool GTSAP1_SHUTTER_down,
+  bool GTSAP1_SHUTTER_run,
+  bool GTSAP1_SHUTTER_uppos,
+  bool GTSAP1_SHUTTER_downpos,
+  bool GTSAP1_SHUTTER_up_control,
+  bool GTSAP1_SHUTTER_down_control,
+  bool GTSAP1_SHUTTER_rotup_control,
+  bool GTSAP1_SHUTTER_rotdown_control,
+  time cas_stop,
+  bool pauseUp,
+  bool pauseDw,
+  bool longUpDw,
+  TOF timUp,
+  TOF timDw,
+  bool centrUp,
+  bool centrUpH,
+  bool centrDw,
+  bool centrDwH,
+  time centrDelay,
+  bool __EDGE_R__rotUp,
+  bool __EDGE_R__up,
+  bool __EDGE_R__rotDw,
+  bool __EDGE_R__dw,
+  bool __EDGE_R__stop,
+  bool __EDGE_R__ctrUp,
+  bool __EDGE_R__ctrDw,
+  bool __EDGE_R__webUp,
+  bool __EDGE_R__webDw
+
+
+#defpou fb_TimeAction
+  bool enable,  ;povolenÌ aktivace
+  time timeOfAction1,  ;Ëas aktivace 1.v˝stupu
+  time timeOfAction2,  ;Ëas aktivace 2.v˝stupu
+  bool out1,  ;v˝stup pro 1.akci
+  bool out2,  ;v˝stup pro 2.akci
+  R_TRIG out1Trgr,
+  R_TRIG out2Trgr
+
+
+#defpou fb_JalAlarm
+  bool fire,  ;poplach poû·r: vytaûenÌ ûaluzie a blokace vstup˘
+  bool ice,  ;poplach n·mraza: zastavenÌ pohybu, blokace vstup˘
+  bool wind,  ;poplach siln˝ vÌtr: vytaûenÌ ûaluzie a blokace vstup˘
+  bool glass,  ;poplach rozbitÌ skla: spuötÏnÌ ûaluzie
+  bool blockJal,  ;blokace ovl·d·nÌ
+  bool stopJal,  ;vstup zastavenÌ pohybu ûaluzie
+  bool ctrUpJal,  ;central nahoru
+  bool ctrDwJal,  ;central dolu
+  bool block,  ;blokace ovl·d·nÌ, propojit s blokem zaluzie
+  bool stop,  ;zastavenÌ pohybu ûaluzie, propojit s blokem zaluzie
+  bool ctrUp,  ;central nahoru, propojit s blokem zaluzie
+  bool ctrDw,  ;centralne dolu, propojit s blokem zaluzie
+  R_TRIG fire_Rtrig,
+  R_TRIG ice_Rtrig,
+  R_TRIG wind_Rtrig,
+  R_TRIG glass_Rtrig,
+  bool fireH,
+  bool iceH,
+  bool windH,
+  bool glassH,
+  bool __EDGE_R__stopJal,
+  bool __EDGE_R__ctrUpJal,
+  bool __EDGE_R__ctrDwJal
+
+
+#defpou fb_RndPulse
+  bool enable,  ;PovolenÌ funkce FB
+  time sTime,  ;zaË·tek generov·nÌ pulz˘ T#21h odpovÌd· 21:00:00 [hh:mm:ss]
+  time eTime,  ;Konec generov·nÌ nov˝ch pulz˘ T#21h odpovÌd· 21:00:00 [hh:mm:ss]
+  time minOffT,  ;Minim·lnÌ dÈlka intervalu nuly
+  time minOnT,  ;Minim·lnÌ dÈlka intervalu jedniËky
+  time maxLenght,  ;Maxim·lnÌ dÈlka pulzu jak "1" tak "0".
+  bool out,  ;v˝stup n·hodnÏ generovan˝ch a n·hodnÏ dlouh˝ch pulz˘
+  bool outOn,  ;n·bÏûn· hrana v˝stupu out
+  bool outOff,  ;sestupn· hrana v˝stupu out
+  bool tOffStart,
+  TON timerOff,
+  TON timerOn,
+  real bottleneck,
+  usint i,
+  time duration,
+  time[2] cas,
+  time dTime,
+  R_TRIG trigOn,
+  F_TRIG trigOff,
+  dint seed,
+  bool init_seed,
+  dint k,
+  real random
+
+
+; Global variables
+#data byte __Init____ICL_SCENE_PREFIX = 
+  'S','C','N','_',$00;
+#def ICL_SCENE_PREFIX string __Init____ICL_SCENE_PREFIX
+#data byte __Init____ICL_SCENE_FORMAT = 
+  '%','0','4','X','.','s','c','?',$00;
+#def ICL_SCENE_FORMAT string __Init____ICL_SCENE_FORMAT
+#data byte __Init____ICL_SCENE_ERR1 = 
+  'N','a','m','e',' ','o','f',' ','s','c','e','n','e',' ','i','s',' ','e','m','p','t',
+  'y','!',$00;
+#def ICL_SCENE_ERR1 string __Init____ICL_SCENE_ERR1
+#data byte __Init____ICL_SCENE_ERR2 = 
+  ' ','n','o','t',' ','f','o','u','n','d','!',$00;
+#def ICL_SCENE_ERR2 string __Init____ICL_SCENE_ERR2
+
+#defpou fb_iScene4
+  bool scene1On,  ;zapnutÌ scÈny 1
+  bool scene2On,  ;zapnutÌ scÈny 2
+  bool scene3On,  ;zapnutÌ scÈny 3
+  bool scene4On,  ;zapnutÌ scÈny 4
+  bool webScene1On,  ;zapnutÌ scÈny 1 z web str·nky
+  bool webScene2On,  ;zapnutÌ scÈny 2 z web str·nky
+  bool webScene3On,  ;zapnutÌ scÈny 3 z web str·nky
+  bool webScene4On,  ;zapnutÌ scÈny 4 z web str·nky
+  string[25] name,  ;n·zev scÈny
+  bool busy,  ;blok pracuje
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  string[13] file,  ;jmÈno json souboru s popisem scÈny
+  string[25] GTSAP1_SCENE_name,
+  string[25] GTSAP1_SCENE_file,
+  bool GTSAP1_SCENE_enable,
+  usint GTSAP1_SCENE_num,
+  bool GTSAP1_SCENE_set1,
+  bool GTSAP1_SCENE_set2,
+  bool GTSAP1_SCENE_set3,
+  bool GTSAP1_SCENE_set4,
+  bool rqScene1,
+  bool rqScene2,
+  bool rqScene3,
+  bool rqScene4,
+  bool rqScene,
+  fbJsonFileParser JsonParser,  ;FB pro p·rsov·nÌ souboru
+  TJsonInfo json,  ;struktura pro v˝sledky p·rsov·nÌ
+  string[25] fileName,
+  usint extNum,
+  bool __EDGE_R__scene1On,
+  bool __EDGE_R__scene2On,
+  bool __EDGE_R__scene3On,
+  bool __EDGE_R__scene4On,
+  bool __EDGE_R__webScene1On,
+  bool __EDGE_R__webScene2On,
+  bool __EDGE_R__webScene3On,
+  bool __EDGE_R__webScene4On
+
+
+#defpou fb_iScene8
+  bool scene1On,  ;zapnutÌ scÈny 1
+  bool scene2On,  ;zapnutÌ scÈny 2
+  bool scene3On,  ;zapnutÌ scÈny 3
+  bool scene4On,  ;zapnutÌ scÈny 4
+  bool scene5On,  ;zapnutÌ scÈny 5
+  bool scene6On,  ;zapnutÌ scÈny 6
+  bool scene7On,  ;zapnutÌ scÈny 7
+  bool scene8On,  ;zapnutÌ scÈny 8
+  bool webScene1On,  ;zapnutÌ scÈny 1 z web str·nky
+  bool webScene2On,  ;zapnutÌ scÈny 2 z web str·nky
+  bool webScene3On,  ;zapnutÌ scÈny 3 z web str·nky
+  bool webScene4On,  ;zapnutÌ scÈny 4 z web str·nky
+  bool webScene5On,  ;zapnutÌ scÈny 5 z web str·nky
+  bool webScene6On,  ;zapnutÌ scÈny 6 z web str·nky
+  bool webScene7On,  ;zapnutÌ scÈny 7 z web str·nky
+  bool webScene8On,  ;zapnutÌ scÈny 8 z web str·nky
+  string[25] name,  ;n·zev scÈny
+  bool busy,  ;blok pracuje
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  string[13] file,  ;jmÈno json souboru s popisem scÈny
+  string[25] GTSAP1_SCENE_name,
+  string[25] GTSAP1_SCENE_file,
+  bool GTSAP1_SCENE_enable,
+  usint GTSAP1_SCENE_num,
+  bool GTSAP1_SCENE_set1,
+  bool GTSAP1_SCENE_set2,
+  bool GTSAP1_SCENE_set3,
+  bool GTSAP1_SCENE_set4,
+  bool GTSAP1_SCENE_set5,
+  bool GTSAP1_SCENE_set6,
+  bool GTSAP1_SCENE_set7,
+  bool GTSAP1_SCENE_set8,
+  bool rqScene1,
+  bool rqScene2,
+  bool rqScene3,
+  bool rqScene4,
+  bool rqScene5,
+  bool rqScene6,
+  bool rqScene7,
+  bool rqScene8,
+  bool rqScene,
+  fbJsonFileParser JsonParser,  ;FB pro p·rsov·nÌ souboru
+  TJsonInfo json,  ;struktura pro v˝sledky p·rsov·nÌ
+  string[25] fileName,
+  usint extNum,
+  bool __EDGE_R__scene1On,
+  bool __EDGE_R__scene2On,
+  bool __EDGE_R__scene3On,
+  bool __EDGE_R__scene4On,
+  bool __EDGE_R__scene5On,
+  bool __EDGE_R__scene6On,
+  bool __EDGE_R__scene7On,
+  bool __EDGE_R__scene8On,
+  bool __EDGE_R__webScene1On,
+  bool __EDGE_R__webScene2On,
+  bool __EDGE_R__webScene3On,
+  bool __EDGE_R__webScene4On,
+  bool __EDGE_R__webScene5On,
+  bool __EDGE_R__webScene6On,
+  bool __EDGE_R__webScene7On,
+  bool __EDGE_R__webScene8On
+
+
+#defpou fb_iWebConf
+  string[81] link,  ;', ...) ! rozliöujÌ se velk· a mal· pÌsmena*)
+  uint symbol,  ;n·zev ikony pro aplikaci (rain, vlc, parking, parkingcar, music, radarcloud, kodi)
+  string[25] name,  ;n·zev bloku (iFoxtrot ikony)
+  string[25] GTSAP1_WEBCONF_name,
+  string[81] GTSAP1_WEBCONF_url,  ;napr. index.xml
+  bool GTSAP1_WEBCONF_enable,
+  uint GTSAP1_WEBCONF_symbol  ;viz konstanty APP_ICON_extLink, APP_ICON_rain, APP_ICON_vlc, APP_ICON_parking, APP_ICON_parkingcar, APP_ICON_music, APP_ICON_radarcloud, APP_ICON_kodi
+
+
+#defpou fb_iWebCamera
+  string[81] url,  ;URL adresa web kamery
+  string[25] name,  ;n·zev bloku (iFoxtrot ikony)
+  string[25] GTSAP1_CAMERA_name,
+  string[81] GTSAP1_CAMERA_url,  ;posta.mukolin.cz/axis-cgi/jpg/image.cgi*)
+  bool GTSAP1_CAMERA_enable
+
+
+#defpou fb_iSocket
+  bool socketOn,  ;zapnutÌ z·suvky
+  bool socketOff,  ;vypnutÌ z·suvky
+  bool socketToggle,  ;p¯epnutÌ z·suvky
+  time pulseTime,  ;doba trv·nÌ pulzu
+  bool webToggle,  ;p¯epnutÌ z·suvky z web str·nky
+  bool socketReset,  ;centr·lnÌ vypnutÌ z·suvky
+  string[25] name,  ;n·zev
+  bool out,  ;¯ÌzenÌ z·suvky
+  string[25] GTSAP1_SOCKET_name,
+  bool GTSAP1_SOCKET_enable,
+  bool GTSAP1_SOCKET_onoff,
+  time stopTime,
+  bool __EDGE_R__socketOn,
+  bool __EDGE_R__socketOff,
+  bool __EDGE_R__socketToggle,
+  bool __EDGE_R__webToggle,
+  bool __EDGE_R__socketReset
+
+
+; Global variables
+#def  ICL_DISPLAY_TYPE_ON_OFF 0
+#def  __Init____ICL_DISPLAY_TYPE_ON_OFF ICL_DISPLAY_TYPE_ON_OFF
+#def  ICL_DISPLAY_TYPE_VALUE 1
+#def  __Init____ICL_DISPLAY_TYPE_VALUE ICL_DISPLAY_TYPE_VALUE
+
+#defpou fb_iDisplay_Val
+  real value,  ;hodnota (REAL promÏnn·)
+  string[9] unit,  ;jednotky (kWh, km/h, ...)
+  int precision,  ;poËet zobrazen˝ch desetinn˝ch mÌst (0 = celÈ ËÌslo)
+  string[81] link,  ;URL adresa web str·nky
+  uint symbol,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  string[25] name,  ;n·zev
+  real out,  ;kopie 'value'
+  string[25] GTSAP1_DISPLAY_name,  ;n·zev funkcnÌho bloku
+  bool GTSAP1_DISPLAY_enable,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  bool GTSAP1_DISPLAY_edit,  ;promenou je mozno editovat v aplikaci
+  usint GTSAP1_DISPLAY_type,  ;typ zobrazovane hodnoty (0=onOff, 1=real value)
+  uint GTSAP1_DISPLAY_symbol,  ;povel k zobrazenÌ funkcnÌho bloku v aplikace iFoxtrot App
+  real GTSAP1_DISPLAY_value,  ;hodnota k zobrazeni
+  string[9] GTSAP1_DISPLAY_unit,  ;Jednotka merenÌ (%,bar,C/F ...)
+  int GTSAP1_DISPLAY_precision,  ;presnost desetinnou c·st hodnoty
+  string[81] GTSAP1_DISPLAY_url  ;Odkaz (URL) na web stranku (graf, historie ...)
+
+
+#defpou fb_iDisplay_Edit
+  string[9] unit,  ;jednotky (kWh, km/h, ...)
+  int precision,  ;poËet zobrazen˝ch desetinn˝ch mÌst (0 = celÈ ËÌslo)
+  real limitUp,  ;Horni limit promeny 'Value'
+  real limitDw,  ;Dolni limit promeny 'Value'
+  real step,  ;Minimalni hodnota zmeny z app iFoxtrot
+  bool webUp,  ;zv˝öit hodnotu z web rozhranÌ
+  bool webDw,  ;snÌûit hodnotu z web rozhranÌ
+  string[81] link,  ;URL adresa web str·nky
+  uint symbol,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  string[25] name,  ;n·zev funkcnÌho bloku v aplikace iFoxtrot App
+  pointer value,  ;hodnota (REAL promÏnn·)
+  real out,  ;kopie 'Value'
+  string[25] GTSAP1_DISPLAY_name,  ;n·zev funkcnÌho bloku
+  bool GTSAP1_DISPLAY_enable,  ;povel k zobrazenÌ funkcnÌho bloku v aplikace iFoxtrot App
+  bool GTSAP1_DISPLAY_edit,  ;promena ukazuje ze promena
+  usint GTSAP1_DISPLAY_type,  ;model relÈ (0=onOff, 1=real/uint value)
+  uint GTSAP1_DISPLAY_symbol,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  real GTSAP1_DISPLAY_value,  ;hodnota k zobrazeni
+  string[9] GTSAP1_DISPLAY_unit,  ;Jednotka merenÌ (%,bar,C/F ...)
+  int GTSAP1_DISPLAY_precision,  ;presnost desetinnou c·st hodnoty
+  string[81] GTSAP1_DISPLAY_url,  ;Odkaz (URL) na web stranku (graf, historie ...)
+  bool GTSAP1_DISPLAY_incValue,  ;Povel s App iFoxtrot ke zv˝öenÌ poûadovanou hodnotu
+  bool GTSAP1_DISPLAY_decValue,  ;Povel s App iFoxtrot ke snÌûenÌ poûadovanou hodnotu
+  real GTSAP1_DISPLAY_valueSet,  ;tuhle promennou zapise iFoxtrot do JSON souboru kdyz je fb_iDisplay_Val_edit zarazen do sceny
+  bool __EDGE_R__webUp,
+  bool __EDGE_R__webDw
+
+
+#defpou fb_iDisplay_OnOff
+  bool value,  ;hodnota (BOOL promÏnn·)
+  uint symbolOn,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  uint symbolOff,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  string[25] name,  ;n·zev
+  bool out,  ;copy of 'Value'                                   kopie 'Value'
+  string[25] GTSAP1_DISPLAY_name,  ;n·zev funkcnÌho bloku
+  bool GTSAP1_DISPLAY_enable,  ;povel k zobrazenÌ funkcnÌho bloku v aplikace iFoxtrot App
+  bool GTSAP1_DISPLAY_edit,
+  usint GTSAP1_DISPLAY_type,  ;typ zobrazovane hodnoty (0=onOff, 1=real value)
+  uint GTSAP1_DISPLAY_symbol,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  bool GTSAP1_DISPLAY_onOff  ;hodnota (stav) k zobrazeni
+
+
+#defpou fb_iSensorTemp
+  real in,  ;teplota (REAL promÏnn·)
+  real offset,  ;korekce teploty
+  time filterTime,  ;Ëasov· konstanta filtru
+  string[25] name,  ;n·zev
+  real out,  ;out := filter( in + offset)
+  string[25] GTSAP1_DISPLAY_name,  ;n·zev funkcnÌho bloku
+  bool GTSAP1_DISPLAY_enable,  ;ikona pro aplikace iFoxtrot (APP_ICON_socket, ...)
+  bool GTSAP1_DISPLAY_edit,  ;promenou je mozno editovat v aplikaci
+  usint GTSAP1_DISPLAY_type,  ;typ zobrazovane hodnoty (0=onOff, 1=real value)
+  uint GTSAP1_DISPLAY_symbol,  ;povel k zobrazenÌ funkcnÌho bloku v aplikace iFoxtrot App
+  real GTSAP1_DISPLAY_value,  ;hodnota k zobrazeni
+  string[9] GTSAP1_DISPLAY_unit,  ;Jednotka merenÌ (%,bar,C/F ...)
+  int GTSAP1_DISPLAY_precision,  ;presnost desetinnou c·st hodnoty
+  fbFirstOrder filter  ;filtr prvniho radu
+
+
+#defpou fbHolidayCalendar
+  bool vis,
+  bool refr,
+  T_TIME_PROG_WEEK_WEB_SETTINGS webGuiSettings,
+  bool butCancel,
+  bool butSave,
+  bool canvasOK,
+  uint canvasLen,
+  pointer canvasData,
+  pointer startHoliday,
+  pointer endHoliday,
+  udint fontColor,
+  udint selectColor,
+  R_TRIG visTrig,
+  bool wasTouch,
+  TTecoDateTime tecoDT,
+  date_and_time startDate,
+  uint holIndex,
+  date_and_time[2] holiday,
+  date today,
+  int i,
+  date_and_time d,
+  usint m,
+  bool __EDGE_R__refr
+
+
+; Global variables
+#def  ICL_TPW_TYPE_HEATING 1
+#def  __Init____ICL_TPW_TYPE_HEATING ICL_TPW_TYPE_HEATING
+#def  ICL_TPW_TYPE_COOLING 2
+#def  __Init____ICL_TPW_TYPE_COOLING ICL_TPW_TYPE_COOLING
+#def  ICL_TPW_TYPE_HEATING_COOLING 3
+#def  __Init____ICL_TPW_TYPE_HEATING_COOLING ICL_TPW_TYPE_HEATING_COOLING
+#data byte __Init____ICL_TPW_PREFIX = 
+  'W','T','P','_',$00;
+#def ICL_TPW_PREFIX string __Init____ICL_TPW_PREFIX
+#data byte __Init____ICL_TPW_FORMAT = 
+  '%','0','4','X','.','J','S','N',$00;
+#def ICL_TPW_FORMAT string __Init____ICL_TPW_FORMAT
+#data byte __Init____ICL_TPW_JSN_EXT = 
+  '.','J','S','N',$00,$00,$00,$00,$00;
+#def ICL_TPW_JSN_EXT string __Init____ICL_TPW_JSN_EXT
+#data byte __Init____ICL_TPW_APP_EXT = 
+  '.','A','P','P',$00,$00,$00,$00,$00;
+#def ICL_TPW_APP_EXT string __Init____ICL_TPW_APP_EXT
+#data byte __Init____ICL_TPW_BAK_EXT = 
+  '.','B','A','K',$00,$00,$00,$00,$00;
+#def ICL_TPW_BAK_EXT string __Init____ICL_TPW_BAK_EXT
+#data byte __Init____ICL_TPW_TMP_EXT = 
+  '.','T','M','P',$00,$00,$00,$00,$00;
+#def ICL_TPW_TMP_EXT string __Init____ICL_TPW_TMP_EXT
+#data byte __Init____ICL_TPW_ERR1 = 
+  'N','a','m','e',' ','o','f',' ','p','r','o','g','r','a','m',' ','i','s',' ','e','m',
+  'p','t','y','!',$00,$00;
+#def ICL_TPW_ERR1 string __Init____ICL_TPW_ERR1
+#data byte __Init____ICL_TPW_ERR2 = 
+  ' ','n','o','t',' ','f','o','u','n','d','!',$00;
+#def ICL_TPW_ERR2 string __Init____ICL_TPW_ERR2
+#data byte __Init____ICL_TPW_ERR3 = 
+  'C','o','r','r','u','p','t','e','d',' ','J','S','O','N',' ','f','i','l','e',$00;
+#def ICL_TPW_ERR3 string __Init____ICL_TPW_ERR3
+#data byte __Init____ICL_TPW_ERR4 = 
+  'N','o',' ','t','i','m','e',' ','p','r','o','g','r','a','m',' ','i','n',' ','J','S',
+  'O','N',$00;
+#def ICL_TPW_ERR4 string __Init____ICL_TPW_ERR4
+#data byte __Init____ICL_TPW_KEYWORD = 
+  't','i','m','e','P','r','o','g','W','e','e','k','D','a','t','a',$00;
+#def ICL_TPW_KEYWORD string __Init____ICL_TPW_KEYWORD
+
+#defpou __LATENT_INSTANCE AddTextToRecord
+  udint __fc__AddTextToRecord,
+  string[81] text,
+  pointer ptrRec,
+  uint lenRec
+
+
+#data byte __Init___fc_TimeProgWeek_LoadDefault_initTimeProg24x7data = 
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  3,  5,  0,  0,  0,160, 64,  0,  0,152, 65,  0,  0,168, 65,
+    0,  0,184, 65,  0,  0,  4, 66,  0,  0,224, 65,  0,  0,200, 65,  0,  0,192, 65,
+    0,  0,  0,  0,160, 82, 87,  1,  0,116,183,  1,128,249, 55,  3,128,144,129,  4,
+    0, 92, 38,  5,  0, 92, 38,  5,  0,  0,  0,  0,160, 82, 87,  1,  0,116,183,  1,
+  128,249, 55,  3,128,144,129,  4,  0, 92, 38,  5,  0, 92, 38,  5,  0,  0,  0,  0,
+  160, 82, 87,  1,  0,116,183,  1,128,249, 55,  3,128,144,129,  4,  0, 92, 38,  5,
+    0, 92, 38,  5,  0,  0,  0,  0,160, 82, 87,  1,  0,116,183,  1,128,249, 55,  3,
+  128,144,129,  4,  0, 92, 38,  5,  0, 92, 38,  5,  0,  0,  0,  0,160, 82, 87,  1,
+    0,116,183,  1,128,249, 55,  3,128,144,129,  4,  0, 92, 38,  5,  0, 92, 38,  5,
+    0,  0,  0,  0, 32, 65,142,  1,  0,127,184,  4,  0, 92, 38,  5,  0, 92, 38,  5,
+    0, 92, 38,  5,  0, 92, 38,  5,  0,  0,  0,  0, 32, 65,142,  1,  0,127,184,  4,
+    0, 92, 38,  5,  0, 92, 38,  5,  0, 92, 38,  5,  0, 92, 38,  5,  1,  2,  3,  2,
+    3,  1,  1,  1,  1,  2,  3,  2,  3,  1,  1,  1,  1,  2,  3,  2,  3,  1,  1,  1,
+    1,  2,  3,  2,  3,  1,  1,  1,  1,  2,  3,  2,  3,  1,  1,  1,  1,  2,  3,  2,
+    1,  1,  1,  1,  1,  2,  3,  2,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0;
+#def __Const__fc_TimeProgWeek_LoadDefault_initTimeProg24x7data T_TIME_PROG_WEEK __Init___fc_TimeProgWeek_LoadDefault_initTimeProg24x7data
+#defpou __LATENT_INSTANCE fc_TimeProgWeek_LoadDefault
+  bool __fc__fc_TimeProgWeek_LoadDefault,
+  bool units,  ;0 = ∞C, 1 = ∞F
+  pointer timeProgWeekData
+
+
+#defpou fb_TimeProgWeek_LoadDataFromFile
+  bool exec,
+  bool units,  ;0 = ∞C, 1 = ∞F
+  string[25] fileName,
+  string[81] timeProgName,  ;jmeno promenne s casovym programem
+  udint timeProgAdr,  ;adresa promenne s casovym programem
+  bool done,
+  bool busy,
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  bool rqSave,  ;ulozit po nacteni
+  bool err,
+  fbJsonFileParser JsonParser,  ;FB pro p·rsov·nÌ souboru
+  TJsonInfo json,  ;struktura pro v˝sledky p·rsov·nÌ
+  bool res,
+  bool isTimeProg24x7
+
+
+#defpou __LATENT_INSTANCE ICL_GetVarNameByAdr
+  string[256] __fc__ICL_GetVarNameByAdr,
+  udint varAdr,  ;adresa promÏnnÈ
+  udint varSize  ;velikost promÏnnÈ (poËet byt˘)
+
+
+#defpou fb_TimeProgWeek_Basic
+  usint typ,  ;typ ËasovÈho programu : ICL_TPW_TYPE_HEATING, ICL_TPW_TYPE_COOLING, ICL_TPW_TYPE_HEATING_COOLING
+  usint numTimes,  ;pocet casovych znacek za den (min 2, max 7)
+  bool units,  ;0 = ∞C, 1 = ∞F
+  string[25] name,  ;n·zev ËasovÈho programu
+  udint adrTimeProg,  ;adresa promÏnnÈ timeProgWeekData
+  bool busy,  ;blok pracuje
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  string[13] file,  ;jmÈno json souboru s popisem ËasovÈho programu
+  T_TIME_PROG_WEEK WeekTimeProg24x7data_temp,
+  fb_TimeProgWeek_LoadDataFromFile TimeProgWeek_LoadDataFromFile,
+  CreatePath fb_CreatePath,
+  WriteToFile fb_WriteToFile,
+  ReadFromFile fb_ReadFromFile,
+  TFileInfo fileDesc,  ;struktura s informacemi o souboru
+  usint[1024] jsonBuf,  ;buffer pro sestaveni json souboru
+  string[25] fileName,
+  string[25] fileName_app,
+  string[25] fileName_tmp,
+  string[25] fileName_bak,
+  bool extSaveRq,
+  bool extCopyReadRq,
+  bool extCopyWriteRq,
+  bool extSaveToBAKRq,
+  bool extSaveToJSNRq,
+  bool extPowerUpLoadRq,
+  bool extPowerUpLoadJSNRq,
+  bool extPowerUpLoadBAKRq,
+  bool extSaveNewDataToJSNRq,
+  bool extSaveNewDataToBAKRq,
+  bool extLoadTempDataRq,
+  bool last_units,
+  uint last_crc,
+  pointer ptr,
+  pointer ptrTimeProgWeekData,
+  pointer ptr_str,
+  uint crc,
+  string[81] varBaseName,
+  string[21] iFoxPath
+
+
+#defpou __LATENT_INSTANCE CustomTimeProgTimToPos
+  int __fc__CustomTimeProgTimToPos,
+  time tim,
+  int width
+
+
+#defpou __LATENT_INSTANCE CustomTimeProgPosToTim
+  time __fc__CustomTimeProgPosToTim,
+  int pos,
+  int width,
+  real lim,
+  real w,
+  time t
+
+
+#data byte __Init___fb_TimeProgWeek_Web_C_HEAT_COLOR = 
+  255,202, 40,  0,251,140,  0,  0,255, 87, 34,  0,229, 57, 53,  0;
+#def  __Const__fb_TimeProgWeek_Web_C_HEAT_COLOR udint[4] __Init___fb_TimeProgWeek_Web_C_HEAT_COLOR
+#data byte __Init___fb_TimeProgWeek_Web_C_COOL_COLOR = 
+  128,222,234,  0, 41,182,246,  0, 30,136,229,  0, 57, 73,171,  0;
+#def  __Const__fb_TimeProgWeek_Web_C_COOL_COLOR udint[4] __Init___fb_TimeProgWeek_Web_C_COOL_COLOR
+#defpou fb_TimeProgWeek_Web
+  udint adrTimeProg,
+  pointer webGuiSettings,
+  pointer canvasData,
+  bool canvasOK,
+  uint canvasLen,
+  usint numTimes,  ;pocet casovych znacek za den
+  int selLine,
+  int selBlock,
+  int selButton1,
+  real C_delta,
+  time endTime,
+  pointer actTim,
+  pointer actTim2,
+  pointer actTim3,
+  bool heatCool,  ;0 heating, 1 cooling
+  bool wasTouch,
+  bool rqSave,
+  bool repaint,
+  bool saveProg,
+  bool counterInit,
+  bool flgHoliday,
+  int copy,
+  TON counterTON,
+  T_TIME_PROG_WEEK time_prog,  ;kopie casoveho programu
+  pointer ptr_time_prog,  ;ptr na casovy program
+  usint disp,
+  int corrDist,
+  int x_time,
+  int lastTouchX,
+  int lastTouchY,
+  uint lastCRC,
+  fbHolidayCalendar HolidayCalendar,
+  TCanvasPoint[3] triangle,
+  TCanvasPoint[3] triangleUP,
+  TCanvasPoint[3] triangleDW,
+  uint canvasMax
+
+
+#defpou fb_TimeProgWeek_Control
+  bool onOff,  ;rizeni zapnute/vypnute
+  bool manPriority,  ;0 = rezim manual skonci pri 1.zmene casoveho programu, 1 = rezim manual se ukonci pouze prepnutim do auto
+  real roomTemp,  ;teplota v mistnosti
+  real hyst,  ;hystereze (necitlivost vystupu heat/cool) <0.0,0.5>
+  bool webNextProg,  ;auto -> manual, manual -> auto
+  bool webNextMode,  ;zmena rezimu v manualnim modu
+  bool webIncDelta,
+  bool webDecDelta,
+  udint adrTimeProg,
+  pointer settings,
+  T_TIME_PROG_WEEK_STAT status,  ;stav rizeni
+  string[25] GTSAP1_TPW_name,
+  bool GTSAP1_TPW_enable,
+  usint GTSAP1_TPW_type,  ;typ casoveho programu
+  string[25] GTSAP1_TPW_file,
+  uint GTSAP1_TPW_crc,  ;posledni platne crc casoveho programu
+  bool GTSAP1_TPW_update,  ;povel z aplikace na nacteni dat casoveho programu z souboru
+  bool GTSAP1_TPW_manual,  ;0 = auto, 1 = manual
+  bool GTSAP1_TPW_holiday,  ;0 = normal control, 1 = holiday (=> ECO mode)
+  bool GTSAP1_TPW_heat,  ;pozadavek na topeni
+  bool GTSAP1_TPW_cool,  ;pozadavek na chlazeni
+  real GTSAP1_TPW_roomTemp,  ;teplota v mistnosti
+  real GTSAP1_TPW_heatTemp,  ;pozadovana teplota topeni
+  real GTSAP1_TPW_coolTemp,  ;pozadovana teplota chlazeni
+  sint GTSAP1_TPW_mode,  ;zvoleny rezim ... 0 = limit, 1 = ECO, 2 = NIGHT {utlum), 3 = DAY (komfort)
+  real GTSAP1_TPW_delta,  ;aktualni delta <-5.0, 5.0>
+  bool GTSAP1_TPW_nextProg,  ;auto -> manual, manual -> auto
+  bool GTSAP1_TPW_nextMode,  ;zmena rezimu v manualnim modu (ECO <-> NIGHT <-> DAY)
+  bool GTSAP1_TPW_incDelta,  ;+0.5
+  bool GTSAP1_TPW_decDelta,  ;-0.5
+  sint GTSAP1_TPW_manualSet,  ;0 = auto, 1 = manual, -1=nenastaveno
+  sint GTSAP1_TPW_modeSet,  ;0 = limit, 1 = ECO, 2 = NIGHT {utlum), 3 = DAY (komfort), -1=nenastaveno
+  bool init,
+  bool lastManual,
+  usint numTimes,
+  usint lastInterval,
+  pointer ptr_time_prog,
+  sint incMode,
+  bool __EDGE_R__webNextProg,
+  bool __EDGE_R__webNextMode,
+  bool __EDGE_R__webIncDelta,
+  bool __EDGE_R__webDecDelta
+
+
+; Global types
+#struct  TCIB_CRC0011R_iTHERM_iRH
+  real iTHERM,
+  usint iRH
+
+; Global types
+#def  TCIB_PAGING_ARRAY byte[5]
+
+; Global types
+#struct  TCIB_C_RC_0011R_IN
+  usint BUTTONS,
+  TCIB_CRC0011R_iTHERM_iRH iTHERM_iRH,
+  real eTHERM,
+  TCIB_PAGING_ARRAY PAGING
+
+; Global types
+#def  TCIB_CRC0011R_DATA int[4]
+
+; Global types
+#def  TCIB_CRC0011R_DATA_TYPE byte[4]
+
+; Global types
+#struct  TCIB_CRC0011R_VAL
+  TCIB_CRC0011R_DATA DATA,
+  TCIB_CRC0011R_DATA_TYPE DATA_TYPE
+
+; Global types
+#struct  TCIB_CRC0011R_ICO
+  bool BUTT_EDIT,
+  bool BUTT_ESC,
+  bool BUTT_OK,
+  bool BUTT_DOWN,
+  bool BUTT_UP,
+  bool MODE_SUN,
+  bool MODE_MOON,
+  bool MODE_ECO,
+  bool PROG_AUTOMAT,
+  bool PROG_HAND,
+  bool PROG_HOLIDAY,
+  bool TEMP_INDOOR,
+  bool TEMP_OUTDOOR,
+  bool TEMP,
+  bool FAN_0,
+  bool FAN_1,
+  bool FAN_2,
+  bool FAN_3,
+  bool FAN_AUTOMAT,
+  bool HEATING,
+  bool COOLING,
+  bool WINDOW,
+  bool LOCK,
+  bool WARNING,
+  bool DAY_1,
+  bool DAY_2,
+  bool DAY_3,
+  bool DAY_4,
+  bool DAY_5,
+  bool DAY_6,
+  bool DAY_7,
+  bool LINE,
+  bool RADIO_0,
+  bool RADIO_1,
+  bool RADIO_2,
+  bool RADIO_3,
+  bool RADIO_BATTERY,
+  bool MAIN_VAL_C,
+  bool MAIN_VAL_F,
+  bool MAIN_VAL_RH,
+  bool MAIN_VAL_PERC,
+  bool MAIN_VAL_DOT,
+  bool SEC_VAL_C,
+  bool SEC_VAL_F,
+  bool SEC_VAL_RH,
+  bool SEC_VAL_PERC,
+  bool SEC_VAL_COLON,
+  bool SEC_VAL_DOT,
+  bool SEC_VAL_DOT2,
+  bool SEC_VAL_DOT3,
+  bool SEC_VAL_AM,
+  bool SEC_VAL_PM,
+  bool ARROW,
+  bool dummy53,
+  bool dummy54,
+  bool dummy55
+
+; Global types
+#struct  TCIB_C_RC_0011R_OUT
+  TCIB_CRC0011R_VAL VAL,
+  TCIB_CRC0011R_ICO ICO,
+  TCIB_PAGING_ARRAY PAGING
+
+#defpou fb_TimeProgWeek_C_RC_0011R
+  udint adrTimeProg,  ;adresa timeProgWeekData
+  usint fan,  ;ventilace
+  pointer settings,  ;nastaveni modulu
+  pointer C_RC_in,  ;vstupni struktura (data z modulu)
+  pointer C_RC_out,  ;vystupni struktura (data pro modul)
+  usint warning,  ;chyba
+  TCIB_C_RC_0011R_IN C_RC_inL,  ;predchozi vstupni struktura
+  T_TIME_PROG_WEEK_INTERFACE settingsL,  ;predchozi nastaveni
+  T_TIME_PROG_WEEK time_progL,  ;predchozi WTP
+  pointer ptr_time_prog,  ;pointer na WTP
+  TTecoDateTime dateTime,  ;cas a datum
+  usint fanL,  ;ventilace (fanCoil)
+  usint warningL,  ;chyba
+  usint confirmWait,  ;priznak cekani na potvrzeni prijmu (odpoved)
+  usint noConfirmCnt,  ;mereni, pokud modul nedostal odpoved
+  usint confirmType,  ;priznak naposledy odeslanych dat
+  usint confirmCnt,  ;citac odpovedi (pro detekci zmeny - inkrementuje se po kazde odpovedi)
+  bool newMess,  ;priznak novych vystupnich dat/odpoved, dalsi ceka ve fronte
+  byte resetUpdate,  ;pozadavek modulu o nastaveni a cas
+  TCIB_PAGING_ARRAY paginL,  ;zaloha vystupniho packetu
+  bool edit,  ;priznak editace v modulu
+  uint crc,
+  usint fbBlock,  ;fb synchronizuje data s displejem jen v "Editacnim(Autonomni) rezimu" (0 nezinicializovano, 1 Editacni(Autonomni) rezim, 2 ostatni rezimy)
+  bool settUpdate,  ;priznak zmeny nastaveni
+  bool tempUpdate,  ;priznak zmeny teploty (offsetu)
+  real tempOffs,  ;offset pozadovane teploty
+  word modulInit,  ;inicializacni nastaveni modulu
+  uint d,
+  uint i,
+  dint timeVar,
+  dint hour,
+  byte b,
+  word w,
+  uint[2] dataInd,
+  uint[2] dayInd,
+  usint holidDay,
+  usint holidMonth,
+  usint holidYear,
+  string[23] holidString,
+  string[23] holidCompare,
+  TTecoDateTime dateVar
+
+
+#defpou fb_iTimeProgWeek
+  bool onOff,  ;¯ÌzenÌ zapnutÈ/vypnutÈ
+  bool units,  ;jednotky 0 = ∞C, 1 = ∞F
+  bool manPriority,  ;0 = reûim manual skonËÌ pri 1.zmÏnÏ ËasovÈho programu, 1 = reûim manual se ukonËi pouze p¯epnutÌm do auto
+  real roomTemp,  ;mÏ¯en· teplota
+  real hyst,  ;hystereze (necitlivost v˝stupu heat/cool) <0.0,0.5>
+  usint typ,  ;typ ËasovÈho programu : ICL_TPW_TYPE_HEATING, ICL_TPW_TYPE_COOLING, ICL_TPW_TYPE_HEATING_COOLING
+  usint numTimes,  ;poËet Ëasov˝ch znaËek za den (min 2, max 7)
+  bool webNextProg,  ;zmÏna auto<->manual
+  bool webNextMode,  ;zmÏna v manu·lnÌm mÛdu ECO->⁄TLUM->KOMFORT
+  bool webIncDelta,  ;zv˝öit cÌlovou teplotu
+  bool webDecDelta,  ;snÌûit cÌlovou teplotu
+  string[25] name,  ;n·zev ËasovÈho programu
+  pointer TimeProg_Settings,  ;stav a ¯ÌzenÌ bloku
+  pointer TimeProg_webSettings,  ;texty pro web
+  pointer C_RC_in,  ;vstupnÌ data z modulu C-RC-0011R
+  pointer C_RC_out,  ;v˝stupnÌ data pro modul C-RC-0011R
+  bool heat,  ;poûadavek na topeni
+  bool cool,  ;poûadavek na chlazeni
+  real heatTemp,  ;poûadovan· teplota topenÌ
+  real coolTemp,  ;poûadovan· teplota chlazenÌ
+  T_TIME_PROG_WEEK_STAT webStatus,  ;stav ¯ÌzenÌ (pro web)
+  bool busy,  ;blok zpracov·v· json soubor
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  string[13] jsonFile,  ;jmÈno json souboru s popisem ËasovÈho programu
+  T_TIME_PROG_WEEK timeProgWeekData,  ;t˝dennÌ Ëasov˝ program
+  TCanvasData1024 canvasData,  ;canvas data
+  fb_TimeProgWeek_Basic TimeProgBasic,
+  fb_TimeProgWeek_Web TimeProgWeb,
+  fb_TimeProgWeek_Control TimeProgControl,
+  fb_TimeProgWeek_C_RC_0011R TimeProgDevice,
+  bool __EDGE_R__webNextProg,
+  bool __EDGE_R__webNextMode,
+  bool __EDGE_R__webIncDelta,
+  bool __EDGE_R__webDecDelta
+
+
+#defpou fb_iTimeProgWeek1
+  bool onOff,  ;¯ÌzenÌ zapnutÈ/vypnutÈ
+  bool units,  ;jednotky 0 = ∞C, 1 = ∞F
+  bool manPriority,  ;0 = reûim manual skonËÌ pri 1.zmÏnÏ ËasovÈho programu, 1 = reûim manual se ukonËi pouze p¯epnutÌm do auto
+  real roomTemp,  ;mÏ¯en· teplota
+  real hyst,  ;hystereze (necitlivost v˝stupu heat/cool) <0.0,0.5>
+  usint typ,  ;typ ËasovÈho programu : ICL_TPW_TYPE_HEATING, ICL_TPW_TYPE_COOLING, ICL_TPW_TYPE_HEATING_COOLING
+  usint numTimes,  ;poËet Ëasov˝ch znaËek za den (min 2, max 7)
+  bool webNextProg,  ;zmÏna auto<->manual
+  bool webNextMode,  ;zmÏna v manu·lnÌm mÛdu ECO->⁄TLUM->KOMFORT
+  bool webIncDelta,  ;zv˝öit cÌlovou teplotu
+  bool webDecDelta,  ;snÌûit cÌlovou teplotu
+  string[25] name,  ;n·zev ËasovÈho programu
+  pointer TimeProg_Settings,  ;stav a ¯ÌzenÌ bloku
+  pointer TimeProg_webSettings,  ;texty pro web
+  bool heat,  ;poûadavek na topeni
+  bool cool,  ;poûadavek na chlazeni
+  real heatTemp,  ;poûadovan· teplota topenÌ
+  real coolTemp,  ;poûadovan· teplota chlazenÌ
+  T_TIME_PROG_WEEK_STAT webStatus,  ;stav ¯ÌzenÌ
+  bool busy,  ;blok zpracov·v· json soubor
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  string[13] jsonFile,  ;jmÈno json souboru s popisem ËasovÈho programu
+  T_TIME_PROG_WEEK timeProgWeekData,  ;t˝dennÌ Ëasov˝ program
+  TCanvasData1024 canvasData,  ;canvas data
+  fb_TimeProgWeek_Basic TimeProgBasic,
+  fb_TimeProgWeek_Web TimeProgWeb,
+  fb_TimeProgWeek_Control TimeProgControl,
+  bool __EDGE_R__webNextProg,
+  bool __EDGE_R__webNextMode,
+  bool __EDGE_R__webIncDelta,
+  bool __EDGE_R__webDecDelta
+
+
+#defpou fb_iTimeProgWeek2
+  bool onOff,  ;¯ÌzenÌ zapnutÈ/vypnutÈ
+  bool units,  ;jednotky 0 = ∞C, 1 = ∞F
+  bool manPriority,  ;0 = reûim manual skonËÌ pri 1.zmÏnÏ ËasovÈho programu, 1 = reûim manual se ukonËi pouze p¯epnutÌm do auto
+  real roomTemp,  ;mÏ¯en· teplota
+  real hyst,  ;hystereze (necitlivost v˝stupu heat/cool) <0.0,0.5>
+  usint typ,  ;typ ËasovÈho programu : ICL_TPW_TYPE_HEATING, ICL_TPW_TYPE_COOLING, ICL_TPW_TYPE_HEATING_COOLING
+  usint numTimes,  ;poËet Ëasov˝ch znaËek za den (min 2, max 7)
+  bool webNextProg,  ;zmÏna auto<->manual
+  bool webNextMode,  ;zmÏna v manu·lnÌm mÛdu ECO->⁄TLUM->KOMFORT
+  bool webIncDelta,  ;zv˝öit cÌlovou teplotu
+  bool webDecDelta,  ;snÌûit cÌlovou teplotu
+  string[25] name,  ;n·zev ËasovÈho programu
+  pointer TimeProg_Settings,  ;stav a ¯ÌzenÌ bloku
+  pointer C_RC_in,  ;vstupnÌ data z modulu C-RC-0011R
+  pointer C_RC_out,  ;v˝stupnÌ data pro modul C-RC-0011R
+  bool heat,  ;poûadavek na topeni
+  bool cool,  ;poûadavek na chlazeni
+  real heatTemp,  ;poûadovan· teplota topenÌ
+  real coolTemp,  ;poûadovan· teplota chlazenÌ
+  T_TIME_PROG_WEEK_STAT webStatus,  ;stav ¯ÌzenÌ
+  bool busy,  ;blok zpracov·v· json soubor
+  string[81] lastErr,  ;popis p¯ÌpadnÈ chyby
+  string[13] jsonFile,  ;jmÈno json souboru s popisem ËasovÈho programu
+  T_TIME_PROG_WEEK timeProgWeekData,  ;t˝dennÌ Ëasov˝ program
+  fb_TimeProgWeek_Basic TimeProgBasic,
+  fb_TimeProgWeek_Control TimeProgControl,
+  fb_TimeProgWeek_C_RC_0011R TimeProgDevice,
+  bool __EDGE_R__webNextProg,
+  bool __EDGE_R__webNextMode,
+  bool __EDGE_R__webIncDelta,
+  bool __EDGE_R__webDecDelta
+
+ 
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\Sysgen\SALAMHOUSE.mlh'
+
+
+ 
+
+#srcfile ''

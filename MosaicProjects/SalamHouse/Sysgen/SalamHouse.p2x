@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-2" standalone="yes"?>
+<MAP version="3" name="SalamHouse" project="SalamHouse" content="public" >
+ <TYPES>
+ </TYPES>
+ <DATA>
+  <ITEM name="PRA_ZAL_M15_1_DOWN" type="BOOL" location="%M" addr="8" bit="5" size="1" puball="1" />
+  <ITEM name="PRA_ZAL_M15_1_UP" type="BOOL" location="%M" addr="8" bit="4" size="1" puball="1" />
+ </DATA>
+</MAP>

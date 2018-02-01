@@ -1,0 +1,95 @@
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\SYSGEN\HWCONFIG.ST'
+
+; Global variables
+#def  CPU_TYPE 75
+#def  CPU_CODE 1000
+
+; Global types
+#struct  TAIStat
+  bool UNF,
+  bool UNR,
+  bool OVR,
+  bool OVF,
+  bool FLS,
+  bool CJC,
+  bool dummy6,
+  bool dummy7,
+  bool CHC,
+  bool dummy9,
+  bool dummy10,
+  bool dummy11,
+  bool dummy12,
+  bool dummy13,
+  bool dummy14,
+  bool dummy15
+#struct  TAI
+  TAIStat STAT,
+  int FS,
+  real ENG,
+  real PCT
+#struct  TAIPW
+  real UCIB1,
+  real UCIB2,
+  real USRC,
+  real UACU
+#struct  TDI_IR1061
+  bool DI0,
+  bool DI1,
+  bool DI2,
+  bool DI3,
+  bool IN230,
+  bool HDO
+#struct  TSTPW
+  bool WCIB1,
+  bool ECIB1,
+  bool WCIB2,
+  bool ECIB2,
+  bool WSRC,
+  bool ESRC,
+  bool WACU,
+  bool EACU
+#struct  TBIN_2DO
+  bool DO0,
+  bool DO1
+#struct  TCHStatistic
+  usint STAT,
+  usint ERR,
+  udint trueMes,
+  udint falseMes
+#struct  TCHControl
+  uint CONTROL
+
+; Global variables
+#def  r0_p0_Statistic_CH1 TCHStatistic %X7500
+#def  r0_p0_Control_CH1 TCHControl %Y7500
+
+; Global variables
+#def  r0_p2_Statistic_MI_CIB1 TCHStatistic %X0
+#def  r0_p2_Control_MI_CIB1 TCHControl %Y0
+#def  r0_p2_Statistic_MI_CIB2 TCHStatistic %X10
+#def  r0_p2_Control_MI_CIB2 TCHControl %Y2
+#def  foxZal1_IN MI_CIB1_IN~ID1_IN  ;foxZal1
+#def  foxZal1_OUT MI_CIB1_OUT~ID1_OUT  ;foxZal1
+#def  foxZal2_IN MI_CIB1_IN~ID2_IN  ;foxZal2
+#def  foxZal2_OUT MI_CIB1_OUT~ID2_OUT  ;foxZal2
+#def  PRA_ZAL_M15_1_DOWN MI_CIB1_OUT~ID2_OUT~DOs~DO3d
+#def  PRA_ZAL_M15_1_UP MI_CIB1_OUT~ID2_OUT~DOs~DO3u
+
+; Global variables
+#def  r0_p5_DI TDI_IR1061 %X20
+#def  r0_p5_STPW TSTPW %X21
+#def  r0_p5_AI0 TAI %X22
+#def  r0_p5_AI1 TAI %X34
+#def  r0_p5_AI2 TAI %X46
+#def  r0_p5_AI3 TAI %X58
+#def  r0_p5_AIPW TAIPW %X70
+#def  r0_p5_DO TBIN_2DO %Y4
+
+; Global variables
+ 
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\SYSGEN\HWCONFIG.ST'
+
+
+ 
+
+#srcfile ''

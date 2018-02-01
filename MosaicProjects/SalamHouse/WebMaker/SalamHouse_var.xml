@@ -1,0 +1,7 @@
+<Variables>
+	<Item Name="Main2.jalouse.jalousie.webDw" Pos="030000E5" Type="241" />
+	<Item Name="Main2.jalouse.jalousie.webUp" Pos="030000E5" Type="241" />
+	<Item Name="Main2.jalouse.jalousie.sigUp" Pos="0300010F" Type="3" />
+	<Item Name="Main2.jalouse.jalousie.sig" Pos="0300010F" Type="2" />
+	<Item Name="Main2.jalouse.jalousie.sigDw" Pos="0300010F" Type="4" />
+</Variables>

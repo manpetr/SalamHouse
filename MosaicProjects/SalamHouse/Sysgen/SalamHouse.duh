@@ -1,0 +1,40 @@
+FUNCTION_BLOCK fbJalousie
+(*Ovladani zaluzie
+*)
+  VAR_INPUT
+    JALOUSIE_NAME : STRING := 'jmeno zaluzie';
+  END_VAR
+  VAR_OUTPUT
+    UP : BOOL;
+    DOWN : BOOL;
+  END_VAR
+
+  VAR
+    jalousie : fb_iJalousie;
+    JALOUSIE_CETRAL_DELAY : TIME := 0;
+  END_VAR
+
+END_FUNCTION_BLOCK 
+
+FUNCTION_BLOCK fbObyvakKuchyne
+(**)
+
+
+
+
+
+END_FUNCTION_BLOCK 
+
+FUNCTION_BLOCK fbPracovna
+(**)
+
+
+
+
+
+END_FUNCTION_BLOCK 
+
+
+
+
+

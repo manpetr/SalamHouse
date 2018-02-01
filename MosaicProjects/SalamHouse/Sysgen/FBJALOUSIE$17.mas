@@ -1,0 +1,83 @@
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\FBJALOUSIE.CFC'
+
+#defpou fbJalousie
+  string[81] JALOUSIE_NAME,
+  bool UP,
+  bool DOWN,
+  fb_iJalousie jalousie,
+  time JALOUSIE_CETRAL_DELAY
+
+ 
+#srcfile 'C:\USERS\PETR MAN\DROPBOX\DUM\ELEKTRO\TECO\MOSAICPROJECTS\SALAMHOUSE\FBJALOUSIE.CFC'
+#pou fbJalousie
+#srcline 1 ;FUNCTION_BLOCK fbJalousie
+#table byte __Init___fbJalousie_JALOUSIE_NAME = 
+    'j','m','e','n','o',' ','z','a','l','u','z','i','e';
+
+#struct fbJalousie__temp__
+  string[26] PS0__st__
+P     61
+fbJalousie_L0:
+ LINK __SizeOf(fbJalousie__temp__)
+#srcline 161 ;(*   8	*)	CAL	jalousie(upDwTime:=JALOUSIE_LONG_TOTAL_TIME, ctrTime:=JALOUSIE_CETRAL_DELAY, name:=JALOUSIE_NAME)
+ LD   time 55000
+ WRX  jalousie~upDwTime
+#debug_left time jalousie~upDwTime
+ LDX  JALOUSIE_CETRAL_DELAY
+#debug time JALOUSIE_CETRAL_DELAY
+ WRX  jalousie~ctrTime
+#debug_left time jalousie~ctrTime
+ LD   0   ; null string
+ LEAX jalousie~name
+ WRI 
+ LEAX jalousie~name
+ LD   24
+ DST    ; Level 1
+ LEAX JALOUSIE_NAME
+#debug string JALOUSIE_NAME
+ SCON 
+#debug_left string jalousie~name
+ PDST   ; Level 1
+ LEAX jalousie
+ CAL  fb_iJalousie_L0
+#srcline 162 ;(*   8	*)	LD 	jalousie.outDw
+ LDX  jalousie~outDw
+#debug bool jalousie.outDw
+#srcline 163 ;(* 115	*)	ST 	DOWN
+ WRX  DOWN
+#debug_left bool DOWN
+#srcline 164 ;(*   8	*)	LD 	jalousie.outUp
+ LDX  jalousie~outUp
+#debug bool jalousie.outUp
+#srcline 165 ;(* 106	*)	ST 	UP
+ WRX  UP
+#debug_left bool UP
+#srcline 167 ;END_FUNCTION_BLOCK
+ ULNK
+RET
+E     61
+
+; Initialize - variables
+P     61
+fbJalousie__InstanceInit__:
+ LINK 0
+ LD   0
+ SRC  byte __Init___fbJalousie_JALOUSIE_NAME
+ LEAX byte JALOUSIE_NAME
+ LD   81
+ MOV  %X0
+ LEAX jalousie
+ CAL  fb_iJalousie__InstanceInit__
+ LD   time 0
+ WRX  JALOUSIE_CETRAL_DELAY
+ ULNK
+RET
+E     61
+; End initialize - variables
+#endpou 
+
+
+
+ 
+
+#srcfile ''
