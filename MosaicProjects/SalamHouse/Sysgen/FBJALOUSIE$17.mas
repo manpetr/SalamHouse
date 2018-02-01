@@ -4,8 +4,11 @@
   string[81] JALOUSIE_NAME,
   bool UP,
   bool DOWN,
+  bool UP2,
+  bool DOWN2,
   fb_iJalousie jalousie,
-  time JALOUSIE_CETRAL_DELAY
+  time JALOUSIE_CETRAL_DELAY,
+  fb_iJalousie jalousie2
 
  
 #srcfile 'W:\DROPBOX\DEV\SRC\SALAMHOUSE\MOSAICPROJECTS\SALAMHOUSE\FBJALOUSIE.CFC'
@@ -19,7 +22,7 @@
 P     61
 fbJalousie_L0:
  LINK __SizeOf(fbJalousie__temp__)
-#srcline 161 ;(*   8	*)	CAL	jalousie(upDwTime:=JALOUSIE_LONG_TOTAL_TIME, ctrTime:=JALOUSIE_CETRAL_DELAY, name:=JALOUSIE_NAME)
+#srcline 276 ;(*   8	*)	CAL	jalousie(upDwTime:=JALOUSIE_LONG_TOTAL_TIME, ctrTime:=JALOUSIE_CETRAL_DELAY, name:=JALOUSIE_NAME)
  LD   time 55000
  WRX  jalousie~upDwTime
 #debug_left time jalousie~upDwTime
@@ -40,19 +43,53 @@ fbJalousie_L0:
  PDST   ; Level 1
  LEAX jalousie
  CAL  fb_iJalousie_L0
-#srcline 162 ;(*   8	*)	LD 	jalousie.outDw
+#srcline 277 ;(*   8	*)	LD 	jalousie.outDw
  LDX  jalousie~outDw
 #debug bool jalousie.outDw
-#srcline 163 ;(* 115	*)	ST 	DOWN
+#srcline 278 ;(* 115	*)	ST 	DOWN
  WRX  DOWN
 #debug_left bool DOWN
-#srcline 164 ;(*   8	*)	LD 	jalousie.outUp
+#srcline 279 ;(*   8	*)	LD 	jalousie.outUp
  LDX  jalousie~outUp
 #debug bool jalousie.outUp
-#srcline 165 ;(* 106	*)	ST 	UP
+#srcline 280 ;(* 106	*)	ST 	UP
  WRX  UP
 #debug_left bool UP
-#srcline 167 ;END_FUNCTION_BLOCK
+#srcline 281 ;//N003
+#srcline 282 ;(* 130	*)	CAL	jalousie2(upDwTime:=JALOUSIE_LONG_TOTAL_TIME, ctrTime:=JALOUSIE_CETRAL_DELAY, name:=JALOUSIE_NAME)
+ LD   time 55000
+ WRX  jalousie2~upDwTime
+#debug_left time jalousie2~upDwTime
+ LDX  JALOUSIE_CETRAL_DELAY
+#debug time JALOUSIE_CETRAL_DELAY
+ WRX  jalousie2~ctrTime
+#debug_left time jalousie2~ctrTime
+ LD   0   ; null string
+ LEAX jalousie2~name
+ WRI 
+ LEAX jalousie2~name
+ LD   24
+ DST    ; Level 1
+ LEAX JALOUSIE_NAME
+#debug string JALOUSIE_NAME
+ SCON 
+#debug_left string jalousie2~name
+ PDST   ; Level 1
+ LEAX jalousie2
+ CAL  fb_iJalousie_L0
+#srcline 283 ;(* 130	*)	LD 	jalousie2.outUp
+ LDX  jalousie2~outUp
+#debug bool jalousie2.outUp
+#srcline 284 ;(* 215	*)	ST 	UP2
+ WRX  UP2
+#debug_left bool UP2
+#srcline 285 ;(* 130	*)	LD 	jalousie2.outDw
+ LDX  jalousie2~outDw
+#debug bool jalousie2.outDw
+#srcline 286 ;(* 224	*)	ST 	DOWN2
+ WRX  DOWN2
+#debug_left bool DOWN2
+#srcline 288 ;END_FUNCTION_BLOCK
  ULNK
 RET
 E     61
@@ -70,6 +107,8 @@ fbJalousie__InstanceInit__:
  CAL  fb_iJalousie__InstanceInit__
  LD   time 0
  WRX  JALOUSIE_CETRAL_DELAY
+ LEAX jalousie2
+ CAL  fb_iJalousie__InstanceInit__
  ULNK
 RET
 E     61

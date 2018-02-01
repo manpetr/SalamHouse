@@ -43,7 +43,7 @@ if(xmlhttpGET.status != 200){
 alert('Problem retrieving XML data ' + xmlhttpGET.statusText + '(' + xmlhttpGET.status + ')');
 document.location.reload(true)
 return;}
-var access = xmlhttpGET.responseXML.documentElement.getElementsByTagName('ACCESS')[0]; if(!access || access.getAttribute('UCID') != 1517408968) {document.location.reload(true); return;}
+var access = xmlhttpGET.responseXML.documentElement.getElementsByTagName('ACCESS')[0]; if(!access || access.getAttribute('UCID') != 1517499844) {document.location.reload(true); return;}
 var pd = '';
 var x=xmlhttpGET.responseXML.documentElement.getElementsByTagName('INPUT');
 if(x[0]) {
@@ -144,7 +144,7 @@ SetBg('INPUT5', 'LED_OR_3.PNG');
 }}
 var Input6 = document.getElementById('INPUT6');
 var Input6h = document.getElementById('INPUT6h');
-if(Input6h) { vz = x[0].getAttribute('VALUE') == '0'; iz = Input6h.value == '0';
+if(Input6h) { vz = x[5].getAttribute('VALUE') == '0'; iz = Input6h.value == '0';
 if(vz == iz) {
 if(vz) {
 Input6h.value = '1';
@@ -156,14 +156,14 @@ Input6.style.backgroundImage = 'url("IMAGES/1DOWNA_1.PNG")';
 if(Input6.getAttribute('value') != null) {Input6.value = '';
 } else {}
 }}} else {
-if(x[0].getAttribute('VALUE') == '0') {
+if(x[5].getAttribute('VALUE') == '0') {
 SetBg('INPUT6', '1DOWNA_1.PNG');
 } else {
 SetBg('INPUT6', '1DOWNA_1.PNG');
 }}
 var Input7 = document.getElementById('INPUT7');
 var Input7h = document.getElementById('INPUT7h');
-if(Input7h) { vz = x[1].getAttribute('VALUE') == '0'; iz = Input7h.value == '0';
+if(Input7h) { vz = x[6].getAttribute('VALUE') == '0'; iz = Input7h.value == '0';
 if(vz == iz) {
 if(vz) {
 Input7h.value = '1';
@@ -175,14 +175,14 @@ Input7.style.backgroundImage = 'url("IMAGES/1UPARROW.PNG")';
 if(Input7.getAttribute('value') != null) {Input7.value = '';
 } else {}
 }}} else {
-if(x[1].getAttribute('VALUE') == '0') {
+if(x[6].getAttribute('VALUE') == '0') {
 SetBg('INPUT7', '1UPARROW.PNG');
 } else {
 SetBg('INPUT7', '1UPARROW.PNG');
 }}
 var Input8 = document.getElementById('INPUT8');
 var Input8h = document.getElementById('INPUT8h');
-if(Input8h) { vz = x[2].getAttribute('VALUE') == '0'; iz = Input8h.value == '0';
+if(Input8h) { vz = x[7].getAttribute('VALUE') == '0'; iz = Input8h.value == '0';
 if(vz == iz) {
 if(vz) {
 Input8h.value = '1';
@@ -194,14 +194,14 @@ Input8.style.backgroundImage = 'url("IMAGES/LED_OR_3.PNG")';
 if(Input8.getAttribute('value') != null) {Input8.value = '';
 } else {}
 }}} else {
-if(x[2].getAttribute('VALUE') == '0') {
+if(x[7].getAttribute('VALUE') == '0') {
 SetBg('INPUT8', 'LED_OR_1.PNG');
 } else {
 SetBg('INPUT8', 'LED_OR_3.PNG');
 }}
 var Input9 = document.getElementById('INPUT9');
 var Input9h = document.getElementById('INPUT9h');
-if(Input9h) { vz = x[3].getAttribute('VALUE') == '0'; iz = Input9h.value == '0';
+if(Input9h) { vz = x[8].getAttribute('VALUE') == '0'; iz = Input9h.value == '0';
 if(vz == iz) {
 if(vz) {
 Input9h.value = '1';
@@ -213,14 +213,14 @@ Input9.style.backgroundImage = 'url("IMAGES/LED_GR_3.PNG")';
 if(Input9.getAttribute('value') != null) {Input9.value = '';
 } else {}
 }}} else {
-if(x[3].getAttribute('VALUE') == '0') {
+if(x[8].getAttribute('VALUE') == '0') {
 SetBg('INPUT9', 'LED_GR_1.PNG');
 } else {
 SetBg('INPUT9', 'LED_GR_3.PNG');
 }}
 var Input10 = document.getElementById('INPUT10');
 var Input10h = document.getElementById('INPUT10h');
-if(Input10h) { vz = x[4].getAttribute('VALUE') == '0'; iz = Input10h.value == '0';
+if(Input10h) { vz = x[9].getAttribute('VALUE') == '0'; iz = Input10h.value == '0';
 if(vz == iz) {
 if(vz) {
 Input10h.value = '1';
@@ -232,7 +232,7 @@ Input10.style.backgroundImage = 'url("IMAGES/LED_OR_3.PNG")';
 if(Input10.getAttribute('value') != null) {Input10.value = '';
 } else {}
 }}} else {
-if(x[4].getAttribute('VALUE') == '0') {
+if(x[9].getAttribute('VALUE') == '0') {
 SetBg('INPUT10', 'LED_OR_1.PNG');
 } else {
 SetBg('INPUT10', 'LED_OR_3.PNG');

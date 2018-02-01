@@ -7,12 +7,15 @@ FUNCTION_BLOCK fbJalousie
   VAR_OUTPUT
     UP : BOOL;
     DOWN : BOOL;
+    UP2  : BOOL;
+    DOWN2: BOOL;
   END_VAR
   VAR_IN_OUT
   END_VAR
   VAR
     jalousie : fb_iJalousie;
     JALOUSIE_CETRAL_DELAY : TIME := 0;
+    jalousie2 : fb_iJalousie;
   END_VAR
   VAR_TEMP
   END_VAR
@@ -146,6 +149,118 @@ Vsechny zaluzie dolu  </comment>
 <inVariable name="JALOUSIE_NAME" type="STRING" id="9">
   <position x="5" y="47" />
 </inVariable>
+<block name="fb_iJalousie" instance="jalousie2" id="16" height="32" width="11" line="9" order="4">
+  <position x="41" y="55" />
+  <inVariables>
+    <variable name="rotUp" type="BOOL R_EDGE">
+    <comment>pootoèit žaluzie nahoru</comment>
+    </variable>
+    <variable name="up" type="BOOL R_EDGE">
+    <comment>žaluzie nahoru</comment>
+    </variable>
+    <variable name="rotDw" type="BOOL R_EDGE">
+    <comment>pootoèit žaluzie dolu</comment>
+    </variable>
+    <variable name="dw" type="BOOL R_EDGE">
+    <comment>žaluzie dolu</comment>
+    </variable>
+    <variable name="block" type="BOOL">
+    <comment>blokace ovládacích vstupù</comment>
+    </variable>
+    <variable name="stop" type="BOOL R_EDGE">
+    <comment>zastavení pohybu</comment>
+    </variable>
+    <variable name="ctrUp" type="BOOL R_EDGE">
+    <comment>centrální vytažení žaluzie</comment>
+    </variable>
+    <variable name="ctrDw" type="BOOL R_EDGE">
+    <comment>centrální spuštìní žaluzie</comment>
+    </variable>
+    <variable name="webUp" type="BOOL R_EDGE">
+    <comment>pro vysunutí žaluzií z web rozhraní</comment>
+    </variable>
+    <variable name="webDw" type="BOOL R_EDGE">
+    <comment>pro spuštìní žaluzií z web rozhraní</comment>
+    </variable>
+    <variable name="upDwTime" type="TIME">
+      <connection refid="25">
+        <position x="41" y="78" />
+        <position x="34" y="78" />
+        <position x="34" y="78" />
+        <position x="28" y="78" />
+      </connection>
+    <comment>maximální doba bìhu pohonu</comment>
+    </variable>
+    <variable name="rotTime" type="TIME">
+    <comment>doba trvání kroku pri pootáèení</comment>
+    </variable>
+    <variable name="pauseTime" type="TIME">
+    <comment>prodleva pøed otoèením smìru</comment>
+    </variable>
+    <variable name="ctrTime" type="TIME">
+      <connection refid="29">
+        <position x="41" y="84" />
+        <position x="33" y="84" />
+        <position x="33" y="84" />
+        <position x="25" y="84" />
+      </connection>
+    <comment>zpoždìní centrálního pohybu</comment>
+    </variable>
+    <variable name="name" type="STRING[24]">
+      <connection refid="33">
+        <position x="41" y="86" />
+        <position x="30" y="86" />
+        <position x="30" y="86" />
+        <position x="18" y="86" />
+      </connection>
+    <comment>název žaluzie</comment>
+    </variable>
+  </inVariables>
+  <outVariables>
+    <variable name="outUp" type="BOOL">
+    <comment>žaluzie nahoru</comment>
+    </variable>
+    <variable name="outDw" type="BOOL">
+    <comment>žaluzie dolu</comment>
+    </variable>
+    <variable name="sig" type="BOOL">
+    <comment>signalizace chodu</comment>
+    </variable>
+    <variable name="sigUp" type="BOOL">
+    <comment>signalizace žaluzie nahoøe</comment>
+    </variable>
+    <variable name="sigDw" type="BOOL">
+    <comment>signalizace žaluzie dole</comment>
+    </variable>
+  </outVariables>
+</block>
+<outVariable name="UP2" type="BOOL" id="18" order="5">
+  <position x="61" y="57" />
+  <connection refid="16" name="outUp">
+    <position x="62" y="58" />
+    <position x="55" y="58" />
+    <position x="55" y="58" />
+    <position x="52" y="58" />
+  </connection>
+</outVariable>
+<outVariable name="DOWN2" type="BOOL" id="21" order="6">
+  <position x="61" y="59" />
+  <connection refid="16" name="outDw">
+    <position x="62" y="60" />
+    <position x="56" y="60" />
+    <position x="56" y="60" />
+    <position x="52" y="60" />
+  </connection>
+</outVariable>
+<inVariable name="JALOUSIE_LONG_TOTAL_TIME" type="TIME" id="25">
+  <position x="5" y="77" />
+</inVariable>
+<inVariable name="JALOUSIE_CETRAL_DELAY" type="TIME" id="29">
+  <position x="5" y="83" />
+</inVariable>
+<inVariable name="JALOUSIE_NAME" type="STRING" id="33">
+  <position x="5" y="85" />
+</inVariable>
 </fbd>
 {/NOCODE}
 //LVD
@@ -163,5 +278,11 @@ END_VAR
 (* 115	*)	ST 	DOWN
 (*   8	*)	LD 	jalousie.outUp
 (* 106	*)	ST 	UP
+//N003
+(* 130	*)	CAL	jalousie2(upDwTime:=JALOUSIE_LONG_TOTAL_TIME, ctrTime:=JALOUSIE_CETRAL_DELAY, name:=JALOUSIE_NAME)
+(* 130	*)	LD 	jalousie2.outUp
+(* 215	*)	ST 	UP2
+(* 130	*)	LD 	jalousie2.outDw
+(* 224	*)	ST 	DOWN2
 
 END_FUNCTION_BLOCK

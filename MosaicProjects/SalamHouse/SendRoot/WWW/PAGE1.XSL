@@ -34,18 +34,18 @@ location.href = curnode.href;
 <title>
 <xsl:value-of select="/PAGE/@TITLE" />
 Index</title>
-<script src="PAGE1.JS?U=1517408968" language="JavaScript" charset="utf-8" />
+<script src="PAGE1.JS?U=1517499844" language="JavaScript" charset="utf-8" />
 <style type="text/css">.mono {font-family: Verdana, Arial, FreeSans, sans-serif;}</style>
 </head>
 <body onload="GetXML('PAGE1.XML'); FunWatchDog();">
-<xsl:if test="1517408968 != ACCESS/@UCID">
+<xsl:if test="1517499844 != ACCESS/@UCID">
 <xsl:attribute name="onload">
 null;
 </xsl:attribute>
 <div id="cachewarning" style="text-align: left;"></div>
 <script src="refclr.js" language="JavaScript" charset="utf-8"></script>
 </xsl:if>
-<xsl:if test="1517408968 = ACCESS/@UCID">
+<xsl:if test="1517499844 = ACCESS/@UCID">
 <table cellpadding="0" cellspacing="0">
 <tr>
 <!--menu-->
@@ -108,52 +108,52 @@ null;
 </xsl:if>
 </form>
 <form style="position: absolute; top: 175px; left: 25px; z-index: 8;">
-<xsl:if test="INPUT[1]/@VALUE = 0">
-<input id="INPUT6h" type="hidden" name="{INPUT[1]/@NAME}" value="1" />
+<xsl:if test="INPUT[6]/@VALUE = 0">
+<input id="INPUT6h" type="hidden" name="{INPUT[6]/@NAME}" value="1" />
 <div id="INPUT6" class="imgsub" onclick="PostXML6()" style="background-image: url(IMAGES/1DOWNA_1.PNG); line-height: 48px; height: 48px; width: 48px;"></div>
 </xsl:if>
-<xsl:if test="INPUT[1]/@VALUE != 0">
-<input id="INPUT6h" type="hidden" name="{INPUT[1]/@NAME}" value="0" />
+<xsl:if test="INPUT[6]/@VALUE != 0">
+<input id="INPUT6h" type="hidden" name="{INPUT[6]/@NAME}" value="0" />
 <div id="INPUT6" class="imgsub" onclick="PostXML6()" style="background-image: url(IMAGES/1DOWNA_1.PNG); line-height: 48px; height: 48px; width: 48px;"></div>
 </xsl:if>
 </form>
 <form style="position: absolute; top: 174px; left: 206px; z-index: 9;">
-<xsl:if test="INPUT[2]/@VALUE = 0">
-<input id="INPUT7h" type="hidden" name="{INPUT[2]/@NAME}" value="1" />
+<xsl:if test="INPUT[7]/@VALUE = 0">
+<input id="INPUT7h" type="hidden" name="{INPUT[7]/@NAME}" value="1" />
 <div id="INPUT7" class="imgsub" onclick="PostXML7()" style="background-image: url(IMAGES/1UPARROW.PNG); line-height: 48px; height: 48px; width: 48px;"></div>
 </xsl:if>
-<xsl:if test="INPUT[2]/@VALUE != 0">
-<input id="INPUT7h" type="hidden" name="{INPUT[2]/@NAME}" value="0" />
+<xsl:if test="INPUT[7]/@VALUE != 0">
+<input id="INPUT7h" type="hidden" name="{INPUT[7]/@NAME}" value="0" />
 <div id="INPUT7" class="imgsub" onclick="PostXML7()" style="background-image: url(IMAGES/1UPARROW.PNG); line-height: 48px; height: 48px; width: 48px;"></div>
 </xsl:if>
 </form>
 <form style="position: absolute; top: 178px; left: 81px; z-index: 11;">
-<xsl:if test="INPUT[3]/@VALUE = 0">
-<input id="INPUT8h" type="hidden" name="{INPUT[3]/@NAME}" value="1" />
+<xsl:if test="INPUT[8]/@VALUE = 0">
+<input id="INPUT8h" type="hidden" name="{INPUT[8]/@NAME}" value="1" />
 <div id="INPUT8" class="imgsub" onclick="PostXML8()" style="background-image: url(IMAGES/LED_OR_1.PNG); line-height: 15px; height: 15px; width: 30px;"></div>
 </xsl:if>
-<xsl:if test="INPUT[3]/@VALUE != 0">
-<input id="INPUT8h" type="hidden" name="{INPUT[3]/@NAME}" value="0" />
+<xsl:if test="INPUT[8]/@VALUE != 0">
+<input id="INPUT8h" type="hidden" name="{INPUT[8]/@NAME}" value="0" />
 <div id="INPUT8" class="imgsub" onclick="PostXML8()" style="background-image: url(IMAGES/LED_OR_3.PNG); line-height: 15px; height: 15px; width: 30px;"></div>
 </xsl:if>
 </form>
 <form style="position: absolute; top: 193px; left: 81px; z-index: 12;">
-<xsl:if test="INPUT[4]/@VALUE = 0">
-<input id="INPUT9h" type="hidden" name="{INPUT[4]/@NAME}" value="1" />
+<xsl:if test="INPUT[9]/@VALUE = 0">
+<input id="INPUT9h" type="hidden" name="{INPUT[9]/@NAME}" value="1" />
 <div id="INPUT9" class="imgsub" onclick="PostXML9()" style="background-image: url(IMAGES/LED_GR_1.PNG); line-height: 15px; height: 15px; width: 30px;"></div>
 </xsl:if>
-<xsl:if test="INPUT[4]/@VALUE != 0">
-<input id="INPUT9h" type="hidden" name="{INPUT[4]/@NAME}" value="0" />
+<xsl:if test="INPUT[9]/@VALUE != 0">
+<input id="INPUT9h" type="hidden" name="{INPUT[9]/@NAME}" value="0" />
 <div id="INPUT9" class="imgsub" onclick="PostXML9()" style="background-image: url(IMAGES/LED_GR_3.PNG); line-height: 15px; height: 15px; width: 30px;"></div>
 </xsl:if>
 </form>
 <form style="position: absolute; top: 208px; left: 81px; z-index: 13;">
-<xsl:if test="INPUT[5]/@VALUE = 0">
-<input id="INPUT10h" type="hidden" name="{INPUT[5]/@NAME}" value="1" />
+<xsl:if test="INPUT[10]/@VALUE = 0">
+<input id="INPUT10h" type="hidden" name="{INPUT[10]/@NAME}" value="1" />
 <div id="INPUT10" class="imgsub" onclick="PostXML10()" style="background-image: url(IMAGES/LED_OR_1.PNG); line-height: 15px; height: 15px; width: 30px;"></div>
 </xsl:if>
-<xsl:if test="INPUT[5]/@VALUE != 0">
-<input id="INPUT10h" type="hidden" name="{INPUT[5]/@NAME}" value="0" />
+<xsl:if test="INPUT[10]/@VALUE != 0">
+<input id="INPUT10h" type="hidden" name="{INPUT[10]/@NAME}" value="0" />
 <div id="INPUT10" class="imgsub" onclick="PostXML10()" style="background-image: url(IMAGES/LED_OR_3.PNG); line-height: 15px; height: 15px; width: 30px;"></div>
 </xsl:if>
 </form>

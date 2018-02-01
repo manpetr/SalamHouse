@@ -8,29 +8,113 @@
 #srcfile 'W:\DROPBOX\DEV\SRC\SALAMHOUSE\MOSAICPROJECTS\SALAMHOUSE\PRGMAIN.CFC'
 #pou prgMain
 #srcline 1 ;PROGRAM prgMain
+
+#struct prgMain__temp__
+  bool _Nod_Tmp_2,
+  bool _Nod_Tmp_1
 P     61
 prgMain_L0:
- LINK 0
-#srcline 66 ;(*  29	*)	CAL	jalouse()
- LEAX jalouse
- CAL  fbJalousie_L0
-#srcline 67 ;(*  29	*)	LD 	jalouse.UP
- LDX  jalouse~UP
-#debug bool jalouse.UP
-#srcline 68 ;(*  11	*)	ST 	PRA_ZAL_M15_1_UP
- WR   bool PRA_ZAL_M15_1_UP
-#debug_left bool PRA_ZAL_M15_1_UP
-#srcline 69 ;(*  29	*)	LD 	jalouse.DOWN
- LDX  jalouse~DOWN
-#debug bool jalouse.DOWN
-#srcline 70 ;(*  20	*)	ST 	PRA_ZAL_M15_1_DOWN
- WR   bool PRA_ZAL_M15_1_DOWN
-#debug_left bool PRA_ZAL_M15_1_DOWN
-#srcline 71 ;//N001
-#srcline 72 ;(*   8	*)	CAL	pracovna()
+ LINK __SizeOf(prgMain__temp__)
+; Initialize - dynamic variables
+; End initialize - dynamic variables
+#srcline 270 ;(*   8	*)	CAL	pracovna()
  LEAX pracovna
  CAL  fbPracovna_L0
-#srcline 74 ;END_PROGRAM
+#srcline 271 ;//N001
+#srcline 272 ;(*  11	*)	CAL	jalouse()
+ LEAX jalouse
+ CAL  fbJalousie_L0
+#srcline 273 ;(*  11	*)	LD 	jalouse.UP
+ LDX  jalouse~UP
+#debug bool jalouse.UP
+#srcline 274 ;(*  28	*)	ST 	PRA_ZAL_M15_1_UP
+ WR   bool PRA_ZAL_M15_1_UP
+#debug_left bool PRA_ZAL_M15_1_UP
+#srcline 275 ;(*  11	*)	LD 	jalouse.DOWN
+ LDX  jalouse~DOWN
+#debug bool jalouse.DOWN
+#srcline 276 ;(*  37	*)	ST 	PRA_ZAL_M15_1_DOWN
+ WR   bool PRA_ZAL_M15_1_DOWN
+#debug_left bool PRA_ZAL_M15_1_DOWN
+#srcline 277 ;(*  11	*)	LD 	jalouse.UP2
+ LDX  jalouse~UP2
+#debug bool jalouse.UP2
+#srcline 278 ;(* 100	*)	ST	_Nod_Tmp_2
+ WRY  _Nod_Tmp_2
+#debug_left bool _Nod_Tmp_2
+#srcline 279 ;(*  46	*)	ST 	M11_1_JID_ZAL_UP
+ WR   bool M11_1_JID_ZAL_UP
+#debug_left bool M11_1_JID_ZAL_UP
+#srcline 280 ;(* 100	*)	LD	_Nod_Tmp_2
+ LDY  _Nod_Tmp_2
+#debug bool _Nod_Tmp_2
+#srcline 281 ;(*  55	*)	ST 	M13_1_KUC_OKV_ZAL_UP
+ WR   bool M13_1_KUC_OKV_ZAL_UP
+#debug_left bool M13_1_KUC_OKV_ZAL_UP
+#srcline 282 ;(* 109	*)	LD	_Nod_Tmp_2
+ LDY  _Nod_Tmp_2
+#debug bool _Nod_Tmp_2
+#srcline 283 ;(*  64	*)	ST 	M13_2_KUC_OKJ_ZAL_UP
+ WR   bool M13_2_KUC_OKJ_ZAL_UP
+#debug_left bool M13_2_KUC_OKJ_ZAL_UP
+#srcline 284 ;(* 118	*)	LD	_Nod_Tmp_2
+ LDY  _Nod_Tmp_2
+#debug bool _Nod_Tmp_2
+#srcline 285 ;(*  73	*)	ST 	M13_3_KUC_OKZ_ZAL_UP
+ WR   bool M13_3_KUC_OKZ_ZAL_UP
+#debug_left bool M13_3_KUC_OKZ_ZAL_UP
+#srcline 286 ;(* 127	*)	LD	_Nod_Tmp_2
+ LDY  _Nod_Tmp_2
+#debug bool _Nod_Tmp_2
+#srcline 287 ;(*  82	*)	ST 	M14_1_OBY_OKJ_ZAL_UP
+ WR   bool M14_1_OBY_OKJ_ZAL_UP
+#debug_left bool M14_1_OBY_OKJ_ZAL_UP
+#srcline 288 ;(* 136	*)	LD	_Nod_Tmp_2
+ LDY  _Nod_Tmp_2
+#debug bool _Nod_Tmp_2
+#srcline 289 ;(*  91	*)	ST 	M14_2_OBY_OKS_ZAL_UP
+ WR   bool M14_2_OBY_OKS_ZAL_UP
+#debug_left bool M14_2_OBY_OKS_ZAL_UP
+#srcline 290 ;(*  11	*)	LD 	jalouse.DOWN2
+ LDX  jalouse~DOWN2
+#debug bool jalouse.DOWN2
+#srcline 291 ;(* 199	*)	ST	_Nod_Tmp_1
+ WRY  _Nod_Tmp_1
+#debug_left bool _Nod_Tmp_1
+#srcline 292 ;(* 145	*)	ST 	M11_1_JID_ZAL_DOWN
+ WR   bool M11_1_JID_ZAL_DOWN
+#debug_left bool M11_1_JID_ZAL_DOWN
+#srcline 293 ;(* 199	*)	LD	_Nod_Tmp_1
+ LDY  _Nod_Tmp_1
+#debug bool _Nod_Tmp_1
+#srcline 294 ;(* 154	*)	ST 	M13_1_KUC_OKV_ZAL_DOWN
+ WR   bool M13_1_KUC_OKV_ZAL_DOWN
+#debug_left bool M13_1_KUC_OKV_ZAL_DOWN
+#srcline 295 ;(* 208	*)	LD	_Nod_Tmp_1
+ LDY  _Nod_Tmp_1
+#debug bool _Nod_Tmp_1
+#srcline 296 ;(* 163	*)	ST 	M13_2_KUC_OKJ_ZAL_DOWN
+ WR   bool M13_2_KUC_OKJ_ZAL_DOWN
+#debug_left bool M13_2_KUC_OKJ_ZAL_DOWN
+#srcline 297 ;(* 217	*)	LD	_Nod_Tmp_1
+ LDY  _Nod_Tmp_1
+#debug bool _Nod_Tmp_1
+#srcline 298 ;(* 172	*)	ST 	M13_3_KUC_OKZ_ZAL_DOWN
+ WR   bool M13_3_KUC_OKZ_ZAL_DOWN
+#debug_left bool M13_3_KUC_OKZ_ZAL_DOWN
+#srcline 299 ;(* 226	*)	LD	_Nod_Tmp_1
+ LDY  _Nod_Tmp_1
+#debug bool _Nod_Tmp_1
+#srcline 300 ;(* 181	*)	ST 	M14_1_OBY_OKJ_ZAL_DOWN
+ WR   bool M14_1_OBY_OKJ_ZAL_DOWN
+#debug_left bool M14_1_OBY_OKJ_ZAL_DOWN
+#srcline 301 ;(* 235	*)	LD	_Nod_Tmp_1
+ LDY  _Nod_Tmp_1
+#debug bool _Nod_Tmp_1
+#srcline 302 ;(* 190	*)	ST 	M14_2_OBY_OKS_ZAL_DOWN
+ WR   bool M14_2_OBY_OKS_ZAL_DOWN
+#debug_left bool M14_2_OBY_OKS_ZAL_DOWN
+#srcline 304 ;END_PROGRAM
  ULNK
 RET
 E     61

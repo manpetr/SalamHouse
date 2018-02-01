@@ -70,19 +70,22 @@
   <RECORD name="fbPracovna" size="1" pou="fb" >
     <ITEM name="dummy" type="BYTE" addr="0" size="1" var="var" />
   </RECORD>
-  <RECORD name="fbJalousie" size="199" pou="fb" descr="Ovladani zaluzie" >
+  <RECORD name="fbJalousie" size="312" pou="fb" descr="Ovladani zaluzie" >
     <ITEM name="JALOUSIE_NAME" type="STRING" addr="0" size="81" var="in" value="&apos;jmeno zaluzie&apos;" />
     <ITEM name="UP" type="BOOL" addr="81" bit="0" size="1" var="out" />
     <ITEM name="DOWN" type="BOOL" addr="81" bit="1" size="1" var="out" />
+    <ITEM name="UP2" type="BOOL" addr="81" bit="2" size="1" var="out" />
+    <ITEM name="DOWN2" type="BOOL" addr="81" bit="3" size="1" var="out" />
     <ITEM name="jalousie" type="fb_iJalousie" addr="82" size="113" var="var" />
     <ITEM name="JALOUSIE_CETRAL_DELAY" type="TIME" addr="195" size="4" var="var" value="0" />
+    <ITEM name="jalousie2" type="fb_iJalousie" addr="199" size="113" var="var" />
   </RECORD>
-  <RECORD name="prgMain" size="200" pou="prog" >
+  <RECORD name="prgMain" size="313" pou="prog" >
     <ITEM name="pracovna" type="fbPracovna" addr="0" size="1" var="var" />
-    <ITEM name="jalouse" type="fbJalousie" addr="1" size="199" var="var" />
+    <ITEM name="jalouse" type="fbJalousie" addr="1" size="312" var="var" />
   </RECORD>
  </TYPES>
  <DATA>
-  <ITEM name="Main2" type="prgMain" location="%M" addr="145" size="200" />
+  <ITEM name="Main2" type="prgMain" location="%M" addr="145" size="313" />
  </DATA>
 </MAP>

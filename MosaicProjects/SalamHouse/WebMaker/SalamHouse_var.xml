@@ -4,4 +4,9 @@
 	<Item Name="Main2.jalouse.jalousie.sigUp" Pos="0300010F" Type="3" />
 	<Item Name="Main2.jalouse.jalousie.sig" Pos="0300010F" Type="2" />
 	<Item Name="Main2.jalouse.jalousie.sigDw" Pos="0300010F" Type="4" />
+	<Item Name="Main2.jalouse.jalousie2.webDw" Pos="0300015A" Type="241" />
+	<Item Name="Main2.jalouse.jalousie2.webUp" Pos="0300015A" Type="241" />
+	<Item Name="Main2.jalouse.jalousie2.sigUp" Pos="03000184" Type="3" />
+	<Item Name="Main2.jalouse.jalousie2.sig" Pos="03000184" Type="2" />
+	<Item Name="Main2.jalouse.jalousie2.sigDw" Pos="03000184" Type="4" />
 </Variables>

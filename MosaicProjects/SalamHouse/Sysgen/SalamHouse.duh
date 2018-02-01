@@ -7,11 +7,14 @@ FUNCTION_BLOCK fbJalousie
   VAR_OUTPUT
     UP : BOOL;
     DOWN : BOOL;
+    UP2 : BOOL;
+    DOWN2 : BOOL;
   END_VAR
 
   VAR
     jalousie : fb_iJalousie;
     JALOUSIE_CETRAL_DELAY : TIME := 0;
+    jalousie2 : fb_iJalousie;
   END_VAR
 
 END_FUNCTION_BLOCK 

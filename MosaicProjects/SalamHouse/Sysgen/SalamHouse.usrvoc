@@ -3,7 +3,11 @@ MAIN2*65681 ; LA(Main2) = $010091 = %R145
 :1
 JALOUSE.1 ; fbJalousie - public_items
 :2
-JALOUSIE.82 ; fb_iJalousie - public_items
+JALOUSIE#3(2)
+>. 9
+>2 10
+:9
+.82 ; fb_iJalousie - public_items
 :3
 GTSAP1_SHUTTER_#1(3)
 >D 5
@@ -21,11 +25,14 @@ ROT#2(2)
 UP_CONTROL& BIT0 1 70  ; GTSAP1_SHUTTER_rotup_control
 :8
 DOWN_CONTROL& BIT1 1 70  ; GTSAP1_SHUTTER_rotdown_control
+:10
+2.199 ; fb_iJalousie - public_items
+@3
 
 --------------------
 Celkovy pocet globalnich polozek (*): 1
 Celkovy pocet terminalnich uzlu (&): 4
-Pocet optimalizaci struktur (@): 0
+Pocet optimalizaci struktur (@): 1
 
-Celkovy pocet rozskokovych tabulek: 3
-Celkovy pocet polozek v rozskokovych tabulkach: 6
+Celkovy pocet rozskokovych tabulek: 4
+Celkovy pocet polozek v rozskokovych tabulkach: 8
