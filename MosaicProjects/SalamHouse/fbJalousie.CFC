@@ -13,9 +13,9 @@ FUNCTION_BLOCK fbJalousie
   VAR_IN_OUT
   END_VAR
   VAR
-    jalousie : fb_iJalousie;
+    jalousie {PUBLIC_IFOX} : fb_iJalousie;
     JALOUSIE_CETRAL_DELAY : TIME := 0;
-    jalousie2 : fb_iJalousie;
+    jalousie2 {PUBLIC_IFOX} : fb_iJalousie;
   END_VAR
   VAR_TEMP
   END_VAR
@@ -149,7 +149,7 @@ Vsechny zaluzie dolu  </comment>
 <inVariable name="JALOUSIE_NAME" type="STRING" id="9">
   <position x="5" y="47" />
 </inVariable>
-<block name="fb_iJalousie" instance="jalousie2" id="16" height="32" width="11" line="9" order="4">
+<block name="fb_iJalousie" instance="jalousie2" id="10" height="32" width="11" line="9" order="4">
   <position x="41" y="55" />
   <inVariables>
     <variable name="rotUp" type="BOOL R_EDGE">
@@ -183,7 +183,7 @@ Vsechny zaluzie dolu  </comment>
     <comment>pro spuštìní žaluzií z web rozhraní</comment>
     </variable>
     <variable name="upDwTime" type="TIME">
-      <connection refid="25">
+      <connection refid="13">
         <position x="41" y="78" />
         <position x="34" y="78" />
         <position x="34" y="78" />
@@ -198,7 +198,7 @@ Vsechny zaluzie dolu  </comment>
     <comment>prodleva pøed otoèením smìru</comment>
     </variable>
     <variable name="ctrTime" type="TIME">
-      <connection refid="29">
+      <connection refid="14">
         <position x="41" y="84" />
         <position x="33" y="84" />
         <position x="33" y="84" />
@@ -207,7 +207,7 @@ Vsechny zaluzie dolu  </comment>
     <comment>zpoždìní centrálního pohybu</comment>
     </variable>
     <variable name="name" type="STRING[24]">
-      <connection refid="33">
+      <connection refid="15">
         <position x="41" y="86" />
         <position x="30" y="86" />
         <position x="30" y="86" />
@@ -234,31 +234,31 @@ Vsechny zaluzie dolu  </comment>
     </variable>
   </outVariables>
 </block>
-<outVariable name="UP2" type="BOOL" id="18" order="5">
+<outVariable name="UP2" type="BOOL" id="11" order="5">
   <position x="61" y="57" />
-  <connection refid="16" name="outUp">
+  <connection refid="10" name="outUp">
     <position x="62" y="58" />
     <position x="55" y="58" />
     <position x="55" y="58" />
     <position x="52" y="58" />
   </connection>
 </outVariable>
-<outVariable name="DOWN2" type="BOOL" id="21" order="6">
+<outVariable name="DOWN2" type="BOOL" id="12" order="6">
   <position x="61" y="59" />
-  <connection refid="16" name="outDw">
+  <connection refid="10" name="outDw">
     <position x="62" y="60" />
     <position x="56" y="60" />
     <position x="56" y="60" />
     <position x="52" y="60" />
   </connection>
 </outVariable>
-<inVariable name="JALOUSIE_LONG_TOTAL_TIME" type="TIME" id="25">
+<inVariable name="JALOUSIE_LONG_TOTAL_TIME" type="TIME" id="13">
   <position x="5" y="77" />
 </inVariable>
-<inVariable name="JALOUSIE_CETRAL_DELAY" type="TIME" id="29">
+<inVariable name="JALOUSIE_CETRAL_DELAY" type="TIME" id="14">
   <position x="5" y="83" />
 </inVariable>
-<inVariable name="JALOUSIE_NAME" type="STRING" id="33">
+<inVariable name="JALOUSIE_NAME" type="STRING" id="15">
   <position x="5" y="85" />
 </inVariable>
 </fbd>

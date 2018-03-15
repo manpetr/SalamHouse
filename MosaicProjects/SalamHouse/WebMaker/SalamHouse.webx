@@ -12,7 +12,7 @@ Left=0
 LeftPanel=145
 [FormPasswords_1]
 Width=746
-Tab=1
+Tab=0
 [FormPageProperties]
 Height=420
 Width=340
