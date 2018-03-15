@@ -1,5 +1,6 @@
 *.bak
 /doc_teco/*
+/PLCComS/*
 /MosaicProjects/SalamHouse/SALAMHOUSE.PLC
 /MosaicProjects/SalamHouse/SALAMHOUSE.DSK
 /MosaicProjects/SalamHouse/SALAMHOUSE.pch
@@ -8,3 +9,6 @@
 /MosaicProjects/SalamHouse/WebMaker/SalamHouse.xml.bak
 /MosaicProjects/SalamHouse/WebMaker/SalamHouse.xml.bak.big
 
+*.p2b
+*.p2x
+*.pub
